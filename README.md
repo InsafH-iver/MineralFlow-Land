@@ -1,5 +1,7 @@
 # Mineral Flow - Land
 
+---
+
 ### Banner Configuration
 
 This project uses a custom banner that appears in the console when the application starts. You can modify or disable the
