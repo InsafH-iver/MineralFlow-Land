@@ -1,0 +1,7 @@
+###POST new visit (make sure u have an appointement with the time of now)
+POST localhost:8080/api/UnloadingRequests/visit/BARBIE
+Content-Type: application/json
+
+###POST Will fail because the license plate doesnt exist
+POST localhost:8080/api/UnloadingRequests/visit/TARZAN
+Content-Type: application/json
