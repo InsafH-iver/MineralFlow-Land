@@ -23,13 +23,14 @@ public class UnloadingRequestManager {
 
     private final UnloadingRequestRepository unloadingRequestRepository;
     private final UnloadingAppointmentRepository unloadingAppointmentRepository;
+
     public UnloadingRequestManager(UnloadingAppointmentRepository unloadingAppointmentRepository
             , UnloadingRequestRepository unloadingRequestRepository
     ) {
         this.unloadingAppointmentRepository = unloadingAppointmentRepository;
         this.unloadingRequestRepository = unloadingRequestRepository;
     }
-    
+
     public TruckArrivalResponse processTruckArrivalAtGate(String licensePlate, ZonedDateTime timeOfArrival) {
         logger.info(String.format("The truck with license plate %s and arrival time %s is being checked for allowance of entree",
                 licensePlate,
@@ -46,7 +47,7 @@ public class UnloadingRequestManager {
                     timeOfArrival
                             .format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
             );
-            addVisitToUnloadingAppointment(unloadingAppointment,timeOfArrival);
+            addVisitToUnloadingAppointment(unloadingAppointment, timeOfArrival);
         }
 
         return arrivalResponse;
@@ -70,7 +71,7 @@ public class UnloadingRequestManager {
                     licensePlate,
                     startOfTimeslotWithoutAppointment.format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
             );
-            addUnloadingRequestToQueue(licensePlate);
+            addUnloadingRequestToQueue(licensePlate, timeOfArrival);
             return new TruckArrivalResponse(false, startOfTimeslotWithoutAppointment);
         }
 
@@ -91,10 +92,10 @@ public class UnloadingRequestManager {
         return new TruckArrivalResponse(true, unloadingAppointment.getStartOfTimeSlot());
     }
 
-    private void addUnloadingRequestToQueue(String licensePlate){
-        UnloadingRequest unloadingRequest = new UnloadingRequest(licensePlate);
-        logger.info(String.format("New unloadingRequest %s is being saved.",unloadingRequest));
+    private void addUnloadingRequestToQueue(String licensePlate, ZonedDateTime createdAt) {
+        UnloadingRequest unloadingRequest = new UnloadingRequest(licensePlate, createdAt);
+        logger.info(String.format("New unloadingRequest %s is being saved.", unloadingRequest));
         UnloadingRequest saved = unloadingRequestRepository.save(unloadingRequest);
-        logger.info(String.format("UnloadingRequest %s was saved succesfully.",saved));
+        logger.info(String.format("UnloadingRequest %s was saved succesfully.", saved));
     }
 }

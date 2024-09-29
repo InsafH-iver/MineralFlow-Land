@@ -9,6 +9,8 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
+import java.time.ZonedDateTime;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 
@@ -31,11 +33,13 @@ class UnloadingRequestRepositoryTest {
         registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
         registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
     }
+
     @Test
     void addNewUnloadingRequest() {
         //ARRANGE
         String licensePlate = "US-1531";
-        UnloadingRequest unloadingRequest = new UnloadingRequest("US-1531");
+        ZonedDateTime createdAt = ZonedDateTime.now();
+        UnloadingRequest unloadingRequest = new UnloadingRequest("US-1531", createdAt);
         //ACT
         UnloadingRequest savedRequest = unloadingRequestRepository.save(unloadingRequest);
         //ASSERT

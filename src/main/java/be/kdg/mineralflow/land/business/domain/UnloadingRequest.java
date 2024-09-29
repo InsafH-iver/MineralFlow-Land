@@ -22,8 +22,8 @@ public class UnloadingRequest {
     @OneToOne
     private Visit visit;
 
-    public UnloadingRequest(String licensePlate) {
-        createdAt = ZonedDateTime.now();
+    public UnloadingRequest(String licensePlate, ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
         this.licensePlate = licensePlate;
     }
 
