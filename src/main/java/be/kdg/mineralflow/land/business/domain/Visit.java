@@ -9,9 +9,9 @@ import java.util.logging.Logger;
 
 @Entity
 public class Visit {
-
     public static final Logger logger = Logger
             .getLogger(Visit.class.getName());
+
     @Id
     private UUID Id;
     private ZonedDateTime arrivalTime;
@@ -20,12 +20,13 @@ public class Visit {
     @ManyToOne
     private Weighbridge weighBridge;
     @OneToOne
-    private UnloadingRequest unloadingRequest;
-    @OneToOne
     private WeighbridgeTicket weighbridgeTicket;
 
     public Visit(ZonedDateTime arrivalTime) {
         this.arrivalTime = arrivalTime;
+    }
+
+    protected Visit() {
     }
 
     public ZonedDateTime getArrivalTime() {

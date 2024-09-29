@@ -1,18 +1,29 @@
 package be.kdg.mineralflow.land.business.domain;
 
+import jakarta.persistence.*;
+
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.logging.Logger;
 
+@Entity
 public class UnloadingAppointment extends UnloadingRequest {
     public static final Logger logger = Logger
             .getLogger(UnloadingAppointment.class.getName());
 
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "startOfTimeSlot", column = @Column(name = "start_of_timeslot")),
+            @AttributeOverride(name = "endOfTimeSlot", column = @Column(name = "end_of_timeslot"))
+    })
     private TimeSlot timeSlot;
 
     public UnloadingAppointment(String licensePlate, ZonedDateTime startOfTimeSlot) {
         super(licensePlate);
         this.timeSlot = new TimeSlot(startOfTimeSlot);
+    }
+
+    protected UnloadingAppointment() {
     }
 
     public ZonedDateTime getStartOfTimeSlot() {

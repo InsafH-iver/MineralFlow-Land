@@ -14,7 +14,7 @@ public class UnloadingRequest {
             .getLogger(UnloadingRequest.class.getName());
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String licensePlate;
     private ZonedDateTime createdAt;

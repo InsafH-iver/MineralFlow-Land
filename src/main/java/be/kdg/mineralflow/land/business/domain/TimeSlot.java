@@ -6,8 +6,8 @@ import be.kdg.mineralflow.land.config.ConfigProperties;
 import java.time.ZonedDateTime;
 
 public class TimeSlot {
-    private ZonedDateTime startOfTimeSlot;
-    private ZonedDateTime endOfTimeSlot;
+    private final ZonedDateTime startOfTimeSlot;
+    private final ZonedDateTime endOfTimeSlot;
 
     public TimeSlot(ZonedDateTime startOfTimeSlot) {
         this.startOfTimeSlot = startOfTimeSlot;
