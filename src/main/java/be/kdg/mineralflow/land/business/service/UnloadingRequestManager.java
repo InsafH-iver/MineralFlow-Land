@@ -1,7 +1,8 @@
 package be.kdg.mineralflow.land.business.service;
 
-
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
+import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
+import be.kdg.mineralflow.land.business.domain.Visit;
 import be.kdg.mineralflow.land.business.util.TruckArrivalResponse;
 import be.kdg.mineralflow.land.config.ConfigLoader;
 import be.kdg.mineralflow.land.config.ConfigProperties;
@@ -20,14 +21,13 @@ public class UnloadingRequestManager {
     public static final Logger logger = Logger
             .getLogger(UnloadingRequestManager.class.getName());
 
-    private UnloadingAppointmentRepository unloadingAppointmentRepo;
-    private UnloadingRequestRepository unloadingRequestRepo;
-
-    public UnloadingRequestManager(UnloadingAppointmentRepository unloadingAppointmentRepo
-            , UnloadingRequestRepository unloadingRequestRepo
+    private final UnloadingRequestRepository unloadingRequestRepository;
+    private final UnloadingAppointmentRepository unloadingAppointmentRepository;
+    public UnloadingRequestManager(UnloadingAppointmentRepository unloadingAppointmentRepository
+            , UnloadingRequestRepository unloadingRequestRepository
     ) {
-        this.unloadingAppointmentRepo = unloadingAppointmentRepo;
-        this.unloadingRequestRepo = unloadingRequestRepo;
+        this.unloadingAppointmentRepository = unloadingAppointmentRepository;
+        this.unloadingRequestRepository = unloadingRequestRepository;
     }
     
     public TruckArrivalResponse processTruckArrivalAtGate(String licensePlate, ZonedDateTime timeOfArrival) {
@@ -36,7 +36,7 @@ public class UnloadingRequestManager {
                 timeOfArrival
                         .format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
         );
-        UnloadingAppointment unloadingAppointment = unloadingAppointmentRepo.getUnfulfilledAppointment(licensePlate);
+        UnloadingAppointment unloadingAppointment = unloadingAppointmentRepository.getUnfulfilledAppointment(licensePlate);
 
         TruckArrivalResponse arrivalResponse = validateTruckEntry(unloadingAppointment, timeOfArrival, licensePlate);
 
@@ -46,10 +46,15 @@ public class UnloadingRequestManager {
                     timeOfArrival
                             .format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
             );
-            unloadingRequestRepo.createVisitOfUnloadingRequest(unloadingAppointment, timeOfArrival);
+            addVisitToUnloadingAppointment(unloadingAppointment,timeOfArrival);
         }
 
         return arrivalResponse;
+    }
+
+    private void addVisitToUnloadingAppointment(UnloadingRequest unloadingRequest, ZonedDateTime timeOfArrival) {
+        unloadingRequest.setVisit(new Visit(timeOfArrival));
+        unloadingRequestRepository.save(unloadingRequest);
     }
 
     private TruckArrivalResponse validateTruckEntry(UnloadingAppointment unloadingAppointment,
@@ -65,6 +70,7 @@ public class UnloadingRequestManager {
                     licensePlate,
                     startOfTimeslotWithoutAppointment.format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
             );
+            addUnloadingRequestToQueue(licensePlate);
             return new TruckArrivalResponse(false, startOfTimeslotWithoutAppointment);
         }
 
@@ -85,4 +91,10 @@ public class UnloadingRequestManager {
         return new TruckArrivalResponse(true, unloadingAppointment.getStartOfTimeSlot());
     }
 
+    private void addUnloadingRequestToQueue(String licensePlate){
+        UnloadingRequest unloadingRequest = new UnloadingRequest(licensePlate);
+        logger.info(String.format("New unloadingRequest %s is being saved.",unloadingRequest));
+        UnloadingRequest saved = unloadingRequestRepository.save(unloadingRequest);
+        logger.info(String.format("UnloadingRequest %s was saved succesfully.",saved));
+    }
 }

@@ -1,18 +1,33 @@
 package be.kdg.mineralflow.land.business.domain;
 
-import java.time.format.DateTimeFormatter;
-import java.util.logging.Logger;
+import jakarta.persistence.*;
 
+import java.time.ZonedDateTime;
+import java.util.UUID;
+import java.util.logging.Logger;
+import java.time.format.DateTimeFormatter;
+
+
+@Entity
 public class UnloadingRequest {
     public static final Logger logger = Logger
             .getLogger(UnloadingRequest.class.getName());
 
+    @Id
+    @GeneratedValue(strategy= GenerationType.AUTO)
+    private UUID id;
     private String licensePlate;
+    private ZonedDateTime createdAt;
+
+    @OneToOne
     private Visit visit;
-    private WeighbridgeTicket weighbridgeTicket;
 
     public UnloadingRequest(String licensePlate) {
+        createdAt = ZonedDateTime.now();
         this.licensePlate = licensePlate;
+    }
+
+    protected UnloadingRequest() {
     }
 
     public boolean hasMatchingLicensePlate(String licensePlate) {
