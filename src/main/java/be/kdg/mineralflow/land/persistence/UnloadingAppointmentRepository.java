@@ -1,43 +1,21 @@
 package be.kdg.mineralflow.land.persistence;
 
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
-import java.util.HashMap;
-import java.util.Map;
-
-@Repository
-public class UnloadingAppointmentRepository {
-    private final Map<Integer, UnloadingAppointment> appointments;
-
-    public UnloadingAppointmentRepository() {
-        this.appointments = new HashMap<>(Map.of(
-                1, new UnloadingAppointment("MOZART",
-                        ZonedDateTime.of(2024, 9, 23,
-                                9, 0, 0, 0,
-                                ZoneOffset.UTC)),
-                2, new UnloadingAppointment("BARBIE",
-                        ZonedDateTime.of(2024, 9, 25,
-                                0, 0, 0, 0,
-                                ZoneOffset.UTC)),
-                3, new UnloadingAppointment("MOZART",
-                        ZonedDateTime.of(2024, 9, 25,
-                                9, 0, 0, 0,
-                                ZoneOffset.UTC)
-                )));
-    }
+import java.util.UUID;
 
 
-    public UnloadingAppointment getUnfulfilledAppointment(String licensePlate) {
-        UnloadingAppointment unloadingAppointment = appointments.values().stream()
-                .filter(ua ->
-                        ua.hasMatchingLicensePlate(licensePlate)
-                                && ua.hasNoVisit())
-                .findAny()
-                .orElse(null);
+public interface UnloadingAppointmentRepository extends JpaRepository<UnloadingAppointment, UUID> {
 
-        return unloadingAppointment;
-    }
+    @Query("""
+            select ua
+            from UnloadingAppointment ua
+            where ua.licensePlate = :licensePlate
+            and ua.visit is null
+            """)
+    UnloadingAppointment getUnfulfilledAppointment(@Param("licensePlate") String licensePlate);
+
 }

@@ -12,7 +12,10 @@ public class TimeSlot {
     public TimeSlot(ZonedDateTime startOfTimeSlot) {
         this.startOfTimeSlot = startOfTimeSlot;
         this.endOfTimeSlot = startOfTimeSlot
-             .plusMinutes(ConfigLoader.getProperty(ConfigProperties.DURATION_OF_TIMESLOT_OF_APPOINTMENT_IN_MINUTES));
+                .plusMinutes(ConfigLoader.getProperty(ConfigProperties.DURATION_OF_TIMESLOT_OF_APPOINTMENT_IN_MINUTES));
+    }
+
+    protected TimeSlot() {
     }
 
     public ZonedDateTime getEndOfTimeSlot() {

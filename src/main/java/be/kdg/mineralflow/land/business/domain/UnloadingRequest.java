@@ -14,7 +14,7 @@ public class UnloadingRequest {
             .getLogger(UnloadingRequest.class.getName());
 
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String licensePlate;
     private ZonedDateTime createdAt;
@@ -22,34 +22,12 @@ public class UnloadingRequest {
     @OneToOne
     private Visit visit;
 
-    public UnloadingRequest(String licensePlate) {
-        createdAt = ZonedDateTime.now();
+    public UnloadingRequest(String licensePlate, ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
         this.licensePlate = licensePlate;
     }
 
     protected UnloadingRequest() {
-    }
-
-    public boolean hasMatchingLicensePlate(String licensePlate) {
-        boolean hasMatchingLicensePlate = this.licensePlate.equals(licensePlate);
-
-        if (hasMatchingLicensePlate) {
-            logger.info(
-                    String.format("This appointment has been registered for the truck %s", getLicensePlate())
-            );
-        }
-
-        return hasMatchingLicensePlate;
-    }
-
-    public boolean hasNoVisit() {
-        boolean hasNoVisit = this.visit == null;
-
-        if (hasNoVisit) {
-            logger.info("No truck has arrived for this unloading request");
-        }
-
-        return hasNoVisit;
     }
 
     public void setVisit(Visit visit) {

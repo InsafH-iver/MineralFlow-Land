@@ -1,6 +1,6 @@
 package be.kdg.mineralflow.land.persistence;
 
-import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
+import be.kdg.mineralflow.land.business.domain.Weighbridge;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,16 +9,16 @@ import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.utility.DockerImageName;
 
-import java.time.ZonedDateTime;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-class UnloadingRequestRepositoryTest {
+class WeighbridgeRepositoryTest {
 
     @Autowired
-    private UnloadingRequestRepository unloadingRequestRepository;
+    private WeighbridgeRepository weighbridgeRepository;
 
     static PostgreSQLContainer<?> postgreSQLContainer =
             new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
@@ -35,15 +35,15 @@ class UnloadingRequestRepositoryTest {
     }
 
     @Test
-    void addNewUnloadingRequest() {
+    void findRandomWeighbridge() {
         //ARRANGE
-        String licensePlate = "US-1531";
-        ZonedDateTime createdAt = ZonedDateTime.now();
-        UnloadingRequest unloadingRequest = new UnloadingRequest("US-1531", createdAt);
+        weighbridgeRepository.save(new Weighbridge(1));
+        weighbridgeRepository.save(new Weighbridge(2));
+        weighbridgeRepository.save(new Weighbridge(3));
         //ACT
-        UnloadingRequest savedRequest = unloadingRequestRepository.save(unloadingRequest);
+        Optional<Weighbridge> optionalWeighbridge = weighbridgeRepository.findRandomWeighbridge();
         //ASSERT
-        assertThat(savedRequest).isNotNull();
-        assertThat(savedRequest.getLicensePlate()).isEqualTo(licensePlate);
+        assertTrue(optionalWeighbridge.isPresent());
+        assertThat(optionalWeighbridge.get().getWeighbridgeNumber()).isBetween(1, 3);
     }
 }
