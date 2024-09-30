@@ -19,7 +19,7 @@ public class UnloadingAppointment extends UnloadingRequest {
     private TimeSlot timeSlot;
 
     public UnloadingAppointment(String licensePlate, ZonedDateTime startOfTimeSlot) {
-        super(licensePlate);
+        super(licensePlate, null);
         this.timeSlot = new TimeSlot(startOfTimeSlot);
     }
 
