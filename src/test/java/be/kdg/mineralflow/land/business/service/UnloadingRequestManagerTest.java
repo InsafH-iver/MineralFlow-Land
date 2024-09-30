@@ -193,7 +193,7 @@ class UnloadingRequestManagerTest {
         assertThat(arrivalResponse.returnTimeOfTruck()).isEqualTo(startOfPeriodWithoutAppointments);
     }
     @Test
-    void validateTruckEntry_should_add_unloadingrequest_to_queue_when_truck_is_too_late(){
+    void processTruckArrivalAtGate_should_add_unloadingrequest_to_queue_when_truck_is_too_late(){
         //ARRANGE
         String licensePlate = "12345";
         ZonedDateTime timeSlotStart = ZonedDateTime.of(2024, 2, 23,
@@ -216,6 +216,24 @@ class UnloadingRequestManagerTest {
         ArgumentCaptor<UnloadingRequest> captor = ArgumentCaptor.forClass(UnloadingRequest.class);
         Mockito.verify(unloadingRequestRepo, Mockito.times(1)).save(captor.capture());
         assertThat(captor.getValue().getLicensePlate()).isEqualTo(licensePlate);
+    }
+    @Test
+    void processTruckArrivalAtGate_should_add_unloadingrequest_to_queue_when_truck_has_no_appointment(){
+        //ARRANGE
+        String licensePlate = "12345";
+        ZonedDateTime timeOfArrival = ZonedDateTime.of(2024, 2, 23,
+                7, 0, 0, 0,
+                ZoneOffset.UTC);
 
+        Mockito.when(unloadingAppointmentRepo.getUnfulfilledAppointment(licensePlate))
+                .thenReturn(null);
+
+        //ACT
+        unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
+
+        //ASSERT
+        ArgumentCaptor<UnloadingRequest> captor = ArgumentCaptor.forClass(UnloadingRequest.class);
+        Mockito.verify(unloadingRequestRepo, Mockito.times(1)).save(captor.capture());
+        assertThat(captor.getValue().getLicensePlate()).isEqualTo(licensePlate);
     }
 }
