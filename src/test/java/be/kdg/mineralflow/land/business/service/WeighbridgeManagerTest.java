@@ -1,6 +1,7 @@
 package be.kdg.mineralflow.land.business.service;
 
 import be.kdg.mineralflow.land.business.domain.Weighbridge;
+import be.kdg.mineralflow.land.exception.NoItemFoundException;
 import be.kdg.mineralflow.land.persistence.WeighbridgeRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -15,6 +16,7 @@ import org.testcontainers.utility.DockerImageName;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 class WeighbridgeManagerTest {
@@ -39,7 +41,7 @@ class WeighbridgeManagerTest {
     }
 
     @Test
-    void getWeighBridgeNumber() {
+    void getWeighBridgeNumber_When_There_Is_Weighbridges_In_Db() {
         //ARRANGE
         int bridgeNumber = 1;
         Weighbridge expectedWeighBridge = new Weighbridge(bridgeNumber);
@@ -52,5 +54,14 @@ class WeighbridgeManagerTest {
         //ASSERT
         assertThat(bridgeResponse.getWeighbridgeNumber()).isEqualTo(bridgeNumber);
         Mockito.verify(weighbridgeRepository, Mockito.times(1)).findRandomWeighbridge();
+    }
+
+    @Test
+    void getWeighBridgeNumber_When_There_Are_No_Weighbridges_In_Db() {
+        //ARRANGE
+        Mockito.when(weighbridgeRepository.findRandomWeighbridge())
+                .thenReturn(Optional.empty());
+        //ASSERT
+        assertThrows(NoItemFoundException.class, weighBridgeManager::getWeighBridgeNumber);
     }
 }

@@ -30,28 +30,6 @@ public class UnloadingRequest {
     protected UnloadingRequest() {
     }
 
-    public boolean hasMatchingLicensePlate(String licensePlate) {
-        boolean hasMatchingLicensePlate = this.licensePlate.equals(licensePlate);
-
-        if (hasMatchingLicensePlate) {
-            logger.info(
-                    String.format("This appointment has been registered for the truck %s", getLicensePlate())
-            );
-        }
-
-        return hasMatchingLicensePlate;
-    }
-
-    public boolean hasNoVisit() {
-        boolean hasNoVisit = this.visit == null;
-
-        if (hasNoVisit) {
-            logger.info("No truck has arrived for this unloading request");
-        }
-
-        return hasNoVisit;
-    }
-
     public void setVisit(Visit visit) {
         logger.info(
                 String.format("A truck has arrived at %s for this appointment",
