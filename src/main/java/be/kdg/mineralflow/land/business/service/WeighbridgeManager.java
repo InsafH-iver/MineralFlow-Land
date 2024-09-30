@@ -20,10 +20,15 @@ public class WeighbridgeManager {
     }
 
     public Weighbridge getWeighBridgeNumber() {
-        Optional<Weighbridge> weighbridge = weighbridgeRepository.findRandomWeighbridge();
-        if (weighbridge.isEmpty()) {
-            throw new NoItemFoundException("No weighbridge found");
+        logger.info("weighbridge number is being fetched");
+        Optional<Weighbridge> optionalWeighbridge = weighbridgeRepository.findRandomWeighbridge();
+        if (optionalWeighbridge.isEmpty()) {
+            String text = "No weighbridge found";
+            logger.severe(text);
+            throw new NoItemFoundException(text);
         }
-        return weighbridge.get();
+        Weighbridge weighbridge = optionalWeighbridge.get();
+        logger.info(String.format("Weighbridge number %d has been fetched", weighbridge.getWeighbridgeNumber()));
+        return weighbridge;
     }
 }
