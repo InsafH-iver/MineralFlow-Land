@@ -11,6 +11,7 @@ public class UnloadingAppointment extends UnloadingRequest {
     public static final Logger logger = Logger
             .getLogger(UnloadingAppointment.class.getName());
 
+
     @Embedded
     @AttributeOverrides({
             @AttributeOverride(name = "startOfTimeSlot", column = @Column(name = "start_of_timeslot")),

@@ -10,9 +10,8 @@ import java.util.UUID;
 public interface WeighbridgeRepository extends JpaRepository<Weighbridge, UUID> {
 
     @Query("""
-            select m
-            from Weighbridge m
-            order by function('RANDOM')
+            SELECT w FROM Weighbridge
+             w ORDER BY random() LIMIT 1
             """)
     Optional<Weighbridge> findRandomWeighbridge();
 }
