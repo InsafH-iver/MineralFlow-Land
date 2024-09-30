@@ -28,7 +28,6 @@ build:
       - build
       - .gradle
 
-
 job_tests:
   stage: test
   script:
