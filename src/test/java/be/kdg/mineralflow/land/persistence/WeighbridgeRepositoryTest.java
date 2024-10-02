@@ -41,7 +41,7 @@ class WeighbridgeRepositoryTest {
         weighbridgeRepository.save(new Weighbridge(2));
         weighbridgeRepository.save(new Weighbridge(3));
         //ACT
-        Optional<Weighbridge> optionalWeighbridge = weighbridgeRepository.findRandomWeighbridge();
+        Optional<Weighbridge> optionalWeighbridge = weighbridgeRepository.findTopByOrderByWeighbridgeNumber();
         //ASSERT
         assertTrue(optionalWeighbridge.isPresent());
         assertThat(optionalWeighbridge.get().getWeighbridgeNumber()).isBetween(1, 3);

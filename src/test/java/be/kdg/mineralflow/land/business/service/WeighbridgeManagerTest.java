@@ -46,20 +46,20 @@ class WeighbridgeManagerTest {
         int bridgeNumber = 1;
         Weighbridge expectedWeighBridge = new Weighbridge(bridgeNumber);
 
-        Mockito.when(weighbridgeRepository.findRandomWeighbridge())
+        Mockito.when(weighbridgeRepository.findTopByOrderByWeighbridgeNumber())
                 .thenReturn(Optional.of(expectedWeighBridge));
         //ACT
         Weighbridge bridgeResponse = weighBridgeManager.getWeighBridgeNumber();
 
         //ASSERT
         assertThat(bridgeResponse.getWeighbridgeNumber()).isEqualTo(bridgeNumber);
-        Mockito.verify(weighbridgeRepository, Mockito.times(1)).findRandomWeighbridge();
+        Mockito.verify(weighbridgeRepository, Mockito.times(1)).findTopByOrderByWeighbridgeNumber();
     }
 
     @Test
     void getWeighBridgeNumber_When_There_Are_No_Weighbridges_In_Db() {
         //ARRANGE
-        Mockito.when(weighbridgeRepository.findRandomWeighbridge())
+        Mockito.when(weighbridgeRepository.findTopByOrderByWeighbridgeNumber())
                 .thenReturn(Optional.empty());
         //ASSERT
         assertThrows(NoItemFoundException.class, weighBridgeManager::getWeighBridgeNumber);

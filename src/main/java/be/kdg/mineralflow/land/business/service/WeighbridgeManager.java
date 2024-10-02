@@ -21,7 +21,7 @@ public class WeighbridgeManager {
 
     public Weighbridge getWeighBridgeNumber() {
         logger.info("weighbridge number is being fetched");
-        Optional<Weighbridge> optionalWeighbridge = weighbridgeRepository.findRandomWeighbridge();
+        Optional<Weighbridge> optionalWeighbridge = weighbridgeRepository.findTopByOrderByWeighbridgeNumber();
         if (optionalWeighbridge.isEmpty()) {
             String text = "No weighbridge found";
             logger.severe(text);
