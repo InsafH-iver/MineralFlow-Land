@@ -38,7 +38,7 @@ public class UnloadingRequestManager {
                 timeOfArrival
                         .format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
         );
-        UnloadingAppointment unloadingAppointment = unloadingAppointmentRepository.getUnfulfilledAppointment(licensePlate);
+        UnloadingAppointment unloadingAppointment = unloadingAppointmentRepository.findByLicensePlateAndVisitIsNull(licensePlate);
 
         TruckArrivalResponse arrivalResponse = validateTruckEntry(unloadingAppointment, timeOfArrival, licensePlate);
 

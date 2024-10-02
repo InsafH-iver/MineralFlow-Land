@@ -43,5 +43,7 @@ public class UnloadingRequest {
         logger.info(String.format("Fetching license plate %s from unloading request", licensePlate));
         return licensePlate;
     }
-
+    public Visit getVisit() {
+        return visit;
+    }
 }

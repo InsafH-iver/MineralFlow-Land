@@ -1,7 +1,7 @@
 package be.kdg.mineralflow.land.persistence;
 
-import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
+import be.kdg.mineralflow.land.config.ConfigProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -47,7 +47,7 @@ class UnloadingAppointmentRepositoryTest {
         UnloadingAppointment unloadingAppointment = new UnloadingAppointment("US-1531", startTimeSlot, configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
         unloadingAppointmentRepository.save(unloadingAppointment);
         //ACT
-        UnloadingAppointment savedRequest = unloadingAppointmentRepository.getUnfulfilledAppointment(licensePlate);
+        UnloadingAppointment savedRequest = unloadingAppointmentRepository.findByLicensePlateAndVisitIsNull(licensePlate);
         //ASSERT
         assertThat(savedRequest).isNotNull();
         assertThat(savedRequest.getLicensePlate()).isEqualTo(licensePlate);

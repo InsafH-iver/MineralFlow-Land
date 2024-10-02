@@ -13,6 +13,7 @@ public class Visit {
             .getLogger(Visit.class.getName());
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID Id;
     private ZonedDateTime arrivalTime;
     private ZonedDateTime leavingTime;
@@ -21,6 +22,8 @@ public class Visit {
     private Weighbridge weighBridge;
     @OneToOne
     private WeighbridgeTicket weighbridgeTicket;
+    @OneToOne
+    private UnloadingRequest unloadingRequest;
 
     public Visit(ZonedDateTime arrivalTime) {
         this.arrivalTime = arrivalTime;

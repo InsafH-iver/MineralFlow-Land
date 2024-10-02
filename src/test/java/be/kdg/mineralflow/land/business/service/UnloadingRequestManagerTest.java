@@ -59,7 +59,7 @@ class UnloadingRequestManagerTest {
         UnloadingAppointment unloadingAppointment =
                 new UnloadingAppointment(licensePlate, timeOfArrival, configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
 
-        Mockito.when(unloadingAppointmentRepo.getUnfulfilledAppointment(licensePlate))
+        Mockito.when(unloadingAppointmentRepo.findByLicensePlateAndVisitIsNull(licensePlate))
                 .thenReturn(unloadingAppointment);
         Mockito.doReturn(unloadingAppointment).when(unloadingRequestRepo)
                 .save(unloadingAppointment);
@@ -82,7 +82,7 @@ class UnloadingRequestManagerTest {
         UnloadingAppointment unloadingAppointment =
                 new UnloadingAppointment(licensePlate, timeSlotStart, configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
 
-        Mockito.when(unloadingAppointmentRepo.getUnfulfilledAppointment(licensePlate))
+        Mockito.when(unloadingAppointmentRepo.findByLicensePlateAndVisitIsNull(licensePlate))
                 .thenReturn(unloadingAppointment);
         Mockito.doReturn(unloadingAppointment).when(unloadingRequestRepo)
                 .save(unloadingAppointment);
@@ -110,7 +110,7 @@ class UnloadingRequestManagerTest {
         UnloadingAppointment unloadingAppointment =
                 new UnloadingAppointment(licensePlate, timeSlotStart, configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
 
-        Mockito.when(unloadingAppointmentRepo.getUnfulfilledAppointment(licensePlate))
+        Mockito.when(unloadingAppointmentRepo.findByLicensePlateAndVisitIsNull(licensePlate))
                 .thenReturn(unloadingAppointment);
         Mockito.doReturn(unloadingAppointment).when(unloadingRequestRepo)
                 .save(unloadingAppointment);
@@ -140,7 +140,7 @@ class UnloadingRequestManagerTest {
                 , 0, 0, 0,
                 ZoneOffset.UTC);
 
-        Mockito.when(unloadingAppointmentRepo.getUnfulfilledAppointment(licensePlate))
+        Mockito.when(unloadingAppointmentRepo.findByLicensePlateAndVisitIsNull(licensePlate))
                 .thenReturn(unloadingAppointment);
         Mockito.doReturn(unloadingAppointment).when(unloadingRequestRepo)
                 .save(unloadingAppointment);
@@ -164,7 +164,7 @@ class UnloadingRequestManagerTest {
         UnloadingAppointment unloadingAppointment =
                 new UnloadingAppointment(licensePlate, timeSlotStart, configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
 
-        Mockito.when(unloadingAppointmentRepo.getUnfulfilledAppointment(licensePlate))
+        Mockito.when(unloadingAppointmentRepo.findByLicensePlateAndVisitIsNull(licensePlate))
                 .thenReturn(unloadingAppointment);
         Mockito.doReturn(unloadingAppointment).when(unloadingRequestRepo)
                 .save(unloadingAppointment);
@@ -188,7 +188,7 @@ class UnloadingRequestManagerTest {
                 configProperties.getEndOfPeriodWithAppointment(), 0, 0, 0,
                 ZoneOffset.UTC);
 
-        Mockito.when(unloadingAppointmentRepo.getUnfulfilledAppointment(licensePlate))
+        Mockito.when(unloadingAppointmentRepo.findByLicensePlateAndVisitIsNull(licensePlate))
                 .thenReturn(null);
 
         //ACT
@@ -212,7 +212,7 @@ class UnloadingRequestManagerTest {
         UnloadingAppointment unloadingAppointment =
                 new UnloadingAppointment(licensePlate, timeSlotStart, configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
 
-        Mockito.when(unloadingAppointmentRepo.getUnfulfilledAppointment(licensePlate))
+        Mockito.when(unloadingAppointmentRepo.findByLicensePlateAndVisitIsNull(licensePlate))
                 .thenReturn(unloadingAppointment);
         Mockito.doReturn(unloadingAppointment).when(unloadingRequestRepo)
                 .save(unloadingAppointment);
@@ -234,7 +234,7 @@ class UnloadingRequestManagerTest {
                 7, 0, 0, 0,
                 ZoneOffset.UTC);
 
-        Mockito.when(unloadingAppointmentRepo.getUnfulfilledAppointment(licensePlate))
+        Mockito.when(unloadingAppointmentRepo.findByLicensePlateAndVisitIsNull(licensePlate))
                 .thenReturn(null);
 
         //ACT
