@@ -44,7 +44,4 @@ public class UnloadingRequest {
         return licensePlate;
     }
 
-    public ZonedDateTime getCreatedAt() {
-        return createdAt;
-    }
 }

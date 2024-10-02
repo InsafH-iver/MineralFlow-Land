@@ -1,6 +1,5 @@
 package be.kdg.mineralflow.land.config;
 
-import jakarta.annotation.PostConstruct;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -59,12 +58,4 @@ public class ConfigProperties {
         this.weighbridgeAmount = weighbridgeAmount;
     }
 
-    @PostConstruct
-    public void init() {
-        System.out.println("startOfPeriodWithAppointment = " + startOfPeriodWithAppointment);
-        System.out.println("endOfPeriodWithAppointment = " + endOfPeriodWithAppointment);
-        System.out.println("durationOfTimeslotOfAppointment = " + durationOfTimeslotOfAppointmentInMinutes);
-        System.out.println("weighbridgeAmount = " + weighbridgeAmount);
-        System.out.println("truckCapacity = " + truckCapacity);
-    }
 }

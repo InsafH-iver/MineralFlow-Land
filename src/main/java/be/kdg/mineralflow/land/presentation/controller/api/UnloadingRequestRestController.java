@@ -20,7 +20,7 @@ public class UnloadingRequestRestController {
     public static final Logger logger = Logger
             .getLogger(UnloadingRequestRestController.class.getName());
 
-    private UnloadingRequestManager unloadingRequestManager;
+    private final UnloadingRequestManager unloadingRequestManager;
 
     public UnloadingRequestRestController(UnloadingRequestManager unloadingRequestManager) {
         this.unloadingRequestManager = unloadingRequestManager;
