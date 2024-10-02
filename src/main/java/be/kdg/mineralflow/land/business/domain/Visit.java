@@ -35,4 +35,8 @@ public class Visit {
                 arrivalTime.format(DateTimeFormatter.ISO_ZONED_DATE_TIME)));
         return arrivalTime;
     }
+
+    public Weighbridge getWeighBridge() {
+        return weighBridge;
+    }
 }

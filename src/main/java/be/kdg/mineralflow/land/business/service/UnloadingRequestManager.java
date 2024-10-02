@@ -13,6 +13,7 @@ import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.logging.Logger;
 
 @Service
@@ -98,5 +99,9 @@ public class UnloadingRequestManager {
         logger.info(String.format("New unloadingRequest %s is being saved.", unloadingRequest));
         UnloadingRequest saved = unloadingRequestRepository.save(unloadingRequest);
         logger.info(String.format("UnloadingRequest %s was saved succesfully.", saved));
+    }
+
+    public List<UnloadingRequest> getUnloadingRequestsWithActiveVisit() {
+        return unloadingRequestRepository.readUnloadingRequestsWithActiveVisit();
     }
 }
