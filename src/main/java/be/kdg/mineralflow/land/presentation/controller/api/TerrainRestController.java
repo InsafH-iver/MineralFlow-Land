@@ -29,6 +29,7 @@ public class TerrainRestController {
 
     @GetMapping("/AllTrucksOnSite")
     public ResponseEntity<List<TruckDto>> getAllTrucksOnSite(){
+        logger.info("TerrainRestController: getAllTrucksOnSite has been called");
         List<UnloadingRequest> unloadingRequests = unloadingRequestManager.getUnloadingRequestsWithActiveVisit();
         List<TruckDto> trucks = unloadingRequests.stream().map(ur -> modelMapper.map(ur, TruckDto.class)).toList();
         return ResponseEntity.ok(trucks);

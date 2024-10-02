@@ -102,6 +102,7 @@ public class UnloadingRequestManager {
     }
 
     public List<UnloadingRequest> getUnloadingRequestsWithActiveVisit() {
+        logger.info("UnloadingRequestManager: getUnloadingRequestsWithActiveVisit has been called");
         return unloadingRequestRepository.readUnloadingRequestsWithActiveVisit();
     }
 }
