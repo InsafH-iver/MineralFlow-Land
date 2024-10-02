@@ -1,35 +1,32 @@
 package be.kdg.mineralflow.land.presentation.controller.api;
 
 import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
-import be.kdg.mineralflow.land.persistence.UnloadingRequestRepository;
+import be.kdg.mineralflow.land.persistence.WeighbridgeRepository;
+import be.kdg.mineralflow.land.presentation.controller.dto.TruckDto;
+import be.kdg.mineralflow.land.testcontainer.TestContainerConfig;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.utility.DockerImageName;
 
 import java.time.ZonedDateTime;
+import java.util.List;
 
 
+@SpringBootTest
 class TerrainRestControllerTest {
 
     @Autowired
     private TerrainRestController terrainRestController;
     @Autowired
-    private UnloadingRequestRepository unloadingRequestRepository;
-    static PostgreSQLContainer<?> postgreSQLContainer =
-            new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
-                    .withDatabaseName("testdb")
-                    .withUsername("test")
-                    .withPassword("test");
+    private WeighbridgeRepository weighbridgeRepository;
+    private final PostgreSQLContainer<?> postgreSQLContainer = TestContainerConfig.postgreSQLContainer;
 
-    @DynamicPropertySource
-    static void registerPgProperties(DynamicPropertyRegistry registry) {
+    @BeforeEach
+    void setUp() {
         postgreSQLContainer.start();
-        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
-        registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
     }
 
     @Test
@@ -39,8 +36,8 @@ class TerrainRestControllerTest {
         ZonedDateTime createdAt = ZonedDateTime.now();
         UnloadingRequest unloadingRequest = new UnloadingRequest(licensePlate,createdAt);
         //ACT
-        terrainRestController.getAllTrucksOnSite();
+        ResponseEntity<List<TruckDto>> trucks = terrainRestController.getAllTrucksOnSite();
         //ASSERT
-        System.out.println(unloadingRequestRepository.findAll());
+        System.out.println("\n"+weighbridgeRepository.findAll()+"nahheaheuah");
     }
 }

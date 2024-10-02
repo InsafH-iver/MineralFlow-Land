@@ -1,21 +1,20 @@
 package be.kdg.mineralflow.land.business.service;
 
-import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
 import be.kdg.mineralflow.land.business.util.TruckArrivalResponse;
+import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.persistence.UnloadingAppointmentRepository;
 import be.kdg.mineralflow.land.persistence.UnloadingRequestRepository;
+import be.kdg.mineralflow.land.testcontainer.TestContainerConfig;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.utility.DockerImageName;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -35,18 +34,11 @@ class UnloadingRequestManagerTest {
     @Autowired
     private ConfigProperties configProperties;
 
-    static PostgreSQLContainer<?> postgreSQLContainer =
-            new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
-                    .withDatabaseName("testdb")
-                    .withUsername("test")
-                    .withPassword("test");
+    private final PostgreSQLContainer<?> postgreSQLContainer = TestContainerConfig.postgreSQLContainer;
 
-    @DynamicPropertySource
-    static void registerPgProperties(DynamicPropertyRegistry registry) {
+    @BeforeEach
+    void setUp() {
         postgreSQLContainer.start();
-        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
-        registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
     }
 
     @Test
