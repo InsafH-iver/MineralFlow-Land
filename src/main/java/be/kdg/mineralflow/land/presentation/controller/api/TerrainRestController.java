@@ -33,4 +33,5 @@ public class TerrainRestController {
         List<TruckDto> trucks = unloadingRequests.stream().map(ur -> modelMapper.map(ur, TruckDto.class)).toList();
         return ResponseEntity.ok(trucks);
     }
+
 }

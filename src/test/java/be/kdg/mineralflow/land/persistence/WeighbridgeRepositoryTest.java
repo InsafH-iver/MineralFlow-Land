@@ -1,12 +1,10 @@
 package be.kdg.mineralflow.land.persistence;
 
+import be.kdg.mineralflow.land.TestContainer;
 import be.kdg.mineralflow.land.business.domain.Weighbridge;
-import be.kdg.mineralflow.land.testcontainer.TestContainerConfig;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.util.Optional;
 
@@ -14,17 +12,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-class WeighbridgeRepositoryTest {
+class WeighbridgeRepositoryTest extends TestContainer {
 
     @Autowired
     private WeighbridgeRepository weighbridgeRepository;
-
-    private final PostgreSQLContainer<?> postgreSQLContainer = TestContainerConfig.postgreSQLContainer;
-
-    @BeforeEach
-    void setUp() {
-        postgreSQLContainer.start();
-    }
     @Test
     void findRandomWeighbridge() {
         //ARRANGE

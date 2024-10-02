@@ -11,5 +11,4 @@ public class LandApplication {
     public static void main(String[] args) {
         SpringApplication.run(LandApplication.class, args);
     }
-
 }

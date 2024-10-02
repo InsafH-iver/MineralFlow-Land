@@ -1,20 +1,18 @@
 package be.kdg.mineralflow.land.business.service;
 
+import be.kdg.mineralflow.land.TestContainer;
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
 import be.kdg.mineralflow.land.business.util.TruckArrivalResponse;
 import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.persistence.UnloadingAppointmentRepository;
 import be.kdg.mineralflow.land.persistence.UnloadingRequestRepository;
-import be.kdg.mineralflow.land.testcontainer.TestContainerConfig;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -24,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-class UnloadingRequestManagerTest {
+class UnloadingRequestManagerTest extends TestContainer {
     @MockBean
     private UnloadingRequestRepository unloadingRequestRepo;
     @MockBean
@@ -33,13 +31,6 @@ class UnloadingRequestManagerTest {
     private UnloadingRequestManager unloadingRequestManager;
     @Autowired
     private ConfigProperties configProperties;
-
-    private final PostgreSQLContainer<?> postgreSQLContainer = TestContainerConfig.postgreSQLContainer;
-
-    @BeforeEach
-    void setUp() {
-        postgreSQLContainer.start();
-    }
 
     @Test
     void processTruckArrivalAtGate_Should_Return_UnloadingAppointment_When_arriving_at_beginning_of_Appointment() {

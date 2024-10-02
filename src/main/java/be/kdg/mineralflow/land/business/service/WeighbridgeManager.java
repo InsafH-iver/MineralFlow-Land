@@ -19,7 +19,7 @@ public class WeighbridgeManager {
         this.weighbridgeRepository = weighbridgeRepository;
     }
 
-    public Weighbridge getWeighBridgeNumber() {
+    public int getWeighBridgeNumber() {
         logger.info("weighbridge number is being fetched");
         Optional<Weighbridge> optionalWeighbridge = weighbridgeRepository.findTopByOrderByWeighbridgeNumber();
         if (optionalWeighbridge.isEmpty()) {
@@ -29,6 +29,6 @@ public class WeighbridgeManager {
         }
         Weighbridge weighbridge = optionalWeighbridge.get();
         logger.info(String.format("Weighbridge number %d has been fetched", weighbridge.getWeighbridgeNumber()));
-        return weighbridge;
+        return weighbridge.getWeighbridgeNumber();
     }
 }
