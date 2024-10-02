@@ -1,10 +1,9 @@
 package be.kdg.mineralflow.land.business.service;
 
+import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
 import be.kdg.mineralflow.land.business.util.TruckArrivalResponse;
-import be.kdg.mineralflow.land.config.ConfigLoader;
-import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.persistence.UnloadingAppointmentRepository;
 import be.kdg.mineralflow.land.persistence.UnloadingRequestRepository;
 import org.junit.jupiter.api.Test;
@@ -33,6 +32,8 @@ class UnloadingRequestManagerTest {
     private UnloadingAppointmentRepository unloadingAppointmentRepo;
     @Autowired
     private UnloadingRequestManager unloadingRequestManager;
+    @Autowired
+    private ConfigProperties configProperties;
 
     static PostgreSQLContainer<?> postgreSQLContainer =
             new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
@@ -47,6 +48,7 @@ class UnloadingRequestManagerTest {
         registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
         registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
     }
+
     @Test
     void processTruckArrivalAtGate_Should_Return_UnloadingAppointment_When_arriving_at_beginning_of_Appointment() {
         //ARRANGE
@@ -54,7 +56,8 @@ class UnloadingRequestManagerTest {
         ZonedDateTime timeOfArrival = ZonedDateTime.of(2024, 2, 23,
                 7, 0, 0, 0,
                 ZoneOffset.UTC);
-        UnloadingAppointment unloadingAppointment = new UnloadingAppointment(licensePlate, timeOfArrival);
+        UnloadingAppointment unloadingAppointment =
+                new UnloadingAppointment(licensePlate, timeOfArrival, configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
 
         Mockito.when(unloadingAppointmentRepo.getUnfulfilledAppointment(licensePlate))
                 .thenReturn(unloadingAppointment);
@@ -76,7 +79,8 @@ class UnloadingRequestManagerTest {
                 7, 0, 0, 0,
                 ZoneOffset.UTC);
         ZonedDateTime timeOfArrival = timeSlotStart.plusMinutes(28);
-        UnloadingAppointment unloadingAppointment = new UnloadingAppointment(licensePlate, timeSlotStart);
+        UnloadingAppointment unloadingAppointment =
+                new UnloadingAppointment(licensePlate, timeSlotStart, configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
 
         Mockito.when(unloadingAppointmentRepo.getUnfulfilledAppointment(licensePlate))
                 .thenReturn(unloadingAppointment);
@@ -98,12 +102,13 @@ class UnloadingRequestManagerTest {
                 7, 0, 0, 0,
                 ZoneOffset.UTC);
         ZonedDateTime timeOfArrival = timeSlotStart.plusMinutes(
-                ConfigLoader.getProperty(ConfigProperties.DURATION_OF_TIMESLOT_OF_APPOINTMENT_IN_MINUTES) + 8);
+                configProperties.getDurationOfTimeslotOfAppointmentInMinutes() + 8);
         ZonedDateTime startOfPeriodWithoutAppointments = ZonedDateTime.of(2024, 2, 23,
-                ConfigLoader.getProperty(ConfigProperties.END_OF_PERIOD_WITH_APPOINTMENT)
+                configProperties.getEndOfPeriodWithAppointment()
                 , 0, 0, 0, ZoneOffset.UTC);
 
-        UnloadingAppointment unloadingAppointment = new UnloadingAppointment(licensePlate, timeSlotStart);
+        UnloadingAppointment unloadingAppointment =
+                new UnloadingAppointment(licensePlate, timeSlotStart, configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
 
         Mockito.when(unloadingAppointmentRepo.getUnfulfilledAppointment(licensePlate))
                 .thenReturn(unloadingAppointment);
@@ -127,11 +132,11 @@ class UnloadingRequestManagerTest {
                 7, 0, 0, 0,
                 ZoneOffset.UTC);
         ZonedDateTime timeOfArrival = timeSlotStart.plusMinutes(
-                ConfigLoader.getProperty(ConfigProperties.DURATION_OF_TIMESLOT_OF_APPOINTMENT_IN_MINUTES)
-        );
-        UnloadingAppointment unloadingAppointment = new UnloadingAppointment(licensePlate, timeSlotStart);
+                configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
+        UnloadingAppointment unloadingAppointment =
+                new UnloadingAppointment(licensePlate, timeSlotStart, configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
         ZonedDateTime startOfPeriodWithoutAppointments = ZonedDateTime.of(2024, 2, 23,
-                ConfigLoader.getProperty(ConfigProperties.END_OF_PERIOD_WITH_APPOINTMENT)
+                configProperties.getEndOfPeriodWithAppointment()
                 , 0, 0, 0,
                 ZoneOffset.UTC);
 
@@ -156,7 +161,8 @@ class UnloadingRequestManagerTest {
                 7, 0, 0, 0,
                 ZoneOffset.UTC);
         ZonedDateTime timeOfArrival = timeSlotStart.minusMinutes(5);
-        UnloadingAppointment unloadingAppointment = new UnloadingAppointment(licensePlate, timeSlotStart);
+        UnloadingAppointment unloadingAppointment =
+                new UnloadingAppointment(licensePlate, timeSlotStart, configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
 
         Mockito.when(unloadingAppointmentRepo.getUnfulfilledAppointment(licensePlate))
                 .thenReturn(unloadingAppointment);
@@ -179,7 +185,7 @@ class UnloadingRequestManagerTest {
                 7, 0, 0, 0,
                 ZoneOffset.UTC);
         ZonedDateTime startOfPeriodWithoutAppointments = ZonedDateTime.of(2024, 2, 23,
-                ConfigLoader.getProperty(ConfigProperties.END_OF_PERIOD_WITH_APPOINTMENT), 0, 0, 0,
+                configProperties.getEndOfPeriodWithAppointment(), 0, 0, 0,
                 ZoneOffset.UTC);
 
         Mockito.when(unloadingAppointmentRepo.getUnfulfilledAppointment(licensePlate))
@@ -192,17 +198,19 @@ class UnloadingRequestManagerTest {
         assertFalse(arrivalResponse.gateStatus());
         assertThat(arrivalResponse.returnTimeOfTruck()).isEqualTo(startOfPeriodWithoutAppointments);
     }
+
     @Test
-    void processTruckArrivalAtGate_should_add_unloadingrequest_to_queue_when_truck_is_too_late(){
+    void processTruckArrivalAtGate_should_add_unloadingrequest_to_queue_when_truck_is_too_late() {
         //ARRANGE
         String licensePlate = "12345";
         ZonedDateTime timeSlotStart = ZonedDateTime.of(2024, 2, 23,
                 7, 0, 0, 0,
                 ZoneOffset.UTC);
         ZonedDateTime timeOfArrival = timeSlotStart.plusMinutes(
-                ConfigLoader.getProperty(ConfigProperties.DURATION_OF_TIMESLOT_OF_APPOINTMENT_IN_MINUTES) + 8);
+                configProperties.getDurationOfTimeslotOfAppointmentInMinutes() + 8);
 
-        UnloadingAppointment unloadingAppointment = new UnloadingAppointment(licensePlate, timeSlotStart);
+        UnloadingAppointment unloadingAppointment =
+                new UnloadingAppointment(licensePlate, timeSlotStart, configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
 
         Mockito.when(unloadingAppointmentRepo.getUnfulfilledAppointment(licensePlate))
                 .thenReturn(unloadingAppointment);
@@ -217,8 +225,9 @@ class UnloadingRequestManagerTest {
         Mockito.verify(unloadingRequestRepo, Mockito.times(1)).save(captor.capture());
         assertThat(captor.getValue().getLicensePlate()).isEqualTo(licensePlate);
     }
+
     @Test
-    void processTruckArrivalAtGate_should_add_unloadingrequest_to_queue_when_truck_has_no_appointment(){
+    void processTruckArrivalAtGate_should_add_unloadingrequest_to_queue_when_truck_has_no_appointment() {
         //ARRANGE
         String licensePlate = "12345";
         ZonedDateTime timeOfArrival = ZonedDateTime.of(2024, 2, 23,

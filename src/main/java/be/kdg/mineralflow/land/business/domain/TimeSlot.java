@@ -1,18 +1,15 @@
 package be.kdg.mineralflow.land.business.domain;
 
-import be.kdg.mineralflow.land.config.ConfigLoader;
-import be.kdg.mineralflow.land.config.ConfigProperties;
-
 import java.time.ZonedDateTime;
 
 public class TimeSlot {
     private ZonedDateTime startOfTimeSlot;
     private ZonedDateTime endOfTimeSlot;
 
-    public TimeSlot(ZonedDateTime startOfTimeSlot) {
+    public TimeSlot(ZonedDateTime startOfTimeSlot, int durationOfTimeslotOfAppointmentInMinutes) {
         this.startOfTimeSlot = startOfTimeSlot;
         this.endOfTimeSlot = startOfTimeSlot
-                .plusMinutes(ConfigLoader.getProperty(ConfigProperties.DURATION_OF_TIMESLOT_OF_APPOINTMENT_IN_MINUTES));
+                .plusMinutes(durationOfTimeslotOfAppointmentInMinutes);
     }
 
     protected TimeSlot() {

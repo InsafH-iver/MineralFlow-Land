@@ -4,7 +4,6 @@ import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
 import be.kdg.mineralflow.land.business.domain.Visit;
 import be.kdg.mineralflow.land.business.util.TruckArrivalResponse;
-import be.kdg.mineralflow.land.config.ConfigLoader;
 import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.persistence.UnloadingAppointmentRepository;
 import be.kdg.mineralflow.land.persistence.UnloadingRequestRepository;
@@ -23,12 +22,14 @@ public class UnloadingRequestManager {
 
     private final UnloadingRequestRepository unloadingRequestRepository;
     private final UnloadingAppointmentRepository unloadingAppointmentRepository;
+    private final ConfigProperties configProperties;
 
     public UnloadingRequestManager(UnloadingAppointmentRepository unloadingAppointmentRepository
-            , UnloadingRequestRepository unloadingRequestRepository
+            , UnloadingRequestRepository unloadingRequestRepository, ConfigProperties configProperties
     ) {
         this.unloadingAppointmentRepository = unloadingAppointmentRepository;
         this.unloadingRequestRepository = unloadingRequestRepository;
+        this.configProperties = configProperties;
     }
 
     public TruckArrivalResponse processTruckArrivalAtGate(String licensePlate, ZonedDateTime timeOfArrival) {
@@ -65,7 +66,7 @@ public class UnloadingRequestManager {
                 !unloadingAppointment.isTruckArrivalEarlyOrOnTime(timeOfArrival)) {
             ZonedDateTime startOfTimeslotWithoutAppointment = ZonedDateTime
                     .of(timeOfArrival.toLocalDate(),
-                            LocalTime.of(ConfigLoader.getProperty(ConfigProperties.END_OF_PERIOD_WITH_APPOINTMENT)
+                            LocalTime.of(configProperties.getEndOfPeriodWithAppointment()
                                     , 0, 0), ZoneOffset.UTC);
             logger.info(String.format("The truck with license plate %s has to wait until %s to enter",
                     licensePlate,

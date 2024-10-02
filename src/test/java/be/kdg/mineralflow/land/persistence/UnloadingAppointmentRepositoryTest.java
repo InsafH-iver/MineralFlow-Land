@@ -1,5 +1,6 @@
 package be.kdg.mineralflow.land.persistence;
 
+import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,15 @@ class UnloadingAppointmentRepositoryTest {
 
     @Autowired
     private UnloadingAppointmentRepository unloadingAppointmentRepository;
+    @Autowired
+    private ConfigProperties configProperties;
 
     static PostgreSQLContainer<?> postgreSQLContainer =
             new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
                     .withDatabaseName("testdb")
                     .withUsername("test")
                     .withPassword("test");
+
 
     @DynamicPropertySource
     static void registerPgProperties(DynamicPropertyRegistry registry) {
@@ -40,7 +44,7 @@ class UnloadingAppointmentRepositoryTest {
         String licensePlate = "US-1531";
         ZonedDateTime startTimeSlot = ZonedDateTime.of(2024, 3,
                 12, 4, 3, 0, 0, ZoneOffset.UTC);
-        UnloadingAppointment unloadingAppointment = new UnloadingAppointment("US-1531", startTimeSlot);
+        UnloadingAppointment unloadingAppointment = new UnloadingAppointment("US-1531", startTimeSlot, configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
         unloadingAppointmentRepository.save(unloadingAppointment);
         //ACT
         UnloadingAppointment savedRequest = unloadingAppointmentRepository.getUnfulfilledAppointment(licensePlate);
