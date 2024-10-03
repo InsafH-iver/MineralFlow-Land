@@ -22,8 +22,6 @@ public class Visit {
     private Weighbridge weighBridge;
     @OneToOne
     private WeighbridgeTicket weighbridgeTicket;
-    @OneToOne
-    private UnloadingRequest unloadingRequest;
 
     public Visit(ZonedDateTime arrivalTime) {
         this.arrivalTime = arrivalTime;
