@@ -18,11 +18,12 @@ import java.util.logging.Logger;
 public class TerrainRestController {
     public static final Logger logger = Logger
             .getLogger(UnloadingRequestRestController.class.getName());
-    private static ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     private final UnloadingRequestManager unloadingRequestManager;
 
-    public TerrainRestController(UnloadingRequestManager unloadingRequestManager) {
+    public TerrainRestController(ModelMapper modelMapper, UnloadingRequestManager unloadingRequestManager) {
+        this.modelMapper = modelMapper;
         this.unloadingRequestManager = unloadingRequestManager;
     }
 
@@ -31,6 +32,7 @@ public class TerrainRestController {
     public ResponseEntity<List<TruckDto>> getAllTrucksOnSite(){
         logger.info("TerrainRestController: getAllTrucksOnSite has been called");
         List<UnloadingRequest> unloadingRequests = unloadingRequestManager.getUnloadingRequestsWithActiveVisit();
+        logger.info(String.format("TerrainRestController: getAllTrucksOnSite retrieved %s",unloadingRequests));
         List<TruckDto> trucks = unloadingRequests.stream().map(ur -> modelMapper.map(ur, TruckDto.class)).toList();
         return ResponseEntity.ok(trucks);
     }

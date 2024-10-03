@@ -39,4 +39,8 @@ public class Visit {
     public Weighbridge getWeighBridge() {
         return weighBridge;
     }
+
+    public ZonedDateTime getLeavingTime() {
+        return leavingTime;
+    }
 }

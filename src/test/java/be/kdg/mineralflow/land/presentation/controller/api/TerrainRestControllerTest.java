@@ -1,10 +1,15 @@
 package be.kdg.mineralflow.land.presentation.controller.api;
 
 import be.kdg.mineralflow.land.TestContainer;
-import be.kdg.mineralflow.land.persistence.UnloadingRequestRepository;
+import be.kdg.mineralflow.land.presentation.controller.dto.TruckDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.ResponseEntity;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @SpringBootTest
@@ -12,14 +17,11 @@ class TerrainRestControllerTest extends TestContainer {
 
     @Autowired
     private TerrainRestController terrainRestController;
-    @Autowired
-    private UnloadingRequestRepository unloadingRequestRepository;
 
     @Test
     void getAllTrucksOnSite_should_return_all_trucks_that_have_arrivalTime_and_no_leavingTime() {
         //ARRANGE
         //ACT
-        /*
         ResponseEntity<List<TruckDto>> trucks = terrainRestController.getAllTrucksOnSite();
         //ASSERT
         assertThat(trucks).isNotNull();
@@ -30,6 +32,5 @@ class TerrainRestControllerTest extends TestContainer {
         trucks.getBody().forEach(t -> assertThat(t.visit().arrivalTime()).isNotNull());
         trucks.getBody().forEach(t -> assertThat(t.visit().leavingTIme()).isNull());
 
-         */
     }
 }
