@@ -29,7 +29,7 @@ class UnloadingAppointmentRepositoryTest extends TestContainer {
         UnloadingAppointment unloadingAppointment = new UnloadingAppointment("US-1531", startTimeSlot, configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
         unloadingAppointmentRepository.save(unloadingAppointment);
         //ACT
-        UnloadingAppointment savedRequest = unloadingAppointmentRepository.getUnfulfilledAppointment(licensePlate);
+        UnloadingAppointment savedRequest = unloadingAppointmentRepository.findByLicensePlateAndVisitIsNull(licensePlate);
         //ASSERT
         assertThat(savedRequest).isNotNull();
         assertThat(savedRequest.getLicensePlate()).isEqualTo(licensePlate);
