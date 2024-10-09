@@ -35,4 +35,23 @@ public class Visit {
                 arrivalTime.format(DateTimeFormatter.ISO_ZONED_DATE_TIME)));
         return arrivalTime;
     }
+
+    public Weighbridge getWeighBridge() {
+        return weighBridge;
+    }
+
+    public ZonedDateTime getLeavingTime() {
+        return leavingTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Visit{" +
+                "Id=" + Id +
+                ", arrivalTime=" + arrivalTime +
+                ", leavingTime=" + leavingTime +
+                ", weighBridge=" + weighBridge +
+                ", weighbridgeTicket=" + weighbridgeTicket +
+                '}';
+    }
 }
