@@ -2,7 +2,6 @@ package be.kdg.mineralflow.land.business.domain;
 
 import jakarta.persistence.*;
 
-import java.time.ZonedDateTime;
 import java.util.UUID;
 import java.util.logging.Logger;
 import java.time.format.DateTimeFormatter;
@@ -17,13 +16,10 @@ public class UnloadingRequest {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String licensePlate;
-    private ZonedDateTime createdAt;
-
     @OneToOne
     private Visit visit;
 
-    public UnloadingRequest(String licensePlate, ZonedDateTime createdAt) {
-        this.createdAt = createdAt;
+    public UnloadingRequest(String licensePlate) {
         this.licensePlate = licensePlate;
     }
 
@@ -52,7 +48,6 @@ public class UnloadingRequest {
         return "UnloadingRequest{" +
                 "id=" + id +
                 ", licensePlate='" + licensePlate + '\'' +
-                ", createdAt=" + createdAt +
                 ", visit=" + visit +
                 '}';
     }

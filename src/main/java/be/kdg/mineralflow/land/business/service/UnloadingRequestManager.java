@@ -2,6 +2,7 @@ package be.kdg.mineralflow.land.business.service;
 
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
+import be.kdg.mineralflow.land.business.domain.UnloadingWithoutAppointment;
 import be.kdg.mineralflow.land.business.domain.Visit;
 import be.kdg.mineralflow.land.business.util.TruckArrivalResponse;
 import be.kdg.mineralflow.land.config.ConfigProperties;
@@ -95,9 +96,9 @@ public class UnloadingRequestManager {
     }
 
     private void addUnloadingRequestToQueue(String licensePlate, ZonedDateTime createdAt) {
-        UnloadingRequest unloadingRequest = new UnloadingRequest(licensePlate, createdAt);
-        logger.info(String.format("New unloadingRequest %s is being saved.", unloadingRequest));
-        UnloadingRequest saved = unloadingRequestRepository.save(unloadingRequest);
+        UnloadingWithoutAppointment queueEntry = new UnloadingWithoutAppointment(licensePlate, createdAt);
+        logger.info(String.format("New unloadingRequest %s is being saved.", queueEntry));
+        UnloadingRequest saved = unloadingRequestRepository.save(queueEntry);
         logger.info(String.format("UnloadingRequest %s was saved succesfully.", saved));
     }
 
