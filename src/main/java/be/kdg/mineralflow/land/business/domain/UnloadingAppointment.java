@@ -21,7 +21,7 @@ public class UnloadingAppointment extends UnloadingRequest {
 
     public UnloadingAppointment(String licensePlate, ZonedDateTime startOfTimeSlot,
                                 int durationOfTimeslotOfAppointmentInMinutes) {
-        super(licensePlate, null);
+        super(licensePlate);
         this.timeSlot = new TimeSlot(startOfTimeSlot, durationOfTimeslotOfAppointmentInMinutes);
     }
 

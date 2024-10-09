@@ -1,5 +1,6 @@
 package be.kdg.mineralflow.land.business.service;
 
+import be.kdg.mineralflow.land.TestContainer;
 import be.kdg.mineralflow.land.business.domain.Weighbridge;
 import be.kdg.mineralflow.land.exception.NoItemFoundException;
 import be.kdg.mineralflow.land.persistence.WeighbridgeRepository;
@@ -8,10 +9,6 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.utility.DockerImageName;
 
 import java.util.Optional;
 
@@ -19,26 +16,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
-class WeighbridgeManagerTest {
+class WeighbridgeManagerTest extends TestContainer {
 
     @Autowired
     private WeighbridgeManager weighBridgeManager;
     @MockBean
     private WeighbridgeRepository weighbridgeRepository;
-
-    static PostgreSQLContainer<?> postgreSQLContainer =
-            new PostgreSQLContainer<>(DockerImageName.parse("postgres:latest"))
-                    .withDatabaseName("testdb")
-                    .withUsername("test")
-                    .withPassword("test");
-
-    @DynamicPropertySource
-    static void registerPgProperties(DynamicPropertyRegistry registry) {
-        postgreSQLContainer.start();
-        registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
-        registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
-        registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
-    }
 
     @Test
     void getWeighBridgeNumber_When_There_Is_Weighbridges_In_Db() {
@@ -49,10 +32,10 @@ class WeighbridgeManagerTest {
         Mockito.when(weighbridgeRepository.findTopByOrderByWeighbridgeNumber())
                 .thenReturn(Optional.of(expectedWeighBridge));
         //ACT
-        Weighbridge bridgeResponse = weighBridgeManager.getWeighBridgeNumber();
+        int weighBridgeNumber = weighBridgeManager.getWeighBridgeNumber();
 
         //ASSERT
-        assertThat(bridgeResponse.getWeighbridgeNumber()).isEqualTo(bridgeNumber);
+        assertThat(weighBridgeNumber).isEqualTo(bridgeNumber);
         Mockito.verify(weighbridgeRepository, Mockito.times(1)).findTopByOrderByWeighbridgeNumber();
     }
 

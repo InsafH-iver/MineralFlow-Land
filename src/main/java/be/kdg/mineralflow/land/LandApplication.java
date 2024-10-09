@@ -8,9 +8,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @SpringBootApplication
 @EnableConfigurationProperties(ConfigProperties.class)
 public class LandApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(LandApplication.class, args);
     }
-
 }
