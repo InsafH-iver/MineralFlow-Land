@@ -46,4 +46,14 @@ public class UnloadingRequest {
     public Visit getVisit() {
         return visit;
     }
+
+    @Override
+    public String toString() {
+        return "UnloadingRequest{" +
+                "id=" + id +
+                ", licensePlate='" + licensePlate + '\'' +
+                ", createdAt=" + createdAt +
+                ", visit=" + visit +
+                '}';
+    }
 }

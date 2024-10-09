@@ -43,4 +43,15 @@ public class Visit {
     public ZonedDateTime getLeavingTime() {
         return leavingTime;
     }
+
+    @Override
+    public String toString() {
+        return "Visit{" +
+                "Id=" + Id +
+                ", arrivalTime=" + arrivalTime +
+                ", leavingTime=" + leavingTime +
+                ", weighBridge=" + weighBridge +
+                ", weighbridgeTicket=" + weighbridgeTicket +
+                '}';
+    }
 }
