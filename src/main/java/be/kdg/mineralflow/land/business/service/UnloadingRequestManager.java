@@ -8,6 +8,7 @@ import be.kdg.mineralflow.land.business.util.TruckArrivalResponse;
 import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.persistence.UnloadingAppointmentRepository;
 import be.kdg.mineralflow.land.persistence.UnloadingRequestRepository;
+import be.kdg.mineralflow.land.persistence.UnloadingWithoutAppointmentRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalTime;
@@ -24,13 +25,15 @@ public class UnloadingRequestManager {
 
     private final UnloadingRequestRepository unloadingRequestRepository;
     private final UnloadingAppointmentRepository unloadingAppointmentRepository;
+    private final UnloadingWithoutAppointmentRepository unloadingWithoutAppointmentRepository;
     private final ConfigProperties configProperties;
 
     public UnloadingRequestManager(UnloadingAppointmentRepository unloadingAppointmentRepository
-            , UnloadingRequestRepository unloadingRequestRepository, ConfigProperties configProperties
+            , UnloadingRequestRepository unloadingRequestRepository, UnloadingWithoutAppointmentRepository unloadingWithoutAppointmentRepository, ConfigProperties configProperties
     ) {
         this.unloadingAppointmentRepository = unloadingAppointmentRepository;
         this.unloadingRequestRepository = unloadingRequestRepository;
+        this.unloadingWithoutAppointmentRepository = unloadingWithoutAppointmentRepository;
         this.configProperties = configProperties;
     }
 
@@ -105,5 +108,13 @@ public class UnloadingRequestManager {
     public List<UnloadingRequest> getUnloadingRequestsWithActiveVisit() {
         logger.info("UnloadingRequestManager: getUnloadingRequestsWithActiveVisit has been called");
         return unloadingRequestRepository.readUnloadingRequestsWithActiveVisit();
+    }
+
+    public List<UnloadingAppointment> getAllUnloadingAppointments() {
+        return unloadingAppointmentRepository.findAll();
+    }
+
+    public List<UnloadingWithoutAppointment> getAllUnloadingWithoutAppointments() {
+        return unloadingWithoutAppointmentRepository.findAll();
     }
 }
