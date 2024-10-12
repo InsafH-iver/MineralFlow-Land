@@ -1,0 +1,10 @@
+###Put new ticket if no weighbridge ticket has been found (basically first time over the bridge)
+PUT http://localhost:8080/api/WeighBridgeTickets
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC123",
+  "weight": 2500.5,
+  "timestamp": "2024-10-09T12:30:00Z"
+}
+

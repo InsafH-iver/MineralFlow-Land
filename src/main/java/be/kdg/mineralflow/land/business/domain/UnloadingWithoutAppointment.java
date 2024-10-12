@@ -13,6 +13,6 @@ public class UnloadingWithoutAppointment extends UnloadingRequest {
         this.createdAt = createdAt;
     }
 
-    public UnloadingWithoutAppointment() {
+    protected UnloadingWithoutAppointment() {
     }
 }

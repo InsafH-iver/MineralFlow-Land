@@ -2,6 +2,7 @@ package be.kdg.mineralflow.land.business.domain;
 
 import jakarta.persistence.*;
 
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 @Entity
@@ -21,4 +22,9 @@ public class WeighbridgeTicket {
             @AttributeOverride(name = "timestamp", column = @Column(name = "end_weight_timestamp"))
     })
     private Weighing endWeight;
+
+    public WeighbridgeTicket(double startWeightAmountInTon,
+                             ZonedDateTime startWeightTimestamp ) {
+        startWeight = new Weighing(startWeightAmountInTon, startWeightTimestamp);
+    }
 }
