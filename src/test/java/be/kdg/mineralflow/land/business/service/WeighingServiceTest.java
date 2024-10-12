@@ -59,7 +59,7 @@ class WeighingServiceTest extends TestContainer {
         Mockito.when(warehouseClient.getWarehouseNumber(vendorId, resourceId))
                 .thenReturn(warehouseNumber);
         Mockito.doNothing().when(truckArrivalAtWarehousePublisher)
-                .handleTruckArrivalAtWarehouse(vendorId, resourceId, arrivalBridge);
+                .handleTruckArrivalAtWarehouse(vendorId, resourceId, arrivalBridge, licensePlate);
         Mockito.when(unloadingRequestRepository.save(unloadingRequest))
                 .thenReturn(unloadingRequest);
         //ACT
@@ -70,7 +70,7 @@ class WeighingServiceTest extends TestContainer {
         Mockito.verify(warehouseClient, Mockito.times(1))
                 .getWarehouseNumber(vendorId, resourceId);
         Mockito.verify(truckArrivalAtWarehousePublisher, Mockito.times(1))
-                .handleTruckArrivalAtWarehouse(vendorId, resourceId, arrivalBridge);
+                .handleTruckArrivalAtWarehouse(vendorId, resourceId, arrivalBridge, licensePlate);
     }
 
     @Test
@@ -88,7 +88,7 @@ class WeighingServiceTest extends TestContainer {
         Mockito.when(warehouseClient.getWarehouseNumber(vendorTest.getId(), resource.getId()))
                 .thenReturn(warehouseNumber);
         Mockito.doNothing().when(truckArrivalAtWarehousePublisher)
-                .handleTruckArrivalAtWarehouse(vendorTest.getId(), resource.getId(), arrivalBridge);
+                .handleTruckArrivalAtWarehouse(vendorTest.getId(), resource.getId(), arrivalBridge, licensePlate);
         //ACT
         // ASSERT
         assertThrows(NoItemFoundException.class, () -> weighingService.processWeighingOperation(licensePlate, 123, arrivalBridge));
