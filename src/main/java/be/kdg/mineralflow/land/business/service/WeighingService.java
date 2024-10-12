@@ -38,7 +38,7 @@ public class WeighingService {
 
         addWeightBridgeTicketToVisit(unloadingRequest, weight, timestamp);
 
-        int warehouseNumber = processTruckArrivalAtWarehouse(unloadingRequest, timestamp);
+        int warehouseNumber = processTruckArrivalAtWarehouse(unloadingRequest, timestamp, licensePlate);
         logger.info(String.format("Processing weighing operation has been successful,warehouse number %d for truck with license plate: %s", warehouseNumber, licensePlate));
         return warehouseNumber;
     }
@@ -48,9 +48,10 @@ public class WeighingService {
         unloadingRequestRepository.save(unloadingRequest);
     }
 
-    private int processTruckArrivalAtWarehouse(UnloadingRequest unloadingRequest, ZonedDateTime timestamp) {
-        truckArrivalAtWarehousePublisher.handleTruckArrivalAtWarehouse(
-                unloadingRequest.getVendorId(), unloadingRequest.getResourceId(), timestamp);
+    private int processTruckArrivalAtWarehouse(UnloadingRequest unloadingRequest,
+                                               ZonedDateTime timestamp, String licensePlate) {
+        truckArrivalAtWarehousePublisher.handleTruckArrivalAtWarehouse(unloadingRequest.getVendorId(),
+                unloadingRequest.getResourceId(), timestamp, licensePlate);
 
         return warehouseClient.getWarehouseNumber(unloadingRequest.getVendorId(), unloadingRequest.getResourceId());
     }

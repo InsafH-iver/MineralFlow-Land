@@ -22,8 +22,8 @@ public class TruckArrivalAtWarehousePublisher {
     }
 
     public void handleTruckArrivalAtWarehouse(UUID vendorId, UUID resourceId,
-                                              ZonedDateTime timestamp) {
-        var dto = new TruckArrivalAtWarehouseDto(vendorId, resourceId, timestamp);
+                                              ZonedDateTime timestamp, String licensePlate) {
+        var dto = new TruckArrivalAtWarehouseDto(vendorId, resourceId, timestamp, licensePlate);
         rabbitTemplate.convertAndSend(configProperties.getExchangeName(),
                 configProperties.getTruckArrivalAtWarehouseRoutingKey(), dto);
         logger.info(String.format("Event truck arrival at warehouse of vendor %s and resource %s has been published", vendorId, resourceId));
