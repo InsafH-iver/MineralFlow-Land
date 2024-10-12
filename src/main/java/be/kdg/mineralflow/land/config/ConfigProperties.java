@@ -12,9 +12,15 @@ public class ConfigProperties {
     private int durationOfTimeslotOfAppointmentInMinutes;
     private int weighbridgeAmount;
     private int truckCapacity;
+    private String warehouseBaseUrl;
+    private String warehouseNumberUrl;
 
-    public int getCompanyTruckCapacity() {
-        return truckCapacity;
+    public String getWarehouseNumberUrl() {
+        return warehouseNumberUrl;
+    }
+
+    public String getWarehouseBaseUrl() {
+        return warehouseBaseUrl;
     }
 
     public int getDurationOfTimeslotOfAppointmentInMinutes() {
@@ -58,4 +64,11 @@ public class ConfigProperties {
         this.weighbridgeAmount = weighbridgeAmount;
     }
 
+    public void setWarehouseBaseUrl(String warehouseBaseUrl) {
+        this.warehouseBaseUrl = warehouseBaseUrl;
+    }
+
+    public void setWarehouseNumberUrl(String warehouseNumberUrl) {
+        this.warehouseNumberUrl = warehouseNumberUrl;
+    }
 }

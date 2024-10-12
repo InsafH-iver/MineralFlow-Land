@@ -4,6 +4,7 @@ import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,4 +18,5 @@ public interface UnloadingRequestRepository extends JpaRepository<UnloadingReque
     )
     List<UnloadingRequest> readUnloadingRequestsWithActiveVisit();
 
+    Optional<UnloadingRequest> findFirstByLicensePlateAndVisit_LeavingTimeIsNull(String licensePlate);
 }

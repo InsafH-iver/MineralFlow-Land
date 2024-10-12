@@ -30,6 +30,12 @@ public class Visit {
     protected Visit() {
     }
 
+    public void setWeighbridgeTicket(double startWeightAmountInTon,
+                                     ZonedDateTime startWeightTimestamp) {
+        this.weighbridgeTicket =
+                new WeighbridgeTicket(startWeightAmountInTon, startWeightTimestamp);
+    }
+
     public ZonedDateTime getArrivalTime() {
         logger.info(String.format("Fetching arrival  time %s from Visit",
                 arrivalTime.format(DateTimeFormatter.ISO_ZONED_DATE_TIME)));

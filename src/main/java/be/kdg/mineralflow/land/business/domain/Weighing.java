@@ -5,4 +5,9 @@ import java.time.ZonedDateTime;
 public class Weighing {
     private double amountInTon;
     private ZonedDateTime timestamp;
+
+    public Weighing(double amountInTon, ZonedDateTime timestamp) {
+        this.amountInTon = amountInTon;
+        this.timestamp = timestamp;
+    }
 }
