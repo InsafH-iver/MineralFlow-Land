@@ -111,6 +111,7 @@ public class UnloadingRequestManager {
     }
 
     public List<UnloadingAppointment> getAllUnloadingAppointments() {
+        logger.info("UnloadingRequestManager: getAllUnloadingAppointments has been called");
         return unloadingAppointmentRepository.findAll();
     }
 

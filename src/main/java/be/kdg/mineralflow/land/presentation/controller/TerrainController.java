@@ -17,6 +17,7 @@ public class TerrainController {
 
     public static final Logger logger = Logger
             .getLogger(UnloadingRequestRestController.class.getName());
+
     private final TruckMapper mapper = TruckMapper.INSTANCE;
 
     private final UnloadingRequestManager unloadingRequestManager;
@@ -28,13 +29,12 @@ public class TerrainController {
 
     @GetMapping("/trucksOnSite")
     public ModelAndView getAllTrucksOnSite(){
-        ModelAndView modelAndView = new ModelAndView();
         logger.info("TerrainController: getAllTrucksOnSite has been called");
+        ModelAndView modelAndView = new ModelAndView();
         List<UnloadingRequest> unloadingRequests = unloadingRequestManager.getUnloadingRequestsWithActiveVisit();
-        logger.info(String.format("TerrainController: getAllTrucksOnSite retrieved %s",unloadingRequests));
         List<TruckDto> trucks = unloadingRequests.stream().map(mapper::mapUnloadingRequestToTruckDto).toList();
+        logger.info(String.format("TerrainController: getAllTrucksOnSite retrieved %s",trucks));
         modelAndView.addObject(trucks);
-        logger.info(modelAndView.getModel().toString());
         return modelAndView;
     }
 }
