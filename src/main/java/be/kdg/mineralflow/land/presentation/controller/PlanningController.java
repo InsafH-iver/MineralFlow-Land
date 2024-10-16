@@ -2,7 +2,6 @@ package be.kdg.mineralflow.land.presentation.controller;
 
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.service.UnloadingRequestManager;
-import be.kdg.mineralflow.land.presentation.controller.api.UnloadingRequestRestController;
 import be.kdg.mineralflow.land.presentation.controller.dto.PlanningDto;
 import be.kdg.mineralflow.land.presentation.controller.mapper.AppointmentMapper;
 import org.springframework.stereotype.Controller;
@@ -15,7 +14,7 @@ import java.util.logging.Logger;
 @Controller
 public class PlanningController {
     public static final Logger logger = Logger
-            .getLogger(UnloadingRequestRestController.class.getName());
+            .getLogger(PlanningController.class.getName());
     private final AppointmentMapper mapper = AppointmentMapper.INSTANCE;
 
     private final UnloadingRequestManager unloadingRequestManager;

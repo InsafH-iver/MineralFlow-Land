@@ -1,5 +1,3 @@
-INSERT INTO weighbridge (weighbridge_number, id)
-VALUES (1,'11111111-1111-1111-1111-111111111111');
 INSERT INTO vendor (id, name)
 VALUES ('11111111-1111-1111-1111-111111111111', 'Acme Supplies');
 
@@ -11,14 +9,16 @@ INSERT INTO visit (id, arrival_time)
 VALUES ('11111111-1111-1111-1111-111111111115',
         '2024-10-09T12:30:00+00:00');
 
-INSERT INTO unloading_request (id, license_plate, created_at, visit_id, resource_id, vendor_id, dtype)
+INSERT INTO unloading_request (id, license_plate, created_at, visit_id, resource_id, vendor_id, dtype,start_of_timeslot, end_of_timeslot)
 VALUES ('11111111-1111-1111-1111-111111111113',
         'ABC123',
         '2024-10-09T12:30:00+00:00',
         '11111111-1111-1111-1111-111111111115',
         '11111111-1111-1111-1111-111111111112', -- resource_id (UUID of related resource entity)
         '11111111-1111-1111-1111-111111111111',
-        'UnloadingAppointment');
+        'UnloadingAppointment',
+        '2023-09-28T10:15:30+01:00',
+        '2023-09-28T11:15:30+01:00');
 
 INSERT INTO weighbridge (id, weighbridge_number)
 VALUES
@@ -34,7 +34,6 @@ VALUES
 
 INSERT INTO unloading_request ( id, license_plate,created_at, visit_id,dtype,start_of_timeslot, end_of_timeslot)
 VALUES
-    ('ddddddd4-dddd-dddd-dddd-dddddddddddd', 'ABC123', '2023-09-28T09:00:00+01:00', 'aaaaaaa1-aaaa-aaaa-aaaa-aaaaaaaaaaaa','UnloadingAppointment','2023-09-28T10:15:30+01:00', '2023-09-28T11:15:30+01:00'),
 ('eeeeeee5-eeee-eeee-eeee-eeeeeeeeeeee', 'DEF456', '2023-09-28T10:00:00+01:00', 'bbbbbbb2-bbbb-bbbb-bbbb-bbbbbbbbbbbb','UnloadingAppointment','2023-09-28T11:15:30+01:00', '2023-09-28T12:15:30+01:00'),
 ('fffffff6-ffff-ffff-ffff-ffffffffffff', 'GHI789', '2023-09-28T11:00:00+01:00', 'ccccccc3-cccc-cccc-cccc-cccccccccccc','UnloadingAppointment','2023-09-28T12:15:30+01:00', '2023-09-28T13:15:30+01:00');
 

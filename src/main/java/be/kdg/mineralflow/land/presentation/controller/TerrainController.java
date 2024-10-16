@@ -2,7 +2,6 @@ package be.kdg.mineralflow.land.presentation.controller;
 
 import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
 import be.kdg.mineralflow.land.business.service.UnloadingRequestManager;
-import be.kdg.mineralflow.land.presentation.controller.api.UnloadingRequestRestController;
 import be.kdg.mineralflow.land.presentation.controller.dto.TruckDto;
 import be.kdg.mineralflow.land.presentation.controller.mapper.TruckMapper;
 import org.springframework.stereotype.Controller;
@@ -16,7 +15,7 @@ import java.util.logging.Logger;
 public class TerrainController {
 
     public static final Logger logger = Logger
-            .getLogger(UnloadingRequestRestController.class.getName());
+            .getLogger(TerrainController.class.getName());
 
     private final TruckMapper mapper = TruckMapper.INSTANCE;
 
