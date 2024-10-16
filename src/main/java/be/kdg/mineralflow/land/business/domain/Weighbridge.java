@@ -24,4 +24,12 @@ public class Weighbridge {
     public int getWeighbridgeNumber() {
         return weighbridgeNumber;
     }
+
+    @Override
+    public String toString() {
+        return "Weighbridge{" +
+                "id=" + id +
+                ", weighbridgeNumber=" + weighbridgeNumber +
+                '}';
+    }
 }

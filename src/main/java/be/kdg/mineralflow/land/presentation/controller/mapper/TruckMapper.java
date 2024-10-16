@@ -18,9 +18,9 @@ public interface TruckMapper {
     @Mapping(source = "visit", target = "visit")
     TruckDto mapUnloadingRequestToTruckDto(UnloadingRequest unloadingRequest);
     @Mapping(source = "weighBridge", target = "weighbridge")
-
     VisitDto mapVisitToVisitDto(Visit visit);
-    WeighbridgeDto mapWeighBridgeToWeighBridgeDto(Weighbridge weighbridge);
+    @Mapping(source = "weighbridgeNumber", target = "weighBridgeNumber")
+    WeighbridgeDto mapWeighBridgeToWeighbridgeDto(Weighbridge weighbridge);
 
 
 }

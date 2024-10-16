@@ -114,7 +114,7 @@ public class UnloadingRequestManager {
         return unloadingAppointmentRepository.findAll();
     }
 
-    public List<UnloadingWithoutAppointment> getAllUnloadingWithoutAppointments() {
-        return unloadingWithoutAppointmentRepository.findAll();
+    public int getQueueSize() {
+        return unloadingWithoutAppointmentRepository.findAllByVisitIsNull().size();
     }
 }
