@@ -22,4 +22,12 @@ public class TimeSlot {
     public ZonedDateTime getStartOfTimeSlot() {
         return startOfTimeSlot;
     }
+
+    public void setStartOfTimeSlot(ZonedDateTime startOfTimeSlot) {
+        this.startOfTimeSlot = startOfTimeSlot;
+    }
+
+    public void setEndOfTimeSlot(ZonedDateTime endOfTimeSlot) {
+        this.endOfTimeSlot = endOfTimeSlot;
+    }
 }
