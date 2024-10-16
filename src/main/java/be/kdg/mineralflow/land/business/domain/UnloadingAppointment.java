@@ -1,5 +1,6 @@
 package be.kdg.mineralflow.land.business.domain;
 
+import be.kdg.mineralflow.land.business.domain.warehouse.Resource;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
@@ -18,6 +19,8 @@ public class UnloadingAppointment extends UnloadingRequest {
             @AttributeOverride(name = "endOfTimeSlot", column = @Column(name = "end_of_timeslot"))
     })
     private TimeSlot timeSlot;
+    @OneToOne
+    private Resource resource;
 
     public UnloadingAppointment(String licensePlate, ZonedDateTime startOfTimeSlot,
                                 int durationOfTimeslotOfAppointmentInMinutes) {
