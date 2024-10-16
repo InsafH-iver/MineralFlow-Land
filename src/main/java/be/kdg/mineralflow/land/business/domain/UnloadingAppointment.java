@@ -69,4 +69,12 @@ public class UnloadingAppointment extends UnloadingRequest {
 
         return isEarly;
     }
+
+    public TimeSlot getTimeSlot() {
+        return timeSlot;
+    }
+
+    public void setTimeSlot(TimeSlot timeSlot) {
+        this.timeSlot = timeSlot;
+    }
 }
