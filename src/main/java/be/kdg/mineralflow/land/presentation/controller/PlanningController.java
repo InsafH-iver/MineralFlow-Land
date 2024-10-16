@@ -11,10 +11,10 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-public class UnloadingRequestController {
-    private UnloadingRequestManager unloadingRequestManager;
+public class PlanningController {
+    private final UnloadingRequestManager unloadingRequestManager;
 
-    public UnloadingRequestController(UnloadingRequestManager unloadingRequestManager) {
+    public PlanningController(UnloadingRequestManager unloadingRequestManager) {
         this.unloadingRequestManager = unloadingRequestManager;
     }
 
