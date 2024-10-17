@@ -2,6 +2,7 @@ package be.kdg.mineralflow.land.presentation.controller;
 
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.service.AppointmentService;
+import be.kdg.mineralflow.land.presentation.controller.dto.MakeAppointmentDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,9 +22,9 @@ public class AppointmentController {
     }
 
     @PostMapping("/createAppointment")
-    public ModelAndView createAppointment(@RequestBody String licensePlate, @RequestBody String resourceName, @RequestBody ZonedDateTime timeOfAppointment){
+    public ModelAndView createAppointment(@RequestBody MakeAppointmentDto makeAppointmentDto){
         ModelAndView modelAndView = new ModelAndView();
-        UnloadingAppointment unloadingAppointment = appointmentService.addAppointment(licensePlate,resourceName,timeOfAppointment);
+        UnloadingAppointment unloadingAppointment = appointmentService.addAppointment(makeAppointmentDto);
         return modelAndView;
     }
 }
