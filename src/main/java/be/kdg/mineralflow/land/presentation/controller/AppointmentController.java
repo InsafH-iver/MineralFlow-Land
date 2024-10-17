@@ -8,13 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.ZonedDateTime;
 import java.util.logging.Logger;
 
 @Controller
 public class AppointmentController {
     public static final Logger logger = Logger
-            .getLogger(PlanningController.class.getName());
+            .getLogger(AppointmentController.class.getName());
     public final AppointmentService appointmentService;
 
     public AppointmentController(AppointmentService appointmentService) {
@@ -24,7 +23,12 @@ public class AppointmentController {
     @PostMapping("/createAppointment")
     public ModelAndView createAppointment(@RequestBody MakeAppointmentDto makeAppointmentDto){
         ModelAndView modelAndView = new ModelAndView();
-        UnloadingAppointment unloadingAppointment = appointmentService.addAppointment(makeAppointmentDto);
+        UnloadingAppointment unloadingAppointment =
+                appointmentService.processAppointment(
+                        makeAppointmentDto.vendorName(),
+                        makeAppointmentDto.resourceName(),
+                        makeAppointmentDto.licensePlate(),
+                        makeAppointmentDto.appointmentDate());
         return modelAndView;
     }
 }

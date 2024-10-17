@@ -14,6 +14,7 @@ public class ConfigProperties {
     private int truckCapacity;
     private String warehouseBaseUrl;
     private String warehouseNumberUrl;
+    private String warehouseCapacityCheckUrl;
 
     public String getWarehouseNumberUrl() {
         return warehouseNumberUrl;
@@ -70,5 +71,13 @@ public class ConfigProperties {
 
     public void setWarehouseNumberUrl(String warehouseNumberUrl) {
         this.warehouseNumberUrl = warehouseNumberUrl;
+    }
+
+    public String getWarehouseCapacityCheckUrl() {
+        return warehouseCapacityCheckUrl;
+    }
+
+    public void setWarehouseCapacityCheckUrl(String warehouseCapacityCheckUrl) {
+        this.warehouseCapacityCheckUrl = warehouseCapacityCheckUrl;
     }
 }
