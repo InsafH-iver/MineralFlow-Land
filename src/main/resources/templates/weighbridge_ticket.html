@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"></meta>
+    <title>Weight bridge ticket</title>
+</head>
+<body>
+<h1>Weight bridge ticket</h1>
+<table class="table">
+    <tr>
+        <th>License Plate</th>
+        <th>Start Weight (in tons)</th>
+        <th>Start Weight Timestamp</th>
+        <th>End Weight (in tons)</th>
+        <th>End Weight Timestamp</th>
+    </tr>
+    <tr>
+        <td th:text="${weighBridgeTicket.licensePlate}"> </td>
+        <td th:text="${weighBridgeTicket.startWeightAmountInTon}"> </td>
+        <td th:text="${#temporals.format(weighBridgeTicket.startWeightTimestamp, 'dd-MM-yyyy HH:mm')}"> </td>
+        <td th:text="${weighBridgeTicket.endWeightAmountInTon}"> </td>
+        <td th:text="${#temporals.format(weighBridgeTicket.endWeightTimestamp, 'dd-MM-yyyy HH:mm')}"> </td>
+    </tr>
+</table>
+</body>
+</html>

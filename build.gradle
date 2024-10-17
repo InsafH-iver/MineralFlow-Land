@@ -34,6 +34,7 @@ dependencies {
     testImplementation "org.testcontainers:postgresql"
     implementation "org.mapstruct:mapstruct:1.4.2.Final"
     annotationProcessor "org.mapstruct:mapstruct-processor:1.4.2.Final"
+    implementation("org.xhtmlrenderer:flying-saucer-pdf:9.5.1")
 }
 
 tasks.named('test') {

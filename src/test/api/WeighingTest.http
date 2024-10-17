@@ -8,3 +8,14 @@ Content-Type: application/json
   "timestamp": "2024-10-09T12:30:00Z"
 }
 
+###update existing ticket (basically second time over the bridge)
+PUT http://localhost:8080/api/WeighBridgeTickets
+Content-Type: application/json
+
+{
+  "licensePlate": "XYZ789",
+  "weight": 80,
+  "timestamp": "2024-10-14T12:50:00Z"
+}
+
+

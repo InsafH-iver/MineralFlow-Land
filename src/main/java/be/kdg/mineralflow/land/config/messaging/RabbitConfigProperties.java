@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "messaging")
 public class RabbitConfigProperties {
     private String exchangeName;
-    private String truckArrivalAtWarehouseRoutingKey;
+    private String truckDepartureFromWeighingBridgeRoutingKey;
 
-    public String getTruckArrivalAtWarehouseRoutingKey() {
-        return truckArrivalAtWarehouseRoutingKey;
+    public String getTruckDepartureFromWeighingBridgeRoutingKey() {
+        return truckDepartureFromWeighingBridgeRoutingKey;
     }
 
     public String getExchangeName() {
@@ -21,7 +21,7 @@ public class RabbitConfigProperties {
         this.exchangeName = exchangeName;
     }
 
-    public void setTruckArrivalAtWarehouseRoutingKey(String truckArrivalAtWarehouseRoutingKey) {
-        this.truckArrivalAtWarehouseRoutingKey = truckArrivalAtWarehouseRoutingKey;
+    public void setTruckDepartureFromWeighingBridgeRoutingKey(String truckDepartureFromWeighingBridgeRoutingKey) {
+        this.truckDepartureFromWeighingBridgeRoutingKey = truckDepartureFromWeighingBridgeRoutingKey;
     }
 }
