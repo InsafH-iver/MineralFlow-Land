@@ -2,6 +2,7 @@ package be.kdg.mineralflow.land.business.domain;
 
 import be.kdg.mineralflow.land.business.domain.warehouse.Resource;
 import be.kdg.mineralflow.land.business.domain.warehouse.Vendor;
+import be.kdg.mineralflow.land.business.util.WeighBridgeTicketResponse;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
@@ -19,7 +20,7 @@ public class UnloadingRequest {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String licensePlate;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Visit visit;
     @ManyToOne
     private Resource resource;
@@ -47,6 +48,17 @@ public class UnloadingRequest {
         this.visit.setWeighbridgeTicket(startWeightAmountInTon,
                 startWeightTimestamp);
     }
+    public double getNetWeightOfWeighBridgeTicket() {
+        return visit.getNetWeightOfWeighBridgeTicket();
+    }
+    public void updateWeightBridgeTicketAtDeparture(double endWeightAmountInTon,
+                                             ZonedDateTime endWeightTimestamp) {
+        this.visit.updateEndWeightOfWeighbridgeTicket(endWeightAmountInTon, endWeightTimestamp);
+    }
+
+    public WeighBridgeTicketResponse getWeighBridgeTicketData(String licensePlate) {
+        return visit.getWeighBridgeTicketData(licensePlate);
+    }
 
     public void setVendor(Vendor vendor) {
         this.vendor = vendor;
@@ -59,6 +71,10 @@ public class UnloadingRequest {
     public String getLicensePlate() {
         logger.info(String.format("Fetching license plate %s from unloading request", licensePlate));
         return licensePlate;
+    }
+
+    public boolean hasBeenOnWeighBridge(){
+        return visit.hasWeighbridgeTicket();
     }
 
     public Visit getVisit() {
@@ -81,4 +97,6 @@ public class UnloadingRequest {
                 ", visit=" + visit +
                 '}';
     }
+
+
 }

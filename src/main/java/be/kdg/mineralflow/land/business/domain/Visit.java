@@ -1,5 +1,6 @@
 package be.kdg.mineralflow.land.business.domain;
 
+import be.kdg.mineralflow.land.business.util.WeighBridgeTicketResponse;
 import jakarta.persistence.*;
 
 import java.util.UUID;
@@ -20,7 +21,7 @@ public class Visit {
 
     @ManyToOne
     private Weighbridge weighBridge;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private WeighbridgeTicket weighbridgeTicket;
 
     public Visit(ZonedDateTime arrivalTime) {
@@ -36,10 +37,31 @@ public class Visit {
                 new WeighbridgeTicket(startWeightAmountInTon, startWeightTimestamp);
     }
 
+    public void updateEndWeightOfWeighbridgeTicket(double endWeightAmountInTon,
+                                                   ZonedDateTime endWeightTimestamp) {
+        weighbridgeTicket.updateEndWeight(endWeightAmountInTon, endWeightTimestamp);
+    }
+
     public ZonedDateTime getArrivalTime() {
         logger.info(String.format("Fetching arrival  time %s from Visit",
                 arrivalTime.format(DateTimeFormatter.ISO_ZONED_DATE_TIME)));
         return arrivalTime;
+    }
+
+    public boolean hasWeighbridgeTicket() {
+        return weighbridgeTicket != null;
+    }
+
+    public double getNetWeightOfWeighBridgeTicket() {
+        return weighbridgeTicket.getNetWeight();
+    }
+
+    public WeighBridgeTicketResponse getWeighBridgeTicketData(String licensePlate) {
+        return weighbridgeTicket.getWeighBridgeTicketData(licensePlate);
+    }
+
+    public WeighbridgeTicket getWeighbridgeTicket() {
+        return weighbridgeTicket;
     }
 
     public Weighbridge getWeighBridge() {
@@ -60,4 +82,6 @@ public class Visit {
                 ", weighbridgeTicket=" + weighbridgeTicket +
                 '}';
     }
+
+
 }

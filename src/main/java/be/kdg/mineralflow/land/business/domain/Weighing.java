@@ -10,4 +10,14 @@ public class Weighing {
         this.amountInTon = amountInTon;
         this.timestamp = timestamp;
     }
+
+    protected Weighing() {}
+
+    public double getAmountInTon() {
+        return amountInTon;
+    }
+
+    public ZonedDateTime getTimestamp() {
+        return timestamp;
+    }
 }
