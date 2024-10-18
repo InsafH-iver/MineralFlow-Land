@@ -19,6 +19,7 @@ public class UnloadingAppointment extends UnloadingRequest {
             @AttributeOverride(name = "endOfTimeSlot", column = @Column(name = "end_of_timeslot"))
     })
     private TimeSlot timeSlot;
+
     @OneToOne
     private Resource resource;
 
@@ -26,6 +27,12 @@ public class UnloadingAppointment extends UnloadingRequest {
                                 int durationOfTimeslotOfAppointmentInMinutes) {
         super(licensePlate);
         this.timeSlot = new TimeSlot(startOfTimeSlot, durationOfTimeslotOfAppointmentInMinutes);
+    }
+    public UnloadingAppointment(String licensePlate, ZonedDateTime startOfTimeSlot,
+                                int durationOfTimeslotOfAppointmentInMinutes, Resource resource) {
+        super(licensePlate);
+        this.timeSlot = new TimeSlot(startOfTimeSlot, durationOfTimeslotOfAppointmentInMinutes);
+        this.resource = resource;
     }
 
     protected UnloadingAppointment() {
@@ -79,5 +86,8 @@ public class UnloadingAppointment extends UnloadingRequest {
 
     public void setTimeSlot(TimeSlot timeSlot) {
         this.timeSlot = timeSlot;
+    }
+    public Resource getResource() {
+        return resource;
     }
 }

@@ -14,7 +14,8 @@ public class ConfigProperties {
     private int truckCapacity;
     private String warehouseBaseUrl;
     private String warehouseNumberUrl;
-    private String warehouseCapacityCheckUrl;
+    private String warehouseCapacityBaseUrl;
+    private String warehouseCapacityIsFullUrl;
 
     public String getWarehouseNumberUrl() {
         return warehouseNumberUrl;
@@ -73,11 +74,19 @@ public class ConfigProperties {
         this.warehouseNumberUrl = warehouseNumberUrl;
     }
 
-    public String getWarehouseCapacityCheckUrl() {
-        return warehouseCapacityCheckUrl;
+    public String getWarehouseCapacityIsFullUrl() {
+        return warehouseCapacityIsFullUrl;
     }
 
-    public void setWarehouseCapacityCheckUrl(String warehouseCapacityCheckUrl) {
-        this.warehouseCapacityCheckUrl = warehouseCapacityCheckUrl;
+    public void setWarehouseCapacityIsFullUrl(String warehouseCapacityIsFullUrl) {
+        this.warehouseCapacityIsFullUrl = warehouseCapacityIsFullUrl;
+    }
+
+    public String getWarehouseCapacityBaseUrl() {
+        return warehouseCapacityBaseUrl;
+    }
+
+    public void setWarehouseCapacityBaseUrl(String warehouseCapacityBaseUrl) {
+        this.warehouseCapacityBaseUrl = warehouseCapacityBaseUrl;
     }
 }

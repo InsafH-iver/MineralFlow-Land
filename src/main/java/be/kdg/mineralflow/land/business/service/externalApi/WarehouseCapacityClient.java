@@ -18,12 +18,12 @@ public class WarehouseCapacityClient {
 
     public WarehouseCapacityClient(RestClient.Builder restClientBuilder, ConfigProperties configProperties) {
         this.configProperties = configProperties;
-        this.restClient = restClientBuilder.baseUrl(configProperties.getWarehouseBaseUrl()).build();
+        this.restClient = restClientBuilder.baseUrl(configProperties.getWarehouseCapacityBaseUrl()).build();
     }
     public boolean isWarehouseCapacityReached(String vendorName, String resourceName){
         Boolean capacityReached;
         try {
-            capacityReached = this.restClient.get().uri(configProperties.getWarehouseCapacityCheckUrl(), vendorName, resourceName).retrieve().body(Boolean.class);
+            capacityReached = this.restClient.get().uri(configProperties.getWarehouseCapacityIsFullUrl(), vendorName, resourceName).retrieve().body(Boolean.class);
         } catch (RestClientException exception) {
             String messageException = String.format("Call to warehouse server for warehouse capacity check has failed, %s", exception.getMessage());
             logger.severe(messageException);
