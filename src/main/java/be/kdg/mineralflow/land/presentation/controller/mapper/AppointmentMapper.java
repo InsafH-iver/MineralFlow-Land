@@ -4,6 +4,7 @@ import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.domain.UnloadingWithoutAppointment;
 import be.kdg.mineralflow.land.business.domain.Visit;
 import be.kdg.mineralflow.land.presentation.controller.dto.AppointmentDto;
+import be.kdg.mineralflow.land.presentation.controller.dto.AppointmentFormDataDto;
 import be.kdg.mineralflow.land.presentation.controller.dto.TruckDto;
 import be.kdg.mineralflow.land.presentation.controller.dto.VisitDto;
 import org.mapstruct.Mapper;
@@ -25,5 +26,11 @@ public interface AppointmentMapper {
     TruckDto mapUnloadingWithoutAppointmentToTruckDto(UnloadingWithoutAppointment unloadingWithoutAppointment);
     VisitDto mapVisitToVisitDto(Visit visit);
     List<AppointmentDto> mapAppointments(List<UnloadingAppointment> unloadingAppointments);
+
+    @Mapping(source = "timeSlot.startOfTimeSlot", target = "appointmentDate")
+    @Mapping(source = "licensePlate",target = "licensePlate")
+    @Mapping(source = "resource.name",target = "resourceName")
+    @Mapping(source = "vendor.name",target = "vendorName")
+    AppointmentFormDataDto mapUnloadingAppointmentToAppointmentFormDataDto(UnloadingAppointment unloadingAppointment);
 
 }

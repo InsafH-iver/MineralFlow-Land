@@ -1,0 +1,10 @@
+###Post appointment
+POST localhost:8080/makeAppointment
+Content-Type: application/json
+
+{
+  "vendorName": "Acme Supplies",
+  "resourceName": "Gips",
+  "licensePlate": "Q-HJS-546",
+  "appointmentDate": "2024-11-23T12:30:00+00:00"
+}

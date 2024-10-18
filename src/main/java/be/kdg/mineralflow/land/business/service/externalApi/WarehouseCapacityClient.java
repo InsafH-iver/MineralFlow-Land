@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 
+import java.util.UUID;
 import java.util.logging.Logger;
 
 @Service
@@ -20,10 +21,10 @@ public class WarehouseCapacityClient {
         this.configProperties = configProperties;
         this.restClient = restClientBuilder.baseUrl(configProperties.getWarehouseCapacityBaseUrl()).build();
     }
-    public boolean isWarehouseCapacityReached(String vendorName, String resourceName){
+    public boolean isWarehouseCapacityReached(UUID vendorId, UUID resourceId){
         Boolean capacityReached;
         try {
-            capacityReached = this.restClient.get().uri(configProperties.getWarehouseCapacityIsFullUrl(), vendorName, resourceName).retrieve().body(Boolean.class);
+            capacityReached = this.restClient.get().uri(configProperties.getWarehouseCapacityIsFullUrl(), vendorId, resourceId).retrieve().body(Boolean.class);
         } catch (RestClientException exception) {
             String messageException = String.format("Call to warehouse server for warehouse capacity check has failed, %s", exception.getMessage());
             logger.severe(messageException);
@@ -31,12 +32,12 @@ public class WarehouseCapacityClient {
         }
 
         if (capacityReached == null) {
-            String messageException = String.format("Warehouse capacity check returned null for %s and %s", vendorName, resourceName);
+            String messageException = String.format("Warehouse capacity check returned null for %s and %s", vendorId, resourceId);
             logger.severe(messageException);
             throw new NoItemFoundException(messageException);
         }
 
-        logger.info(String.format("Successfully gotten warehouse number for vendor id %s and resource id %s", vendorName, resourceName));
+        logger.info(String.format("Successfully gotten warehouse number for vendor id %s and resource id %s", vendorId, resourceId));
         return capacityReached;
     }
 }

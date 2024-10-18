@@ -89,6 +89,14 @@ public class UnloadingRequest {
         return vendor.getId();
     }
 
+    public Resource getResource() {
+        return resource;
+    }
+
+    public Vendor getVendor() {
+        return vendor;
+    }
+
     @Override
     public String toString() {
         return "UnloadingRequest{" +

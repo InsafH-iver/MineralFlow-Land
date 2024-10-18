@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Make Appointment</title>
+</head>
+<body>
+<form action="#" th:action="@{/makeAppointment}" th:object="${appointmentFormDataDto}" method="post">
+    <p>vendorName: <input type="text" th:field="*{vendorName}"/></p>
+    <p>resourceName: <input type="text" th:field="*{resourceName}"/></p>
+    <p>licensePlate: <input type="text" th:field="*{licensePlate}"/></p>
+    <p>appointmentDate: <input type="datetime-local" th:field="*{appointmentDate}"/></p>
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
+</form>
+</body>
+</html>

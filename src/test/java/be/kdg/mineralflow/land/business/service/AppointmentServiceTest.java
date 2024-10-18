@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -26,22 +27,22 @@ class AppointmentServiceTest extends TestContainer {
     @Test
     void processAppointment_happyPath() {
         //ARRANGE
-        String resourceName = "Gips";
-        String vendorName = "Acme Supplies";
+        UUID resourceId = UUID.fromString("11111111-1111-1111-1111-111111111112");
+        UUID vendorId = UUID.fromString("11111111-1111-1111-1111-111111111111");
         String licensePlate = "Q-EYX-367";
         ZonedDateTime appointmentDate = ZonedDateTime.of(2024, 11, 23, 10, 9, 32, 8, ZoneId.of("UTC"));
         Mockito.when(warehouseCapacityClient
-                .isWarehouseCapacityReached(vendorName, resourceName))
+                .isWarehouseCapacityReached(vendorId, resourceId))
                 .thenReturn(Boolean.FALSE);
         //ACT
         UnloadingAppointment unloadingAppointment =
-                appointmentService.processAppointment(vendorName, resourceName, licensePlate, appointmentDate);
+                appointmentService.processAppointment(vendorId, resourceId, licensePlate, appointmentDate);
         //ASSERT
         assertThat(unloadingAppointment).isNotNull();
         assertThat(unloadingAppointment.getStartOfTimeSlot().getHour()).isEqualTo(appointmentDate.getHour());
         assertThat(unloadingAppointment.getLicensePlate()).isEqualTo(licensePlate);
         assertThat(unloadingAppointment.getVisit()).isNull();
-        assertThat(unloadingAppointment.getResource().getName()).isEqualTo(resourceName);
+        assertThat(unloadingAppointment.getResource().getName()).isEqualTo(resourceId);
     }
 
     @Test
