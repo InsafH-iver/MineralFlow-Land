@@ -105,6 +105,4 @@ public class UnloadingRequest {
                 ", visit=" + visit +
                 '}';
     }
-
-
 }
