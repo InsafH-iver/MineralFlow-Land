@@ -4,19 +4,26 @@ import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.domain.warehouse.Resource;
 import be.kdg.mineralflow.land.business.domain.warehouse.Vendor;
 import be.kdg.mineralflow.land.business.service.externalApi.WarehouseCapacityClient;
+import be.kdg.mineralflow.land.business.util.ValidationResult;
 import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.persistence.ResourceRepository;
 import be.kdg.mineralflow.land.persistence.UnloadingAppointmentRepository;
 import be.kdg.mineralflow.land.persistence.VendorRepository;
+import be.kdg.mineralflow.land.presentation.controller.AppointmentController;
 import jakarta.validation.ValidationException;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 
 @Service
 public class AppointmentService {
+    public static final Logger logger = Logger
+            .getLogger(AppointmentService.class.getName());
+    private static final org.slf4j.Logger log = LoggerFactory.getLogger(AppointmentService.class);
     private final UnloadingAppointmentRepository unloadingAppointmentRepository;
     private final ConfigProperties configProperties;
     private final WarehouseCapacityClient warehouseCapacityClient;
@@ -33,24 +40,7 @@ public class AppointmentService {
 
     public UnloadingAppointment processAppointment(String vendorName, String resourceName, String licensePlate, ZonedDateTime appointmentDate) {
         Resource resource = resourceRepository.findByName(resourceName);
-        if (resource == null) throw new ValidationException(
-                String.format("No resource %s found."
-                        ,resourceName));
-
         Vendor vendor = vendorRepository.findByName(vendorName);
-        if (vendor == null) throw new ValidationException(
-                String.format("No vendor %s found."
-                        ,vendorName));
-        if (!validateShipment(vendor.getId(), resource.getId())) {
-            throw new ValidationException(
-                    String.format("Warehouses for this resource (%s) and vendor (%s) are full."
-                            , resourceName, vendorName));
-        }
-        if (!validateAppointmentDate(appointmentDate)) {
-            throw new ValidationException(
-                    String.format("Timeslot at this time (%s) is not available."
-                            , appointmentDate));
-        }
         UnloadingAppointment unloadingAppointment =
                 new UnloadingAppointment(licensePlate,
                         appointmentDate,
@@ -59,6 +49,36 @@ public class AppointmentService {
                         vendor);
         unloadingAppointment = unloadingAppointmentRepository.saveAndFlush(unloadingAppointment);
         return unloadingAppointment;
+    }
+    public ValidationResult validateAppointment(String vendorName, String resourceName, ZonedDateTime appointmentDate){
+        logger.info(String.format("AppointmentService: Appointment is being validated for vendor: %S, resource: %s, Date: %s",vendorName,resourceName,appointmentDate));
+        ValidationResult validationResult = new ValidationResult();
+        Resource resource = resourceRepository.findByName(resourceName);
+        Vendor vendor = vendorRepository.findByName(vendorName);
+        if (resource == null) {
+            validationResult.appendMessage(String.format("No resource %s found."
+                    , resourceName));
+            logger.info(String.format("AppointmentService: Appointment is validated; %s",validationResult.getErrors()));
+            return validationResult;
+        }
+        if (vendor == null) {
+            validationResult.appendMessage(String.format("No vendor %s found."
+                    ,vendorName));
+            logger.info(String.format("AppointmentService: Appointment is validated; %s",validationResult.getErrors()));
+            return validationResult;
+        }
+        if (!validateShipment(vendor.getId(), resource.getId())) {
+            validationResult.appendMessage(
+                    String.format("Warehouses for this resource (%s) and vendor (%s) are full."
+                            , resourceName, vendorName));
+        }
+        if (!validateAppointmentDate(appointmentDate)) {
+            validationResult.appendMessage(
+                    String.format("Timeslot at this time (%s) is not available."
+                            , appointmentDate));
+        }
+        logger.info(String.format("AppointmentService: Appointment is validated; %s",validationResult.getErrors()));
+        return validationResult;
     }
 
     private boolean validateAppointmentDate(ZonedDateTime appointmentDate) {

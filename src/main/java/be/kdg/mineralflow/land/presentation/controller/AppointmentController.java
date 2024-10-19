@@ -2,13 +2,12 @@ package be.kdg.mineralflow.land.presentation.controller;
 
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.service.AppointmentService;
+import be.kdg.mineralflow.land.business.util.ValidationResult;
 import be.kdg.mineralflow.land.presentation.controller.dto.AppointmentFormDataDto;
 import be.kdg.mineralflow.land.presentation.controller.mapper.AppointmentMapper;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.logging.Logger;
 
@@ -30,6 +29,17 @@ public class AppointmentController {
 
     @PostMapping("/makeAppointment")
     public String makeAppointment(AppointmentFormDataDto appointmentFormDataDto, Model model){
+        ValidationResult validationResult =
+                appointmentService.validateAppointment(
+                appointmentFormDataDto.getVendorName(),
+                appointmentFormDataDto.getResourceName(),
+                appointmentFormDataDto.getAppointmentDate()
+        );
+        if (!validationResult.getErrors().isEmpty()){
+            model.addAttribute("validationErrors",validationResult.getErrors());
+            model.addAttribute(new AppointmentFormDataDto());
+            return "/makeAppointment";
+        }
         UnloadingAppointment unloadingAppointment =
                 appointmentService.processAppointment(
                         appointmentFormDataDto.getVendorName(),
