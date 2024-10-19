@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -43,7 +44,7 @@ public class AppointmentService {
         Vendor vendor = vendorRepository.findByName(vendorName);
         UnloadingAppointment unloadingAppointment =
                 new UnloadingAppointment(licensePlate,
-                        appointmentDate,
+                        appointmentDate.truncatedTo(ChronoUnit.HOURS),
                         configProperties.getDurationOfTimeslotOfAppointmentInMinutes(),
                         resource,
                         vendor);

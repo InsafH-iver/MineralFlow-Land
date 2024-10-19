@@ -31,6 +31,7 @@ public interface AppointmentMapper {
     @Mapping(source = "licensePlate",target = "licensePlate")
     @Mapping(source = "resource.name",target = "resourceName")
     @Mapping(source = "vendor.name",target = "vendorName")
+    @Mapping(source = "timeSlot.endOfTimeSlot",target = "endOfAppointment")
     AppointmentFormDataDto mapUnloadingAppointmentToAppointmentFormDataDto(UnloadingAppointment unloadingAppointment);
 
 }

@@ -37,11 +37,14 @@ VALUES ('aaaaaaa1-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '2023-09-28T10:15:30+01:00', '20
 
 INSERT INTO unloading_request (id, license_plate, created_at, visit_id, dtype, start_of_timeslot, end_of_timeslot)
 VALUES ('eeeeeee5-eeee-eeee-eeee-eeeeeeeeeeee', 'DEF456', '2023-09-28T10:00:00+01:00',
-        'bbbbbbb2-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'UnloadingAppointment', '2023-09-28T11:15:30+01:00',
-        '2023-09-28T12:15:30+01:00'),
+        'bbbbbbb2-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'UnloadingAppointment', '2023-09-28T11:00:00+01:00',
+        '2023-09-28T12:00:00+01:00'),
        ('fffffff6-ffff-ffff-ffff-ffffffffffff', 'GHI789', '2023-09-28T11:00:00+01:00',
-        'ccccccc3-cccc-cccc-cccc-cccccccccccc', 'UnloadingAppointment', '2023-09-28T12:15:30+01:00',
-        '2023-09-28T13:15:30+01:00');
+        'ccccccc3-cccc-cccc-cccc-cccccccccccc', 'UnloadingAppointment', '2023-09-28T12:00:00+01:00',
+        '2023-09-28T13:00:00+01:00'),
+       ('12345675-abcd-4abc-8def-9876543210ff', 'HJD458', '2023-09-28T10:00:00+01:00',
+        'aaaaaaa1-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'UnloadingAppointment', '2023-09-28T11:00:30+01:00',
+        '2023-09-28T12:00:30+01:00');
 
 INSERT INTO unloading_request (created_at, id, visit_id, dtype, license_plate, start_of_timeslot, end_of_timeslot)
 VALUES ('2024-10-10T07:00:00+00:00', '3ec8149c-87f4-42d5-9b87-bc6a51b2e8ee', NULL, 'UnloadingAppointment', '1-ABC-123',
@@ -90,8 +93,10 @@ VALUES ('22222222-2222-2222-2222-222222222225',
         '33333333-3333-3333-3333-333333333333');
 
 -- Unloading Request Table
-INSERT INTO unloading_request (id, license_plate, created_at, visit_id, resource_id, vendor_id, dtype)
+INSERT INTO unloading_request (id,start_of_timeslot,end_of_timeslot, license_plate, created_at, visit_id, resource_id, vendor_id, dtype)
 VALUES ('22222222-2222-2222-2222-222222222224',
+        '2024-10-10T08:00:00+00:00',
+        '2024-10-10T09:00:00+00:00',
         'XYZ789',
         '2024-11-15T14:45:00+00:00',
         '22222222-2222-2222-2222-222222222225', -- visit_id

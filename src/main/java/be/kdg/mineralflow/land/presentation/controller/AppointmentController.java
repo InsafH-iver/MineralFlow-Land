@@ -21,10 +21,10 @@ public class AppointmentController {
     public AppointmentController(AppointmentService appointmentService) {
         this.appointmentService = appointmentService;
     }
-    @GetMapping("/appointment")
+    @GetMapping("/makeAppointment")
     public String getAppointmentView(Model model){
         model.addAttribute(new AppointmentFormDataDto());
-        return "/makeAppointment";
+        return "appointment_form";
     }
 
     @PostMapping("/makeAppointment")
@@ -38,7 +38,7 @@ public class AppointmentController {
         if (!validationResult.getErrors().isEmpty()){
             model.addAttribute("validationErrors",validationResult.getErrors());
             model.addAttribute(new AppointmentFormDataDto());
-            return "/makeAppointment";
+            return "appointment_form";
         }
         UnloadingAppointment unloadingAppointment =
                 appointmentService.processAppointment(

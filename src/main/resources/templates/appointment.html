@@ -11,5 +11,6 @@
     <li th:text="'Resource: ' + ${appointmentFormDataDto.resourceName}"></li>
     <li th:text="'license-plate: ' + ${appointmentFormDataDto.licensePlate}"></li>
     <li th:text="'start of timeslot: ' + ${#temporals.format(appointmentFormDataDto.appointmentDate, 'dd-MM-yyyy HH:mm')}"></li>
+    <li th:text="'end of timeslot: ' + ${#temporals.format(appointmentFormDataDto.endOfAppointment, 'dd-MM-yyyy HH:mm')}"></li>
 </ol>
 </body>

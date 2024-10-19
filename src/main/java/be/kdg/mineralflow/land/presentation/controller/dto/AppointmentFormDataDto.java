@@ -11,6 +11,7 @@ public final class AppointmentFormDataDto {
     private String vendorName;
     private String resourceName;
     private ZonedDateTime appointmentDate;
+    private ZonedDateTime endOfAppointment;
     private String licensePlate;
 
     public AppointmentFormDataDto() {
@@ -76,5 +77,13 @@ public final class AppointmentFormDataDto {
 
     public void setLicensePlate(String licensePlate) {
         this.licensePlate = licensePlate;
+    }
+
+    public ZonedDateTime getEndOfAppointment() {
+        return endOfAppointment;
+    }
+
+    public void setEndOfAppointment(ZonedDateTime endOfAppointment) {
+        this.endOfAppointment = endOfAppointment;
     }
 }
