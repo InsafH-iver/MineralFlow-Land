@@ -15,7 +15,9 @@ import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 @Service
@@ -38,6 +40,21 @@ public class UnloadingRequestManager {
     }
 
     public TruckArrivalResponse processTruckArrivalAtGate(String licensePlate, ZonedDateTime timeOfArrival) {
+        if (timeOfArrival.getHour() >= configProperties.getEndOfPeriodWithAppointment() || timeOfArrival.getHour() < configProperties.getStartOfPeriodWithAppointment()){
+            ZonedDateTime startOfTimeSlot = timeOfArrival.truncatedTo(ChronoUnit.HOURS);
+            ZonedDateTime endOfTimeSlot = startOfTimeSlot.plusMinutes(configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
+            int uwaThisTimeSlot = unloadingWithoutAppointmentRepository.countUnloadingWithoutAppointmentByArrivalTimeInTimeSlot(startOfTimeSlot,endOfTimeSlot);
+            if (uwaThisTimeSlot >= configProperties.getTruckCapacityDuringQueue()){
+                //needs revision--------------------------------v--------------------------------------------------------------------------------------v
+                return new TruckArrivalResponse(false,timeOfArrival.plusMinutes(configProperties.getDurationOfTimeslotOfAppointmentInMinutes()));
+            }
+            UnloadingWithoutAppointment unloadingWithoutAppointment = unloadingWithoutAppointmentRepository.getFirstInQueue();
+            if (Objects.equals(licensePlate, unloadingWithoutAppointment.getLicensePlate())){
+                return new TruckArrivalResponse(true, timeOfArrival);
+            }
+        }
+
+
         logger.info(String.format("The truck with license plate %s and arrival time %s is being checked for allowance of entree",
                 licensePlate,
                 timeOfArrival

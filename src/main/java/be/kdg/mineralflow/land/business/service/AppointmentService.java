@@ -90,7 +90,7 @@ public class AppointmentService {
         }
 
         int timeslotCount = unloadingAppointmentRepository.countUnloadingRequestsByDateInTimeSlot(appointmentDate);
-        return timeslotCount < configProperties.getTruckCapacity();
+        return timeslotCount < configProperties.getTruckCapacityDuringAppointments();
     }
 
     private boolean validateShipment(UUID vendorId, UUID resourceId) {
