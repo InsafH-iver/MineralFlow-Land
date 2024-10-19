@@ -9,9 +9,6 @@ import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.persistence.ResourceRepository;
 import be.kdg.mineralflow.land.persistence.UnloadingAppointmentRepository;
 import be.kdg.mineralflow.land.persistence.VendorRepository;
-import be.kdg.mineralflow.land.presentation.controller.AppointmentController;
-import jakarta.validation.ValidationException;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
@@ -24,7 +21,6 @@ import java.util.logging.Logger;
 public class AppointmentService {
     public static final Logger logger = Logger
             .getLogger(AppointmentService.class.getName());
-    private static final org.slf4j.Logger log = LoggerFactory.getLogger(AppointmentService.class);
     private final UnloadingAppointmentRepository unloadingAppointmentRepository;
     private final ConfigProperties configProperties;
     private final WarehouseCapacityClient warehouseCapacityClient;

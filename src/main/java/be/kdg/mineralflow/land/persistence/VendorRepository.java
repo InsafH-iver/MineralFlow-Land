@@ -1,6 +1,5 @@
 package be.kdg.mineralflow.land.persistence;
 
-import be.kdg.mineralflow.land.business.domain.UnloadingWithoutAppointment;
 import be.kdg.mineralflow.land.business.domain.warehouse.Vendor;
 import org.springframework.data.jpa.repository.JpaRepository;
 

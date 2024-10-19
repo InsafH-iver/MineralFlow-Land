@@ -7,7 +7,8 @@ import be.kdg.mineralflow.land.presentation.controller.dto.AppointmentFormDataDt
 import be.kdg.mineralflow.land.presentation.controller.mapper.AppointmentMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.logging.Logger;
 

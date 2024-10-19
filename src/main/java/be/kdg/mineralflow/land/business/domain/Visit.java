@@ -3,9 +3,9 @@ package be.kdg.mineralflow.land.business.domain;
 import be.kdg.mineralflow.land.business.util.WeighBridgeTicketResponse;
 import jakarta.persistence.*;
 
-import java.util.UUID;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 import java.util.logging.Logger;
 
 @Entity

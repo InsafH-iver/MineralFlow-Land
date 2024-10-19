@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface TruckMapper {
-    static TruckMapper INSTANCE = Mappers.getMapper(TruckMapper.class);
+    TruckMapper INSTANCE = Mappers.getMapper(TruckMapper.class);
 
     @Mapping(source = "visit", target = "visit")
     TruckDto mapUnloadingRequestToTruckDto(UnloadingRequest unloadingRequest);

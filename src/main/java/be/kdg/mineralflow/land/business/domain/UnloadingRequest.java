@@ -6,9 +6,9 @@ import be.kdg.mineralflow.land.business.util.WeighBridgeTicketResponse;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import java.util.logging.Logger;
-import java.time.format.DateTimeFormatter;
 
 
 @Entity

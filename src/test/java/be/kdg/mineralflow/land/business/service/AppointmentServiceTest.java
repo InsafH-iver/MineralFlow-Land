@@ -5,7 +5,6 @@ import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.service.externalApi.WarehouseCapacityClient;
 import be.kdg.mineralflow.land.business.util.ValidationResult;
 import be.kdg.mineralflow.land.config.ConfigProperties;
-import jakarta.validation.ValidationException;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class AppointmentServiceTest extends TestContainer {
     @Autowired
