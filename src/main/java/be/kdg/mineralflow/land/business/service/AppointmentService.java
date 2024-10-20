@@ -47,8 +47,8 @@ public class AppointmentService {
                         configProperties.getDurationOfTimeslotOfAppointmentInMinutes(),
                         optionalResource.get(),
                         optionalVendor.get());
-        unloadingAppointment = unloadingAppointmentRepository.saveAndFlush(unloadingAppointment);
-        return unloadingAppointment;
+
+        return unloadingAppointmentRepository.saveAndFlush(unloadingAppointment);
     }
     public ValidationResult validateAppointment(String vendorName, String resourceName, ZonedDateTime appointmentDate){
         logger.info(String.format("AppointmentService: Appointment is being validated for vendor: %S, resource: %s, Date: %s",vendorName,resourceName,appointmentDate));
