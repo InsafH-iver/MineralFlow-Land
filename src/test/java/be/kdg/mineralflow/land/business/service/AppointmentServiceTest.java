@@ -5,6 +5,7 @@ import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.service.externalApi.WarehouseCapacityClient;
 import be.kdg.mineralflow.land.business.util.ValidationResult;
 import be.kdg.mineralflow.land.config.ConfigProperties;
+import be.kdg.mineralflow.land.persistence.UnloadingAppointmentRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -21,6 +23,8 @@ class AppointmentServiceTest extends TestContainer {
     private AppointmentService appointmentService;
     @MockBean
     private WarehouseCapacityClient warehouseCapacityClient;
+    @MockBean
+    private UnloadingAppointmentRepository unloadingAppointmentRepository;
     @Autowired
     private ConfigProperties configProperties;
     @Test
@@ -81,7 +85,6 @@ class AppointmentServiceTest extends TestContainer {
         UUID vendorId = UUID.fromString("11111111-1111-1111-1111-111111111111");
         String resourceName = "Gips";
         String vendorName = "Acme Supplies";
-        String licensePlate = "Q-EYX-367";
         ZonedDateTime appointmentDate = ZonedDateTime.of(2024, 11, 23, configProperties.getEndOfPeriodWithAppointment(), 0, 0, 0, ZoneId.of("UTC"));
         Mockito.when(warehouseCapacityClient
                         .isWarehouseCapacityReached(vendorId, resourceId))
@@ -99,11 +102,29 @@ class AppointmentServiceTest extends TestContainer {
         UUID vendorId = UUID.fromString("11111111-1111-1111-1111-111111111111");
         String resourceName = "Gips";
         String vendorName = "Acme Supplies";
-        String licensePlate = "Q-EYX-367";
         ZonedDateTime appointmentDate = ZonedDateTime.of(2024, 11, 23, configProperties.getStartOfPeriodWithAppointment(), 0, 0, 0, ZoneId.of("UTC"));
         Mockito.when(warehouseCapacityClient
                         .isWarehouseCapacityReached(vendorId, resourceId))
                 .thenReturn(Boolean.TRUE);
+        //ACT
+        ValidationResult validationResult =
+                appointmentService.validateAppointment(vendorName, resourceName, appointmentDate);
+        //ASSERT
+        assertThat(validationResult.getErrors()).isNotEmpty();
+    }
+    @Test
+    void validateAppointment_should_return_validationResult_with_errors_when_timeslot_is_full() {
+        //ARRANGE
+        UUID resourceId = UUID.fromString("11111111-1111-1111-1111-111111111112");
+        UUID vendorId = UUID.fromString("11111111-1111-1111-1111-111111111111");
+        String resourceName = "Gips";
+        String vendorName = "Acme Supplies";
+        ZonedDateTime appointmentDate = ZonedDateTime.of(2024, 11, 23, configProperties.getStartOfPeriodWithAppointment(), 0, 0, 0, ZoneId.of("UTC"));
+        Mockito.when(warehouseCapacityClient
+                        .isWarehouseCapacityReached(vendorId, resourceId))
+                .thenReturn(Boolean.FALSE);
+        Mockito.when(unloadingAppointmentRepository.countUnloadingRequestsByDateInTimeSlot(appointmentDate))
+                .thenReturn(configProperties.getTruckCapacityDuringAppointments());
         //ACT
         ValidationResult validationResult =
                 appointmentService.validateAppointment(vendorName, resourceName, appointmentDate);
