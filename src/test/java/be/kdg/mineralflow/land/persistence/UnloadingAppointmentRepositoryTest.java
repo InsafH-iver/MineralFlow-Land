@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,5 +33,15 @@ class UnloadingAppointmentRepositoryTest extends TestContainer {
         assertThat(savedRequest).isNotNull();
         assertThat(savedRequest.getLicensePlate()).isEqualTo(licensePlate);
         assertThat(savedRequest.getStartOfTimeSlot()).isEqualTo(startTimeSlot);
+    }
+
+    @Test
+    void unloadingAppointment_timeslot_startOfTimeSlot_and_endOfTimeSlot_should_never_be_null() {
+        //ARRANGE
+        //ACT
+        List<UnloadingAppointment> unloadingAppointments = unloadingAppointmentRepository.findAll();
+        //ASSERT
+        unloadingAppointments.forEach(unloadingAppointment -> assertThat(unloadingAppointment.getTimeSlot().getStartOfTimeSlot()).isNotNull());
+        unloadingAppointments.forEach(unloadingAppointment -> assertThat(unloadingAppointment.getTimeSlot().getEndOfTimeSlot()).isNotNull());
     }
 }

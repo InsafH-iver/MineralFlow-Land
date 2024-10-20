@@ -3,7 +3,7 @@ package be.kdg.mineralflow.land.business.service;
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
 import be.kdg.mineralflow.land.business.domain.UnloadingWithoutAppointment;
-import be.kdg.mineralflow.land.business.domain.Visit;
+import be.kdg.mineralflow.land.business.util.TruckAppointmentArrivalResponse;
 import be.kdg.mineralflow.land.business.util.TruckArrivalResponse;
 import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.persistence.UnloadingAppointmentRepository;
@@ -15,6 +15,7 @@ import java.time.LocalTime;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -43,9 +44,14 @@ public class UnloadingRequestManager {
                 timeOfArrival
                         .format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
         );
+        if (timeOfArrival.getHour() >= configProperties.getEndOfPeriodWithAppointment() ||
+                timeOfArrival.getHour() < configProperties.getStartOfPeriodWithAppointment()){
+            return processQueue(licensePlate,timeOfArrival);
+        }
+
         UnloadingAppointment unloadingAppointment = unloadingAppointmentRepository.findByLicensePlateAndVisitIsNull(licensePlate);
 
-        TruckArrivalResponse arrivalResponse = validateTruckEntry(unloadingAppointment, timeOfArrival, licensePlate);
+        TruckAppointmentArrivalResponse arrivalResponse = validateTruckEntry(unloadingAppointment, timeOfArrival, licensePlate);
 
         if (arrivalResponse.gateStatus()) {
             logger.info(String.format("A visit is being created for the truck with license plate %s and arrival time %s",
@@ -53,18 +59,35 @@ public class UnloadingRequestManager {
                     timeOfArrival
                             .format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
             );
-            addVisitToUnloadingAppointment(unloadingAppointment, timeOfArrival);
+            addVisitToUnloadingRequest(unloadingAppointment, timeOfArrival);
         }
 
         return arrivalResponse;
     }
 
-    private void addVisitToUnloadingAppointment(UnloadingRequest unloadingRequest, ZonedDateTime timeOfArrival) {
-        unloadingRequest.setVisit(new Visit(timeOfArrival));
+    private TruckArrivalResponse processQueue(String licensePlate, ZonedDateTime timeOfArrival) {
+        ZonedDateTime startOfTimeSlot = timeOfArrival.truncatedTo(ChronoUnit.HOURS);
+        ZonedDateTime endOfTimeSlot = startOfTimeSlot.plusMinutes(configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
+        int amountEnteredThisTimeSlot = unloadingWithoutAppointmentRepository.countUnloadingWithoutAppointmentByArrivalTimeInTimeSlot(startOfTimeSlot,endOfTimeSlot);
+
+        if (amountEnteredThisTimeSlot >= configProperties.getTruckCapacityDuringQueue()){
+            return new TruckArrivalResponse(false);
+        }
+        UnloadingWithoutAppointment firstInQueue = unloadingWithoutAppointmentRepository.getFirstInQueue();
+
+        if (firstInQueue.getLicensePlate().equals(licensePlate)){
+            addVisitToUnloadingRequest(firstInQueue,timeOfArrival);
+            return new TruckArrivalResponse(true);
+        }
+        return new TruckArrivalResponse(false);
+    }
+
+    private void addVisitToUnloadingRequest(UnloadingRequest unloadingRequest, ZonedDateTime timeOfArrival) {
+        unloadingRequest.addNewVisit(timeOfArrival);
         unloadingRequestRepository.save(unloadingRequest);
     }
 
-    private TruckArrivalResponse validateTruckEntry(UnloadingAppointment unloadingAppointment,
+    private TruckAppointmentArrivalResponse validateTruckEntry(UnloadingAppointment unloadingAppointment,
                                                     ZonedDateTime timeOfArrival, String licensePlate) {
 
         if (unloadingAppointment == null ||
@@ -78,7 +101,7 @@ public class UnloadingRequestManager {
                     startOfTimeslotWithoutAppointment.format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
             );
             addUnloadingRequestToQueue(licensePlate, timeOfArrival);
-            return new TruckArrivalResponse(false, startOfTimeslotWithoutAppointment);
+            return new TruckAppointmentArrivalResponse(false, startOfTimeslotWithoutAppointment);
         }
 
         if (unloadingAppointment.isTruckArrivalEarlyForAppointment(timeOfArrival)) {
@@ -87,7 +110,7 @@ public class UnloadingRequestManager {
                     unloadingAppointment.getStartOfTimeSlot()
                             .format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
             );
-            return new TruckArrivalResponse(false, unloadingAppointment.getStartOfTimeSlot());
+            return new TruckAppointmentArrivalResponse(false, unloadingAppointment.getStartOfTimeSlot());
         }
 
         logger.info(String.format("The truck with license plate %s and arrival time %s is allowed to enter",
@@ -95,7 +118,7 @@ public class UnloadingRequestManager {
                 timeOfArrival
                         .format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
         );
-        return new TruckArrivalResponse(true, unloadingAppointment.getStartOfTimeSlot());
+        return new TruckAppointmentArrivalResponse(true, unloadingAppointment.getStartOfTimeSlot());
     }
 
     private void addUnloadingRequestToQueue(String licensePlate, ZonedDateTime createdAt) {

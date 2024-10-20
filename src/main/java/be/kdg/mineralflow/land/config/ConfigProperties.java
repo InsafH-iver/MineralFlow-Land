@@ -11,9 +11,12 @@ public class ConfigProperties {
     private int endOfPeriodWithAppointment;
     private int durationOfTimeslotOfAppointmentInMinutes;
     private int weighbridgeAmount;
-    private int truckCapacity;
+    private int truckCapacityDuringAppointments;
+    private int truckCapacityDuringQueue;
     private String warehouseBaseUrl;
     private String warehouseNumberUrl;
+    private String warehouseCapacityBaseUrl;
+    private String warehouseCapacityIsFullUrl;
 
     public String getWarehouseNumberUrl() {
         return warehouseNumberUrl;
@@ -39,10 +42,6 @@ public class ConfigProperties {
         return weighbridgeAmount;
     }
 
-    public int getTruckCapacity() {
-        return truckCapacity;
-    }
-
     public void setDurationOfTimeslotOfAppointmentInMinutes(int durationOfTimeslotOfAppointmentInMinutes) {
         this.durationOfTimeslotOfAppointmentInMinutes = durationOfTimeslotOfAppointmentInMinutes;
     }
@@ -54,12 +53,6 @@ public class ConfigProperties {
     public void setStartOfPeriodWithAppointment(int startOfPeriodWithAppointment) {
         this.startOfPeriodWithAppointment = startOfPeriodWithAppointment;
     }
-
-
-    public void setTruckCapacity(int truckCapacity) {
-        this.truckCapacity = truckCapacity;
-    }
-
     public void setWeighbridgeAmount(int weighbridgeAmount) {
         this.weighbridgeAmount = weighbridgeAmount;
     }
@@ -70,5 +63,37 @@ public class ConfigProperties {
 
     public void setWarehouseNumberUrl(String warehouseNumberUrl) {
         this.warehouseNumberUrl = warehouseNumberUrl;
+    }
+
+    public String getWarehouseCapacityIsFullUrl() {
+        return warehouseCapacityIsFullUrl;
+    }
+
+    public void setWarehouseCapacityIsFullUrl(String warehouseCapacityIsFullUrl) {
+        this.warehouseCapacityIsFullUrl = warehouseCapacityIsFullUrl;
+    }
+
+    public String getWarehouseCapacityBaseUrl() {
+        return warehouseCapacityBaseUrl;
+    }
+
+    public void setWarehouseCapacityBaseUrl(String warehouseCapacityBaseUrl) {
+        this.warehouseCapacityBaseUrl = warehouseCapacityBaseUrl;
+    }
+
+    public int getTruckCapacityDuringAppointments() {
+        return truckCapacityDuringAppointments;
+    }
+
+    public void setTruckCapacityDuringAppointments(int truckCapacityDuringAppointments) {
+        this.truckCapacityDuringAppointments = truckCapacityDuringAppointments;
+    }
+
+    public int getTruckCapacityDuringQueue() {
+        return truckCapacityDuringQueue;
+    }
+
+    public void setTruckCapacityDuringQueue(int truckCapacityDuringQueue) {
+        this.truckCapacityDuringQueue = truckCapacityDuringQueue;
     }
 }

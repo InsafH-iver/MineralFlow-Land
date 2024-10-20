@@ -37,3 +37,9 @@ VALUES
     ('2024-10-11T10:00:00+00:00', '81daffbc-0837-414e-b9d6-843cc0dc5e0e', NULL, 'UnloadingWithoutAppointment', '9-VWX-505'),
     ('2024-10-12T12:45:00+00:00', '1f063a36-6889-405f-81bc-3dbaae85b4e0', NULL, 'UnloadingWithoutAppointment', '0-YZB-606');
 
+
+
+INSERT INTO vendor (id, name)
+VALUES ('11111111-1111-1111-1111-111111111111', 'Acme Supplies');
+INSERT INTO resource (id, name)
+VALUES ('11111111-1111-1111-1111-111111111112', 'Gips');

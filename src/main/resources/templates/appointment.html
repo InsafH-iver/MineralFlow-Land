@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment Made</title>
+</head>
+<body>
+<h1>Appointment Made</h1>
+<ol>
+    <li th:text="'Vendor: ' + ${appointmentFormDataDto.vendorName}"></li>
+    <li th:text="'Resource: ' + ${appointmentFormDataDto.resourceName}"></li>
+    <li th:text="'license-plate: ' + ${appointmentFormDataDto.licensePlate}"></li>
+    <li th:text="'start of timeslot: ' + ${#temporals.format(appointmentFormDataDto.appointmentDate, 'dd-MM-yyyy HH:mm')}"></li>
+    <li th:text="'end of timeslot: ' + ${#temporals.format(appointmentFormDataDto.endOfAppointment, 'dd-MM-yyyy HH:mm')}"></li>
+</ol>
+</body>

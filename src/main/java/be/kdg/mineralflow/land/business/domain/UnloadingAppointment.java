@@ -1,5 +1,7 @@
 package be.kdg.mineralflow.land.business.domain;
 
+import be.kdg.mineralflow.land.business.domain.warehouse.Resource;
+import be.kdg.mineralflow.land.business.domain.warehouse.Vendor;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
@@ -23,6 +25,14 @@ public class UnloadingAppointment extends UnloadingRequest {
                                 int durationOfTimeslotOfAppointmentInMinutes) {
         super(licensePlate);
         this.timeSlot = new TimeSlot(startOfTimeSlot, durationOfTimeslotOfAppointmentInMinutes);
+    }
+
+    public UnloadingAppointment(String licensePlate, ZonedDateTime startOfTimeSlot,
+                                int durationOfTimeslotOfAppointmentInMinutes, Resource resource, Vendor vendor) {
+        super(licensePlate);
+        this.timeSlot = new TimeSlot(startOfTimeSlot, durationOfTimeslotOfAppointmentInMinutes);
+        this.setResource(resource);
+        this.setVendor(vendor);
     }
 
     protected UnloadingAppointment() {

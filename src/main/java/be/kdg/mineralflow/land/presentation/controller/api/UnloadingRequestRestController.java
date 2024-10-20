@@ -3,12 +3,14 @@ package be.kdg.mineralflow.land.presentation.controller.api;
 import be.kdg.mineralflow.land.business.service.UnloadingRequestManager;
 import be.kdg.mineralflow.land.business.util.TruckArrivalResponse;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -26,7 +28,7 @@ public class UnloadingRequestRestController {
         this.unloadingRequestManager = unloadingRequestManager;
     }
 
-    @PostMapping("/visit/{licensePlate}")
+    @PostMapping(value ="/visit/{licensePlate}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TruckArrivalResponse> processTruckArrivalAtGate(@PathVariable String licensePlate) {
         ZonedDateTime timeOfArrival = ZonedDateTime.now(ZoneOffset.UTC);
 

@@ -6,9 +6,9 @@ import be.kdg.mineralflow.land.business.util.WeighBridgeTicketResponse;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import java.util.logging.Logger;
-import java.time.format.DateTimeFormatter;
 
 
 @Entity
@@ -80,6 +80,9 @@ public class UnloadingRequest {
     public Visit getVisit() {
         return visit;
     }
+    public void addNewVisit(ZonedDateTime timeOfArrival){
+        visit = new Visit();
+    }
 
     public UUID getResourceId() {
         return resource.getId();
@@ -87,6 +90,14 @@ public class UnloadingRequest {
 
     public UUID getVendorId() {
         return vendor.getId();
+    }
+
+    public Resource getResource() {
+        return resource;
+    }
+
+    public Vendor getVendor() {
+        return vendor;
     }
 
     @Override
@@ -97,6 +108,4 @@ public class UnloadingRequest {
                 ", visit=" + visit +
                 '}';
     }
-
-
 }

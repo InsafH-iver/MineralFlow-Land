@@ -3,7 +3,7 @@ package be.kdg.mineralflow.land.business.service;
 import be.kdg.mineralflow.land.TestContainer;
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
-import be.kdg.mineralflow.land.business.util.TruckArrivalResponse;
+import be.kdg.mineralflow.land.business.util.TruckAppointmentArrivalResponse;
 import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.persistence.UnloadingAppointmentRepository;
 import be.kdg.mineralflow.land.persistence.UnloadingRequestRepository;
@@ -35,7 +35,7 @@ class UnloadingRequestManagerTest extends TestContainer {
         //ARRANGE
         String licensePlate = "12345";
         ZonedDateTime timeOfArrival = ZonedDateTime.of(2024, 2, 23,
-                7, 0, 0, 0,
+                configProperties.getStartOfPeriodWithAppointment(), 0, 0, 0,
                 ZoneOffset.UTC);
         UnloadingAppointment unloadingAppointment =
                 new UnloadingAppointment(licensePlate, timeOfArrival, configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
@@ -45,7 +45,8 @@ class UnloadingRequestManagerTest extends TestContainer {
         Mockito.doReturn(unloadingAppointment).when(unloadingRequestRepo)
                 .save(unloadingAppointment);
         //ACT
-        TruckArrivalResponse arrivalResponse = unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
+        TruckAppointmentArrivalResponse arrivalResponse =
+                (TruckAppointmentArrivalResponse) unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
 
         //ASSERT
         assertTrue(arrivalResponse.gateStatus());
@@ -57,7 +58,7 @@ class UnloadingRequestManagerTest extends TestContainer {
         //ARRANGE
         String licensePlate = "12345";
         ZonedDateTime timeSlotStart = ZonedDateTime.of(2024, 2, 23,
-                7, 0, 0, 0,
+                configProperties.getStartOfPeriodWithAppointment(), 0, 0, 0,
                 ZoneOffset.UTC);
         ZonedDateTime timeOfArrival = timeSlotStart.plusMinutes(28);
         UnloadingAppointment unloadingAppointment =
@@ -68,7 +69,8 @@ class UnloadingRequestManagerTest extends TestContainer {
         Mockito.doReturn(unloadingAppointment).when(unloadingRequestRepo)
                 .save(unloadingAppointment);
         //ACT
-        TruckArrivalResponse arrivalResponse = unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
+        TruckAppointmentArrivalResponse arrivalResponse =
+                (TruckAppointmentArrivalResponse) unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
 
         //ASSERT
         assertTrue(arrivalResponse.gateStatus());
@@ -80,7 +82,7 @@ class UnloadingRequestManagerTest extends TestContainer {
         //ARRANGE
         String licensePlate = "12345";
         ZonedDateTime timeSlotStart = ZonedDateTime.of(2024, 2, 23,
-                7, 0, 0, 0,
+                configProperties.getStartOfPeriodWithAppointment(), 0, 0, 0,
                 ZoneOffset.UTC);
         ZonedDateTime timeOfArrival = timeSlotStart.plusMinutes(
                 configProperties.getDurationOfTimeslotOfAppointmentInMinutes() + 8);
@@ -97,7 +99,8 @@ class UnloadingRequestManagerTest extends TestContainer {
                 .save(unloadingAppointment);
 
         //ACT
-        TruckArrivalResponse arrivalResponse = unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
+        TruckAppointmentArrivalResponse arrivalResponse =
+                (TruckAppointmentArrivalResponse) unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
 
         //ASSERT
         assertFalse(arrivalResponse.gateStatus());
@@ -110,7 +113,7 @@ class UnloadingRequestManagerTest extends TestContainer {
         //ARRANGE
         String licensePlate = "12345";
         ZonedDateTime timeSlotStart = ZonedDateTime.of(2024, 2, 23,
-                7, 0, 0, 0,
+                configProperties.getStartOfPeriodWithAppointment(), 0, 0, 0,
                 ZoneOffset.UTC);
         ZonedDateTime timeOfArrival = timeSlotStart.plusMinutes(
                 configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
@@ -127,7 +130,8 @@ class UnloadingRequestManagerTest extends TestContainer {
                 .save(unloadingAppointment);
 
         //ACT
-        TruckArrivalResponse arrivalResponse = unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
+        TruckAppointmentArrivalResponse arrivalResponse =
+                (TruckAppointmentArrivalResponse) unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
 
         //ASSERT
         assertFalse(arrivalResponse.gateStatus());
@@ -139,8 +143,8 @@ class UnloadingRequestManagerTest extends TestContainer {
         //ARRANGE
         String licensePlate = "12345";
         ZonedDateTime timeSlotStart = ZonedDateTime.of(2024, 2, 23,
-                7, 0, 0, 0,
-                ZoneOffset.UTC);
+                configProperties.getStartOfPeriodWithAppointment(), 0, 0, 0,
+                ZoneOffset.UTC).plusMinutes(configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
         ZonedDateTime timeOfArrival = timeSlotStart.minusMinutes(5);
         UnloadingAppointment unloadingAppointment =
                 new UnloadingAppointment(licensePlate, timeSlotStart, configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
@@ -151,7 +155,8 @@ class UnloadingRequestManagerTest extends TestContainer {
                 .save(unloadingAppointment);
 
         //ACT
-        TruckArrivalResponse arrivalResponse = unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
+        TruckAppointmentArrivalResponse arrivalResponse =
+                (TruckAppointmentArrivalResponse) unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
 
         //ASSERT
         assertFalse(arrivalResponse.gateStatus());
@@ -163,7 +168,7 @@ class UnloadingRequestManagerTest extends TestContainer {
         //ARRANGE
         String licensePlate = "12345";
         ZonedDateTime timeOfArrival = ZonedDateTime.of(2024, 2, 23,
-                7, 0, 0, 0,
+                configProperties.getStartOfPeriodWithAppointment(), 0, 0, 0,
                 ZoneOffset.UTC);
         ZonedDateTime startOfPeriodWithoutAppointments = ZonedDateTime.of(2024, 2, 23,
                 configProperties.getEndOfPeriodWithAppointment(), 0, 0, 0,
@@ -173,7 +178,8 @@ class UnloadingRequestManagerTest extends TestContainer {
                 .thenReturn(null);
 
         //ACT
-        TruckArrivalResponse arrivalResponse = unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
+        TruckAppointmentArrivalResponse arrivalResponse =
+                (TruckAppointmentArrivalResponse) unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
 
         //ASSERT
         assertFalse(arrivalResponse.gateStatus());
@@ -185,7 +191,7 @@ class UnloadingRequestManagerTest extends TestContainer {
         //ARRANGE
         String licensePlate = "12345";
         ZonedDateTime timeSlotStart = ZonedDateTime.of(2024, 2, 23,
-                7, 0, 0, 0,
+                configProperties.getStartOfPeriodWithAppointment(), 0, 0, 0,
                 ZoneOffset.UTC);
         ZonedDateTime timeOfArrival = timeSlotStart.plusMinutes(
                 configProperties.getDurationOfTimeslotOfAppointmentInMinutes() + 8);
@@ -212,7 +218,7 @@ class UnloadingRequestManagerTest extends TestContainer {
         //ARRANGE
         String licensePlate = "12345";
         ZonedDateTime timeOfArrival = ZonedDateTime.of(2024, 2, 23,
-                7, 0, 0, 0,
+                configProperties.getStartOfPeriodWithAppointment(), 0, 0, 0,
                 ZoneOffset.UTC);
 
         Mockito.when(unloadingAppointmentRepo.findByLicensePlateAndVisitIsNull(licensePlate))
