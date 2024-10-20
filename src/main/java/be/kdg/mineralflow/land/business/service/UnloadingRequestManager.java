@@ -3,7 +3,6 @@ package be.kdg.mineralflow.land.business.service;
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
 import be.kdg.mineralflow.land.business.domain.UnloadingWithoutAppointment;
-import be.kdg.mineralflow.land.business.domain.Visit;
 import be.kdg.mineralflow.land.business.util.TruckAppointmentArrivalResponse;
 import be.kdg.mineralflow.land.business.util.TruckArrivalResponse;
 import be.kdg.mineralflow.land.config.ConfigProperties;
@@ -18,7 +17,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Logger;
 
 @Service
@@ -61,7 +59,7 @@ public class UnloadingRequestManager {
                     timeOfArrival
                             .format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
             );
-            addVisitToUnloadingAppointment(unloadingAppointment, timeOfArrival);
+            addVisitToUnloadingRequest(unloadingAppointment, timeOfArrival);
         }
 
         return arrivalResponse;
@@ -71,20 +69,21 @@ public class UnloadingRequestManager {
         ZonedDateTime startOfTimeSlot = timeOfArrival.truncatedTo(ChronoUnit.HOURS);
         ZonedDateTime endOfTimeSlot = startOfTimeSlot.plusMinutes(configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
         int amountEnteredThisTimeSlot = unloadingWithoutAppointmentRepository.countUnloadingWithoutAppointmentByArrivalTimeInTimeSlot(startOfTimeSlot,endOfTimeSlot);
+
         if (amountEnteredThisTimeSlot >= configProperties.getTruckCapacityDuringQueue()){
             return new TruckArrivalResponse(false);
         }
-        UnloadingWithoutAppointment unloadingWithoutAppointment = unloadingWithoutAppointmentRepository.getFirstInQueue();
-        if (Objects.equals(licensePlate, unloadingWithoutAppointment.getLicensePlate())){
-            unloadingWithoutAppointment.setVisit(new Visit(timeOfArrival));
-            unloadingWithoutAppointmentRepository.save(unloadingWithoutAppointment);
+        UnloadingWithoutAppointment firstInQueue = unloadingWithoutAppointmentRepository.getFirstInQueue();
+
+        if (firstInQueue.getLicensePlate().equals(licensePlate)){
+            addVisitToUnloadingRequest(firstInQueue,timeOfArrival);
             return new TruckArrivalResponse(true);
         }
         return new TruckArrivalResponse(false);
     }
 
-    private void addVisitToUnloadingAppointment(UnloadingRequest unloadingRequest, ZonedDateTime timeOfArrival) {
-        unloadingRequest.setVisit(new Visit(timeOfArrival));
+    private void addVisitToUnloadingRequest(UnloadingRequest unloadingRequest, ZonedDateTime timeOfArrival) {
+        unloadingRequest.addNewVisit(timeOfArrival);
         unloadingRequestRepository.save(unloadingRequest);
     }
 

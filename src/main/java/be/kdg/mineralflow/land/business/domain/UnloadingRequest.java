@@ -80,6 +80,9 @@ public class UnloadingRequest {
     public Visit getVisit() {
         return visit;
     }
+    public void addNewVisit(ZonedDateTime timeOfArrival){
+        visit = new Visit();
+    }
 
     public UUID getResourceId() {
         return resource.getId();

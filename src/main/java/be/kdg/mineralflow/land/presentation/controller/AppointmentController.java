@@ -22,13 +22,13 @@ public class AppointmentController {
     public AppointmentController(AppointmentService appointmentService) {
         this.appointmentService = appointmentService;
     }
-    @GetMapping("/makeAppointment")
+    @GetMapping("/appointment")
     public String getAppointmentView(Model model){
         model.addAttribute(new AppointmentFormDataDto());
         return "appointment_form";
     }
 
-    @PostMapping("/makeAppointment")
+    @PostMapping("/appointment")
     public String makeAppointment(AppointmentFormDataDto appointmentFormDataDto, Model model){
         ValidationResult validationResult =
                 appointmentService.validateAppointment(

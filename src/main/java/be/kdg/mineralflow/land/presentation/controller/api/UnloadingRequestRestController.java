@@ -31,9 +31,7 @@ public class UnloadingRequestRestController {
     @PostMapping(value ="/visit/{licensePlate}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TruckArrivalResponse> processTruckArrivalAtGate(@PathVariable String licensePlate) {
         ZonedDateTime timeOfArrival = ZonedDateTime.now(ZoneOffset.UTC);
-        timeOfArrival = ZonedDateTime.of(
-                2023, 11, 23, 22, 23, 0, 0, ZoneId.of("Europe/Brussels")
-        );
+
         logger.info(String.format("A call has been made to process the truck with license plate %s and arrival time %s",
                 licensePlate,
                 timeOfArrival
