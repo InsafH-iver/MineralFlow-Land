@@ -19,9 +19,12 @@ public class WarehouseCapacityClient {
 
     public WarehouseCapacityClient(RestClient.Builder restClientBuilder, ConfigProperties configProperties) {
         this.configProperties = configProperties;
-        this.restClient = restClientBuilder.baseUrl(configProperties.getWarehouseCapacityBaseUrl()).build();
+        String baseUrl = String.format("%s%s",
+                configProperties.getWarehouseHostAddress(), configProperties.getWarehouseCapacityRestUrl());
+        this.restClient = restClientBuilder.baseUrl(baseUrl).build();
     }
-    public boolean isWarehouseCapacityReached(UUID vendorId, UUID resourceId){
+
+    public boolean isWarehouseCapacityReached(UUID vendorId, UUID resourceId) {
         Boolean capacityReached;
         try {
             capacityReached = this.restClient.get().uri(configProperties.getWarehouseCapacityIsFullUrl(), vendorId, resourceId).retrieve().body(Boolean.class);

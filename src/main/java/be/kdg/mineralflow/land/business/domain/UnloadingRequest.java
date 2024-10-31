@@ -6,7 +6,6 @@ import be.kdg.mineralflow.land.business.util.WeighBridgeTicketResponse;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -34,12 +33,12 @@ public class UnloadingRequest {
     protected UnloadingRequest() {
     }
 
-    public void setVisit(Visit visit) {
-        logger.info(
-                String.format("A truck has arrived at %s for this appointment",
-                        visit.getArrivalTime().format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
+    public UUID getId() {
+        return id;
+    }
 
-        );
+    public void setVisit(Visit visit) {
+
         this.visit = visit;
     }
 
@@ -48,11 +47,13 @@ public class UnloadingRequest {
         this.visit.setWeighbridgeTicket(startWeightAmountInTon,
                 startWeightTimestamp);
     }
+
     public double getNetWeightOfWeighBridgeTicket() {
         return visit.getNetWeightOfWeighBridgeTicket();
     }
+
     public void updateWeightBridgeTicketAtDeparture(double endWeightAmountInTon,
-                                             ZonedDateTime endWeightTimestamp) {
+                                                    ZonedDateTime endWeightTimestamp) {
         this.visit.updateEndWeightOfWeighbridgeTicket(endWeightAmountInTon, endWeightTimestamp);
     }
 
@@ -73,15 +74,16 @@ public class UnloadingRequest {
         return licensePlate;
     }
 
-    public boolean hasBeenOnWeighBridge(){
+    public boolean hasBeenOnWeighBridge() {
         return visit.hasWeighbridgeTicket();
     }
 
     public Visit getVisit() {
         return visit;
     }
-    public void addNewVisit(ZonedDateTime timeOfArrival){
-        visit = new Visit();
+
+    public void addNewVisit(ZonedDateTime timeOfArrival) {
+        visit = new Visit(timeOfArrival);
     }
 
     public UUID getResourceId() {

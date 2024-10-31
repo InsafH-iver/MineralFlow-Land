@@ -5,7 +5,7 @@
     <title>Make Appointment</title>
 </head>
 <body>
-<form action="#" th:action="@{/makeAppointment}" th:object="${appointmentFormDataDto}" method="post">
+<form action="#" th:action="@{/appointment}" th:object="${appointmentFormDataDto}" method="post">
     <p>vendorName: <input type="text" th:field="*{vendorName}"/></p>
     <p>resourceName: <input type="text" th:field="*{resourceName}"/></p>
     <p>licensePlate: <input type="text" th:field="*{licensePlate}"/></p>

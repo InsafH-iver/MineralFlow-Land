@@ -76,7 +76,7 @@ VALUES ('22222222-2222-2222-2222-222222222222', 'Global Logistics');
 
 -- Resource Table
 INSERT INTO resource (id, name)
-VALUES ('22222222-2222-2222-2222-222222222223', 'Distribution Center B');
+VALUES ('22222222-2222-2222-2222-222222222223', 'Goud');
 
 INSERT INTO weighbridge_ticket (id, start_weight_amount_in_ton, start_weight_timestamp, end_weight_amount_in_ton,
                                 end_weight_timestamp)

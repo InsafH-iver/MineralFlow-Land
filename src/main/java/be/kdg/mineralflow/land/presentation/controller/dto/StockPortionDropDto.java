@@ -4,5 +4,5 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public record StockPortionDropDto(UUID vendorId, UUID resourceId,
-                                  double weight ,ZonedDateTime deliveryTime) {
+                                  double weight , ZonedDateTime endWeightTime,UUID unloadingRequestId) {
 }
