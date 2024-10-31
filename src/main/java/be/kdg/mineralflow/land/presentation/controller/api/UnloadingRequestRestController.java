@@ -1,6 +1,6 @@
 package be.kdg.mineralflow.land.presentation.controller.api;
 
-import be.kdg.mineralflow.land.business.service.UnloadingRequestManager;
+import be.kdg.mineralflow.land.business.service.UnloadingRequestService;
 import be.kdg.mineralflow.land.business.util.TruckArrivalResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,10 +21,10 @@ public class UnloadingRequestRestController {
     public static final Logger logger = Logger
             .getLogger(UnloadingRequestRestController.class.getName());
 
-    private final UnloadingRequestManager unloadingRequestManager;
+    private final UnloadingRequestService unloadingRequestService;
 
-    public UnloadingRequestRestController(UnloadingRequestManager unloadingRequestManager) {
-        this.unloadingRequestManager = unloadingRequestManager;
+    public UnloadingRequestRestController(UnloadingRequestService unloadingRequestService) {
+        this.unloadingRequestService = unloadingRequestService;
     }
 
     @PostMapping(value ="/visit/{licensePlate}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -36,7 +36,7 @@ public class UnloadingRequestRestController {
                 timeOfArrival
                         .format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
         );
-        TruckArrivalResponse arrivalResponse = unloadingRequestManager
+        TruckArrivalResponse arrivalResponse = unloadingRequestService
                 .processTruckArrivalAtGate(licensePlate, timeOfArrival);
 
 

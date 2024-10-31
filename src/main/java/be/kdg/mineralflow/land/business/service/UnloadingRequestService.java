@@ -20,16 +20,16 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @Service
-public class UnloadingRequestManager {
+public class UnloadingRequestService {
     public static final Logger logger = Logger
-            .getLogger(UnloadingRequestManager.class.getName());
+            .getLogger(UnloadingRequestService.class.getName());
 
     private final UnloadingRequestRepository unloadingRequestRepository;
     private final UnloadingAppointmentRepository unloadingAppointmentRepository;
     private final UnloadingWithoutAppointmentRepository unloadingWithoutAppointmentRepository;
     private final ConfigProperties configProperties;
 
-    public UnloadingRequestManager(UnloadingAppointmentRepository unloadingAppointmentRepository
+    public UnloadingRequestService(UnloadingAppointmentRepository unloadingAppointmentRepository
             , UnloadingRequestRepository unloadingRequestRepository, UnloadingWithoutAppointmentRepository unloadingWithoutAppointmentRepository, ConfigProperties configProperties
     ) {
         this.unloadingAppointmentRepository = unloadingAppointmentRepository;

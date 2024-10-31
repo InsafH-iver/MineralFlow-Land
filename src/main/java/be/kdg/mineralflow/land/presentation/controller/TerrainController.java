@@ -1,7 +1,7 @@
 package be.kdg.mineralflow.land.presentation.controller;
 
 import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
-import be.kdg.mineralflow.land.business.service.UnloadingRequestManager;
+import be.kdg.mineralflow.land.business.service.UnloadingRequestService;
 import be.kdg.mineralflow.land.presentation.controller.dto.TruckDto;
 import be.kdg.mineralflow.land.presentation.controller.mapper.TruckMapper;
 import org.springframework.stereotype.Controller;
@@ -19,10 +19,10 @@ public class TerrainController {
 
     private final TruckMapper mapper = TruckMapper.INSTANCE;
 
-    private final UnloadingRequestManager unloadingRequestManager;
+    private final UnloadingRequestService unloadingRequestService;
 
-    public TerrainController( UnloadingRequestManager unloadingRequestManager) {
-        this.unloadingRequestManager = unloadingRequestManager;
+    public TerrainController( UnloadingRequestService unloadingRequestService) {
+        this.unloadingRequestService = unloadingRequestService;
     }
 
 
@@ -30,7 +30,7 @@ public class TerrainController {
     public ModelAndView getAllTrucksOnSite(){
         logger.info("TerrainController: getAllTrucksOnSite has been called");
         ModelAndView modelAndView = new ModelAndView();
-        List<UnloadingRequest> unloadingRequests = unloadingRequestManager.getUnloadingRequestsWithActiveVisit();
+        List<UnloadingRequest> unloadingRequests = unloadingRequestService.getUnloadingRequestsWithActiveVisit();
         List<TruckDto> trucks = unloadingRequests.stream().map(mapper::mapUnloadingRequestToTruckDto).toList();
         logger.info(String.format("TerrainController: getAllTrucksOnSite retrieved %s",trucks));
         modelAndView.addObject(trucks);

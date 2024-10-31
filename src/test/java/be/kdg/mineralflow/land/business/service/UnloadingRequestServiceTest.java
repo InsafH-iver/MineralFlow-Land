@@ -20,13 +20,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class UnloadingRequestManagerTest extends TestContainer {
+class UnloadingRequestServiceTest extends TestContainer {
     @MockBean
     private UnloadingRequestRepository unloadingRequestRepo;
     @MockBean
     private UnloadingAppointmentRepository unloadingAppointmentRepo;
     @Autowired
-    private UnloadingRequestManager unloadingRequestManager;
+    private UnloadingRequestService unloadingRequestService;
     @Autowired
     private ConfigProperties configProperties;
 
@@ -46,7 +46,7 @@ class UnloadingRequestManagerTest extends TestContainer {
                 .save(unloadingAppointment);
         //ACT
         TruckAppointmentArrivalResponse arrivalResponse =
-                (TruckAppointmentArrivalResponse) unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
+                (TruckAppointmentArrivalResponse) unloadingRequestService.processTruckArrivalAtGate(licensePlate, timeOfArrival);
 
         //ASSERT
         assertTrue(arrivalResponse.gateStatus());
@@ -70,7 +70,7 @@ class UnloadingRequestManagerTest extends TestContainer {
                 .save(unloadingAppointment);
         //ACT
         TruckAppointmentArrivalResponse arrivalResponse =
-                (TruckAppointmentArrivalResponse) unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
+                (TruckAppointmentArrivalResponse) unloadingRequestService.processTruckArrivalAtGate(licensePlate, timeOfArrival);
 
         //ASSERT
         assertTrue(arrivalResponse.gateStatus());
@@ -100,7 +100,7 @@ class UnloadingRequestManagerTest extends TestContainer {
 
         //ACT
         TruckAppointmentArrivalResponse arrivalResponse =
-                (TruckAppointmentArrivalResponse) unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
+                (TruckAppointmentArrivalResponse) unloadingRequestService.processTruckArrivalAtGate(licensePlate, timeOfArrival);
 
         //ASSERT
         assertFalse(arrivalResponse.gateStatus());
@@ -131,7 +131,7 @@ class UnloadingRequestManagerTest extends TestContainer {
 
         //ACT
         TruckAppointmentArrivalResponse arrivalResponse =
-                (TruckAppointmentArrivalResponse) unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
+                (TruckAppointmentArrivalResponse) unloadingRequestService.processTruckArrivalAtGate(licensePlate, timeOfArrival);
 
         //ASSERT
         assertFalse(arrivalResponse.gateStatus());
@@ -156,7 +156,7 @@ class UnloadingRequestManagerTest extends TestContainer {
 
         //ACT
         TruckAppointmentArrivalResponse arrivalResponse =
-                (TruckAppointmentArrivalResponse) unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
+                (TruckAppointmentArrivalResponse) unloadingRequestService.processTruckArrivalAtGate(licensePlate, timeOfArrival);
 
         //ASSERT
         assertFalse(arrivalResponse.gateStatus());
@@ -179,7 +179,7 @@ class UnloadingRequestManagerTest extends TestContainer {
 
         //ACT
         TruckAppointmentArrivalResponse arrivalResponse =
-                (TruckAppointmentArrivalResponse) unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
+                (TruckAppointmentArrivalResponse) unloadingRequestService.processTruckArrivalAtGate(licensePlate, timeOfArrival);
 
         //ASSERT
         assertFalse(arrivalResponse.gateStatus());
@@ -205,7 +205,7 @@ class UnloadingRequestManagerTest extends TestContainer {
                 .save(unloadingAppointment);
 
         //ACT
-        unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
+        unloadingRequestService.processTruckArrivalAtGate(licensePlate, timeOfArrival);
 
         //ASSERT
         ArgumentCaptor<UnloadingRequest> captor = ArgumentCaptor.forClass(UnloadingRequest.class);
@@ -225,7 +225,7 @@ class UnloadingRequestManagerTest extends TestContainer {
                 .thenReturn(null);
 
         //ACT
-        unloadingRequestManager.processTruckArrivalAtGate(licensePlate, timeOfArrival);
+        unloadingRequestService.processTruckArrivalAtGate(licensePlate, timeOfArrival);
 
         //ASSERT
         ArgumentCaptor<UnloadingRequest> captor = ArgumentCaptor.forClass(UnloadingRequest.class);
