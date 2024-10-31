@@ -1,5 +1,5 @@
 ###Post appointment
-POST localhost:8080/makeAppointment
+POST localhost:8080/appointment
 Content-Type: application/json
 
 {

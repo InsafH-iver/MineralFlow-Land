@@ -1,0 +1,10 @@
+###make delivery ticket after having gone once over the bridge
+POST http://localhost:8080/api/deliveryTickets
+Content-Type: application/json
+
+{
+  "licensePlate": "XYZ789",
+  "timestamp": "2024-10-14T13:20:00Z"
+}
+
+

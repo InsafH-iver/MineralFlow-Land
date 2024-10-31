@@ -13,18 +13,17 @@ public class ConfigProperties {
     private int weighbridgeAmount;
     private int truckCapacityDuringAppointments;
     private int truckCapacityDuringQueue;
-    private String warehouseBaseUrl;
-    private String warehouseNumberUrl;
-    private String warehouseCapacityBaseUrl;
+    private String warehouseHostAddress;
+    private String warehouseRestUrl;
+    private String warehouseCapacityRestUrl;
+    private String deliveryTicketRestUrl;
     private String warehouseCapacityIsFullUrl;
+    private String warehouseNumberUrl;
 
     public String getWarehouseNumberUrl() {
         return warehouseNumberUrl;
     }
 
-    public String getWarehouseBaseUrl() {
-        return warehouseBaseUrl;
-    }
 
     public int getDurationOfTimeslotOfAppointmentInMinutes() {
         return durationOfTimeslotOfAppointmentInMinutes;
@@ -53,12 +52,9 @@ public class ConfigProperties {
     public void setStartOfPeriodWithAppointment(int startOfPeriodWithAppointment) {
         this.startOfPeriodWithAppointment = startOfPeriodWithAppointment;
     }
+
     public void setWeighbridgeAmount(int weighbridgeAmount) {
         this.weighbridgeAmount = weighbridgeAmount;
-    }
-
-    public void setWarehouseBaseUrl(String warehouseBaseUrl) {
-        this.warehouseBaseUrl = warehouseBaseUrl;
     }
 
     public void setWarehouseNumberUrl(String warehouseNumberUrl) {
@@ -73,12 +69,12 @@ public class ConfigProperties {
         this.warehouseCapacityIsFullUrl = warehouseCapacityIsFullUrl;
     }
 
-    public String getWarehouseCapacityBaseUrl() {
-        return warehouseCapacityBaseUrl;
+    public String getWarehouseHostAddress() {
+        return warehouseHostAddress;
     }
 
-    public void setWarehouseCapacityBaseUrl(String warehouseCapacityBaseUrl) {
-        this.warehouseCapacityBaseUrl = warehouseCapacityBaseUrl;
+    public void setWarehouseHostAddress(String warehouseHostAddress) {
+        this.warehouseHostAddress = warehouseHostAddress;
     }
 
     public int getTruckCapacityDuringAppointments() {
@@ -95,5 +91,29 @@ public class ConfigProperties {
 
     public void setTruckCapacityDuringQueue(int truckCapacityDuringQueue) {
         this.truckCapacityDuringQueue = truckCapacityDuringQueue;
+    }
+
+    public String getWarehouseRestUrl() {
+        return warehouseRestUrl;
+    }
+
+    public void setWarehouseRestUrl(String warehouseRestUrl) {
+        this.warehouseRestUrl = warehouseRestUrl;
+    }
+
+    public String getWarehouseCapacityRestUrl() {
+        return warehouseCapacityRestUrl;
+    }
+
+    public void setWarehouseCapacityRestUrl(String warehouseCapacityRestUrl) {
+        this.warehouseCapacityRestUrl = warehouseCapacityRestUrl;
+    }
+
+    public String getDeliveryTicketRestUrl() {
+        return deliveryTicketRestUrl;
+    }
+
+    public void setDeliveryTicketRestUrl(String deliveryTicketRestUrl) {
+        this.deliveryTicketRestUrl = deliveryTicketRestUrl;
     }
 }

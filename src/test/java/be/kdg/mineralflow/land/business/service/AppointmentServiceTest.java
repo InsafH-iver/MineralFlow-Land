@@ -2,15 +2,12 @@ package be.kdg.mineralflow.land.business.service;
 
 import be.kdg.mineralflow.land.TestContainer;
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
-import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
 import be.kdg.mineralflow.land.business.service.externalApi.WarehouseCapacityClient;
 import be.kdg.mineralflow.land.business.util.ValidationResult;
 import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.persistence.UnloadingAppointmentRepository;
-import org.hibernate.mapping.Any;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -20,7 +17,6 @@ import java.time.ZonedDateTime;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.hamcrest.Matchers.any;
 
 class AppointmentServiceTest extends TestContainer {
     @Autowired

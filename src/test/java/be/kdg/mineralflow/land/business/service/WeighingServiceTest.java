@@ -115,13 +115,14 @@ class WeighingServiceTest extends TestContainer {
         unloadingRequest.setVendor(vendorTest);
         unloadingRequest.setResource(resource);
         unloadingRequest.setVisit(testVisit);
+        UUID unloadingRequestId = unloadingRequest.getId();
         WeighBridgeTicketResponse weighBridgeTicketResponse =
                 new WeighBridgeTicketResponse(startWeight, arrivalTimeBridge, endWeight, departureTimeBridge, licensePlate);
 
         Mockito.when(unloadingRequestRepository.findFirstByLicensePlateAndVisit_LeavingTimeIsNull(licensePlate))
                 .thenReturn(Optional.of(unloadingRequest));
         doNothing().when(stockPortionDropAtWarehousePublisher)
-                .handleDepartureFromWarehouse(vendorId, resourceId, startWeight, arrivalTimeBridge);
+                .handleDepartureFromWarehouse(vendorId, resourceId, startWeight, arrivalTimeBridge, unloadingRequestId);
         Mockito.when(unloadingRequestRepository.save(unloadingRequest))
                 .thenReturn(unloadingRequest);
         //ACT
@@ -136,7 +137,7 @@ class WeighingServiceTest extends TestContainer {
         assertEquals(ticket.getNetWeight(), netWeight);
 
         Mockito.verify(stockPortionDropAtWarehousePublisher, Mockito.times(1))
-                .handleDepartureFromWarehouse(vendorId, resourceId, netWeight, departureTimeBridge);
+                .handleDepartureFromWarehouse(vendorId, resourceId, netWeight, departureTimeBridge, unloadingRequestId);
     }
 
     @Test
@@ -162,11 +163,12 @@ class WeighingServiceTest extends TestContainer {
         unloadingRequest.setVendor(vendorTest);
         unloadingRequest.setResource(resource);
         unloadingRequest.setVisit(testVisit);
+        UUID unloadingRequestId = unloadingRequest.getId();
 
         Mockito.when(unloadingRequestRepository.findFirstByLicensePlateAndVisit_LeavingTimeIsNull(licensePlate))
                 .thenReturn(Optional.of(unloadingRequest));
         doNothing().when(stockPortionDropAtWarehousePublisher)
-                .handleDepartureFromWarehouse(vendorId, resourceId, startWeight, arrivalTimeBridge);
+                .handleDepartureFromWarehouse(vendorId, resourceId, startWeight, arrivalTimeBridge, unloadingRequestId);
         Mockito.when(unloadingRequestRepository.save(unloadingRequest))
                 .thenReturn(unloadingRequest);
         //ACT
@@ -174,6 +176,6 @@ class WeighingServiceTest extends TestContainer {
         assertThrows(ProcessAlreadyFulfilledException.class, () -> weighingService.processWeighingOperation(licensePlate, endWeight, departureTimeBridge));
 
         Mockito.verify(stockPortionDropAtWarehousePublisher, Mockito.times(0))
-                .handleDepartureFromWarehouse(vendorId, resourceId, netWeight, departureTimeBridge);
+                .handleDepartureFromWarehouse(vendorId, resourceId, netWeight, departureTimeBridge, unloadingRequestId);
     }
 }

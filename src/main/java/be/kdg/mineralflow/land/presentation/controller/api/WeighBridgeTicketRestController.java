@@ -27,7 +27,7 @@ public class WeighBridgeTicketRestController {
                 weighBridgeTicketDto.weight(),
                 weighBridgeTicketDto.timestamp());
         logger.info(
-                String.format("The truck with licenseplate %s has succesfully made/ updated a weightbridge ticket",weighBridgeTicketDto.licensePlate()));
+                String.format("The truck with license plate %s has successfully made/ updated a weightbridge ticket",weighBridgeTicketDto.licensePlate()));
         return weighingResponse;
     }
 }

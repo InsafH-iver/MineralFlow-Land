@@ -22,8 +22,8 @@ public class StockPortionDropAtWarehousePublisher {
     }
 
     public void handleDepartureFromWarehouse(UUID vendorId, UUID resourceId,
-                                            double weight ,ZonedDateTime deliveryTime){
-        var dto = new StockPortionDropDto(vendorId, resourceId, weight, deliveryTime);
+                                            double weight ,ZonedDateTime endWeightTime ,UUID unloadingRequestId){
+        var dto = new StockPortionDropDto(vendorId, resourceId, weight, endWeightTime,unloadingRequestId);
         rabbitTemplate.convertAndSend(configProperties.getExchangeName(),
                 configProperties.getTruckDepartureFromWeighingBridgeRoutingKey(), dto);
         logger.info(String.format("Event dropping Stock portion (weight - %f ton) of at warehouse of vendor %s and resource %s has been published",weight ,vendorId, resourceId));

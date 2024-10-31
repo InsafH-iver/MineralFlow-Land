@@ -19,7 +19,9 @@ public class WarehouseClient {
 
     public WarehouseClient(RestClient.Builder restClientBuilder, ConfigProperties configProperties) {
         this.configProperties = configProperties;
-        this.restClient = restClientBuilder.baseUrl(configProperties.getWarehouseBaseUrl()).build();
+        String baseUrl = String.format("%s%s",
+                configProperties.getWarehouseHostAddress(), configProperties.getWarehouseRestUrl());
+        this.restClient = restClientBuilder.baseUrl(baseUrl).build();
     }
 
     public int getWarehouseNumber(UUID vendorId, UUID resourceId) {

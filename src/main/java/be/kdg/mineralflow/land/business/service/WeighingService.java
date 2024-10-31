@@ -68,8 +68,10 @@ public class WeighingService {
 
         updateWeightBridgeTicketAtDeparture(unloadingRequest, endWeightAmountInTon, endWeightTimestamp);
         double netWeightInTon = unloadingRequest.getNetWeightOfWeighBridgeTicket();
-        stockPortionDropAtWarehousePublisher.handleDepartureFromWarehouse(unloadingRequest.getVendorId(),
-                unloadingRequest.getResourceId(), netWeightInTon, endWeightTimestamp);
+        stockPortionDropAtWarehousePublisher.handleDepartureFromWarehouse(
+                unloadingRequest.getVendorId(),
+                unloadingRequest.getResourceId(), netWeightInTon,
+                endWeightTimestamp, unloadingRequest.getId());
         return unloadingRequest.getWeighBridgeTicketData(licensePlate);
     }
 
