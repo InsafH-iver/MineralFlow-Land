@@ -9,13 +9,13 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
-public class WeighbridgeManager {
+public class WeighbridgeService {
     public static final Logger logger = Logger
-            .getLogger(WeighbridgeManager.class.getName());
+            .getLogger(WeighbridgeService.class.getName());
 
     private final WeighbridgeRepository weighbridgeRepository;
 
-    public WeighbridgeManager(WeighbridgeRepository weighbridgeRepository) {
+    public WeighbridgeService(WeighbridgeRepository weighbridgeRepository) {
         this.weighbridgeRepository = weighbridgeRepository;
     }
 

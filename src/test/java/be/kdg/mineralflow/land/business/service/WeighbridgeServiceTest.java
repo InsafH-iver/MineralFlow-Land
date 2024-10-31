@@ -14,10 +14,10 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class WeighbridgeManagerTest extends TestContainer {
+class WeighbridgeServiceTest extends TestContainer {
 
     @Autowired
-    private WeighbridgeManager weighBridgeManager;
+    private WeighbridgeService weighBridgeService;
     @MockBean
     private WeighbridgeRepository weighbridgeRepository;
 
@@ -30,7 +30,7 @@ class WeighbridgeManagerTest extends TestContainer {
         Mockito.when(weighbridgeRepository.findTopByOrderByWeighbridgeNumber())
                 .thenReturn(Optional.of(expectedWeighBridge));
         //ACT
-        int weighBridgeNumber = weighBridgeManager.getWeighBridgeNumber();
+        int weighBridgeNumber = weighBridgeService.getWeighBridgeNumber();
 
         //ASSERT
         assertThat(weighBridgeNumber).isEqualTo(bridgeNumber);
@@ -43,6 +43,6 @@ class WeighbridgeManagerTest extends TestContainer {
         Mockito.when(weighbridgeRepository.findTopByOrderByWeighbridgeNumber())
                 .thenReturn(Optional.empty());
         //ASSERT
-        assertThrows(NoItemFoundException.class, weighBridgeManager::getWeighBridgeNumber);
+        assertThrows(NoItemFoundException.class, weighBridgeService::getWeighBridgeNumber);
     }
 }
