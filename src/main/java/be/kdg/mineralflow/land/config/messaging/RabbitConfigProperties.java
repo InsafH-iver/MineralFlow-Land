@@ -6,22 +6,23 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ConfigurationProperties(prefix = "messaging")
 public class RabbitConfigProperties {
-    private String exchangeName;
-    private String truckDepartureFromWeighingBridgeRoutingKey;
+    private String warehouseExchangeName;
+    // publishers routing keys
+    private String publisherTruckDepartureFromWeighingBridgeRoutingKey;
 
-    public String getTruckDepartureFromWeighingBridgeRoutingKey() {
-        return truckDepartureFromWeighingBridgeRoutingKey;
+    public String getWarehouseExchangeName() {
+        return warehouseExchangeName;
     }
 
-    public String getExchangeName() {
-        return exchangeName;
+    public String getPublisherTruckDepartureFromWeighingBridgeRoutingKey() {
+        return publisherTruckDepartureFromWeighingBridgeRoutingKey;
     }
 
-    public void setExchangeName(String exchangeName) {
-        this.exchangeName = exchangeName;
+    public void setWarehouseExchangeName(String warehouseExchangeName) {
+        this.warehouseExchangeName = warehouseExchangeName;
     }
 
-    public void setTruckDepartureFromWeighingBridgeRoutingKey(String truckDepartureFromWeighingBridgeRoutingKey) {
-        this.truckDepartureFromWeighingBridgeRoutingKey = truckDepartureFromWeighingBridgeRoutingKey;
+    public void setPublisherTruckDepartureFromWeighingBridgeRoutingKey(String publisherTruckDepartureFromWeighingBridgeRoutingKey) {
+        this.publisherTruckDepartureFromWeighingBridgeRoutingKey = publisherTruckDepartureFromWeighingBridgeRoutingKey;
     }
 }
