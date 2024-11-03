@@ -14,9 +14,7 @@ public class RabbitTopology {
     }
 
     @Bean
-    TopicExchange landTopicExchange(){
-        return new TopicExchange(rabbitConfigProperties.getExchangeName());
+    TopicExchange warehouseTopicExchange() {
+        return new TopicExchange(rabbitConfigProperties.getWarehouseExchangeName());
     }
-
-
 }
