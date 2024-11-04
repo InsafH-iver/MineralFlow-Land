@@ -24,12 +24,14 @@ public class AppointmentController {
     }
     @GetMapping("/appointment")
     public String getAppointmentView(Model model){
+        logger.info("call was made to get appointment form");
         model.addAttribute(new AppointmentFormDataDto());
         return "appointment_form";
     }
 
     @PostMapping("/appointment")
     public String makeAppointment(AppointmentFormDataDto appointmentFormDataDto, Model model){
+        logger.info("call was made make an appointment from form data");
         ValidationResult validationResult =
                 appointmentService.validateAppointment(
                 appointmentFormDataDto.getVendorName(),
