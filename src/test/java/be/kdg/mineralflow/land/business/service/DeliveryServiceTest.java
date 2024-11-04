@@ -5,7 +5,7 @@ import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
 import be.kdg.mineralflow.land.business.domain.warehouse.Resource;
 import be.kdg.mineralflow.land.business.domain.warehouse.Vendor;
 import be.kdg.mineralflow.land.business.service.externalApi.DeliveryTicketClient;
-import be.kdg.mineralflow.land.business.util.DeliveryDataResponse;
+import be.kdg.mineralflow.land.business.util.response.DeliveryDataResponse;
 import be.kdg.mineralflow.land.exception.NoItemFoundException;
 import be.kdg.mineralflow.land.exception.RestClientErrorException;
 import be.kdg.mineralflow.land.persistence.UnloadingRequestRepository;

@@ -1,6 +1,6 @@
 package be.kdg.mineralflow.land.business.domain;
 
-import be.kdg.mineralflow.land.business.util.WeighBridgeTicketResponse;
+import be.kdg.mineralflow.land.business.util.response.WeighBridgeTicketResponse;
 import jakarta.persistence.*;
 
 import java.time.ZonedDateTime;

@@ -1,7 +1,7 @@
 package be.kdg.mineralflow.land.presentation.controller.api;
 
 import be.kdg.mineralflow.land.business.service.UnloadingRequestService;
-import be.kdg.mineralflow.land.business.util.TruckArrivalResponse;
+import be.kdg.mineralflow.land.business.util.response.TruckArrivalResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

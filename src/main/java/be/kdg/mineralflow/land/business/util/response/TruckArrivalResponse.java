@@ -1,4 +1,4 @@
-package be.kdg.mineralflow.land.business.util;
+package be.kdg.mineralflow.land.business.util.response;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;

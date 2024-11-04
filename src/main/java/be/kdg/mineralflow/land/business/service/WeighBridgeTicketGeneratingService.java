@@ -1,6 +1,6 @@
 package be.kdg.mineralflow.land.business.service;
 
-import be.kdg.mineralflow.land.business.util.WeighBridgeTicketResponse;
+import be.kdg.mineralflow.land.business.util.response.WeighBridgeTicketResponse;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,7 +1,7 @@
 package be.kdg.mineralflow.land.presentation.controller.api;
 
 import be.kdg.mineralflow.land.business.service.WeighingService;
-import be.kdg.mineralflow.land.business.util.WeighingResponse;
+import be.kdg.mineralflow.land.business.util.response.WeighingResponse;
 import be.kdg.mineralflow.land.presentation.controller.dto.WeighBridgeTicketDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

@@ -3,16 +3,15 @@ package be.kdg.mineralflow.land.business.service;
 import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
 import be.kdg.mineralflow.land.business.service.externalApi.StockPortionDropAtWarehousePublisher;
 import be.kdg.mineralflow.land.business.service.externalApi.WarehouseClient;
-import be.kdg.mineralflow.land.business.util.WarehouseNumberResponse;
-import be.kdg.mineralflow.land.business.util.WeighBridgeTicketResponse;
-import be.kdg.mineralflow.land.business.util.WeighingResponse;
-import be.kdg.mineralflow.land.exception.NoItemFoundException;
+import be.kdg.mineralflow.land.business.util.ExceptionHandlingHelper;
+import be.kdg.mineralflow.land.business.util.response.WarehouseNumberResponse;
+import be.kdg.mineralflow.land.business.util.response.WeighBridgeTicketResponse;
+import be.kdg.mineralflow.land.business.util.response.WeighingResponse;
 import be.kdg.mineralflow.land.exception.ProcessAlreadyFulfilledException;
 import be.kdg.mineralflow.land.persistence.UnloadingRequestRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -54,13 +53,12 @@ public class WeighingService {
     }
 
     private UnloadingRequest getUnloadingRequestByByLicensePlateAndNoVisitLeavingTime(String licensePlate) {
-        Optional<UnloadingRequest> optionalUnloadingRequest = unloadingRequestRepository.findFirstByLicensePlateAndVisit_LeavingTimeIsNull(licensePlate);
-        if (optionalUnloadingRequest.isEmpty()) {
-            String messageException = String.format("An unloading request from license plate %s where it already arrived but has not left, was not found", licensePlate);
-            logger.severe(messageException);
-            throw new NoItemFoundException(messageException);
-        }
-        return optionalUnloadingRequest.get();
+        return unloadingRequestRepository
+                .findFirstByLicensePlateAndVisit_LeavingTimeIsNull(licensePlate)
+                .orElseThrow(() -> ExceptionHandlingHelper.logAndThrowNotFound(
+                        "An unloading request from license plate %s where it already arrived but has not left, was not found",
+                        licensePlate
+                ));
     }
 
     private WeighBridgeTicketResponse processWeighingOperationAtDeparture(UnloadingRequest unloadingRequest, double endWeightAmountInTon,

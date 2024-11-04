@@ -1,6 +1,6 @@
 package be.kdg.mineralflow.land.business.service;
 
-import be.kdg.mineralflow.land.business.util.WarehouseNumberResponse;
+import be.kdg.mineralflow.land.business.util.response.WarehouseNumberResponse;
 import org.springframework.stereotype.Service;
 
 @Service

@@ -1,6 +1,6 @@
 package be.kdg.mineralflow.land.business.service.externalApi;
 
-import be.kdg.mineralflow.land.business.util.DeliveryDataResponse;
+import be.kdg.mineralflow.land.business.util.response.DeliveryDataResponse;
 import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.exception.NoItemFoundException;
 import be.kdg.mineralflow.land.exception.RestClientErrorException;

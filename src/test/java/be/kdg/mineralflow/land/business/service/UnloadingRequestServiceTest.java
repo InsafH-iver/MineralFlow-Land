@@ -3,7 +3,7 @@ package be.kdg.mineralflow.land.business.service;
 import be.kdg.mineralflow.land.TestContainer;
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
-import be.kdg.mineralflow.land.business.util.TruckAppointmentArrivalResponse;
+import be.kdg.mineralflow.land.business.util.response.TruckAppointmentArrivalResponse;
 import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.persistence.UnloadingAppointmentRepository;
 import be.kdg.mineralflow.land.persistence.UnloadingRequestRepository;
