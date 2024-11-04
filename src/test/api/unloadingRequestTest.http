@@ -10,3 +10,8 @@ Content-Type: application/json
 POST localhost:8080/api/UnloadingRequests/visit/6-MNO-202
 Accept: application/json
 Content-Type: application/json
+
+
+###PATCH depart from warehouse at gate for unloading request with licenseplate BARBIE
+PATCH localhost:8080/api/UnloadingRequests/departure/BARBIE
+Content-Type: application/json

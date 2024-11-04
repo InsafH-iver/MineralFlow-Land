@@ -1,14 +1,12 @@
 package be.kdg.mineralflow.land.presentation.controller.api;
 
+import be.kdg.mineralflow.land.business.service.TruckDepartureAtGateService;
 import be.kdg.mineralflow.land.business.service.UnloadingRequestService;
 import be.kdg.mineralflow.land.business.util.response.TruckArrivalResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
@@ -22,12 +20,14 @@ public class UnloadingRequestRestController {
             .getLogger(UnloadingRequestRestController.class.getName());
 
     private final UnloadingRequestService unloadingRequestService;
+    private final TruckDepartureAtGateService truckDepartureAtGateService;
 
-    public UnloadingRequestRestController(UnloadingRequestService unloadingRequestService) {
+    public UnloadingRequestRestController(UnloadingRequestService unloadingRequestService, TruckDepartureAtGateService truckDepartureAtGateService) {
         this.unloadingRequestService = unloadingRequestService;
+        this.truckDepartureAtGateService = truckDepartureAtGateService;
     }
 
-    @PostMapping(value ="/visit/{licensePlate}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/visit/{licensePlate}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TruckArrivalResponse> processTruckArrivalAtGate(@PathVariable String licensePlate) {
         ZonedDateTime timeOfArrival = ZonedDateTime.now(ZoneOffset.UTC);
 
@@ -50,6 +50,19 @@ public class UnloadingRequestRestController {
         } else {// kan veranderen vanaf dat het fifo gedeelte erbij komt
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(arrivalResponse);
         }
+    }
+
+    @PatchMapping(value = "/departure/{licensePlate}")
+    @ResponseStatus(HttpStatus.OK)
+    public void processTruckDepartureAtGate(@PathVariable String licensePlate) {
+        ZonedDateTime timeOfDeparture = ZonedDateTime.now(ZoneOffset.UTC);
+
+        logger.info(String.format("A call has been made to process the departure for truck with license plate %s and departure time %s",
+                licensePlate,
+                timeOfDeparture.format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
+        );
+
+        truckDepartureAtGateService.processTruckDepartureAtGate(licensePlate, timeOfDeparture);
     }
 
 }

@@ -84,4 +84,7 @@ public class Visit {
     }
 
 
+    public void setTimeOfDeparture(ZonedDateTime timeOfDeparture) {
+        this.leavingTime = timeOfDeparture;
+    }
 }

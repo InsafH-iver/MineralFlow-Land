@@ -110,4 +110,8 @@ public class UnloadingRequest {
                 ", visit=" + visit +
                 '}';
     }
+
+    public void setDepartureTime(ZonedDateTime timeOfDeparture) {
+        this.visit.setTimeOfDeparture(timeOfDeparture);
+    }
 }
