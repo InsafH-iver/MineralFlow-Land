@@ -2,15 +2,14 @@ package be.kdg.mineralflow.land.business.service;
 
 import be.kdg.mineralflow.land.business.domain.UnloadingRequest;
 import be.kdg.mineralflow.land.business.service.externalApi.DeliveryTicketClient;
+import be.kdg.mineralflow.land.business.util.ExceptionHandlingHelper;
 import be.kdg.mineralflow.land.business.util.response.DeliveryDataResponse;
-import be.kdg.mineralflow.land.exception.NoItemFoundException;
 import be.kdg.mineralflow.land.persistence.UnloadingRequestRepository;
 import be.kdg.mineralflow.land.presentation.controller.dto.DeliveryTicketDto;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 import java.util.logging.Logger;
 
 @Service
@@ -36,13 +35,11 @@ public class DeliveryService {
     }
 
     private UnloadingRequest getUnloadingRequestByLicensePlateAndNoVisitLeavingTime(String licensePlate) {
-        Optional<UnloadingRequest> optionalUnloadingRequest = unloadingRequestRepository.findFirstByLicensePlateAndVisit_LeavingTimeIsNull(licensePlate);
-        if (optionalUnloadingRequest.isEmpty()) {
-            String messageException = String.format("An unloading request with license plate %s where it already arrived but has not left, was not found", licensePlate);
-            logger.severe(messageException);
-            throw new NoItemFoundException(messageException);
-        }
-        return optionalUnloadingRequest.get();
+        return unloadingRequestRepository.findFirstByLicensePlateAndVisit_LeavingTimeIsNull(licensePlate)
+                .orElseThrow(() -> ExceptionHandlingHelper.logAndThrowNotFound(
+                        "An unloading request with license plate %s where it already arrived but has not left, was not found",
+                        licensePlate
+                ));
     }
 
     private DeliveryTicketDto createDeliveryTicket(UnloadingRequest unloadingRequest, ZonedDateTime deliveryTime) {

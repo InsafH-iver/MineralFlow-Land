@@ -45,8 +45,8 @@ public class UnloadingRequestService {
                         .format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
         );
         if (timeOfArrival.getHour() >= configProperties.getEndOfPeriodWithAppointment() ||
-                timeOfArrival.getHour() < configProperties.getStartOfPeriodWithAppointment()){
-            return processQueue(licensePlate,timeOfArrival);
+                timeOfArrival.getHour() < configProperties.getStartOfPeriodWithAppointment()) {
+            return processQueue(licensePlate, timeOfArrival);
         }
 
         UnloadingAppointment unloadingAppointment = unloadingAppointmentRepository.findByLicensePlateAndVisitIsNull(licensePlate);
@@ -68,15 +68,15 @@ public class UnloadingRequestService {
     private TruckArrivalResponse processQueue(String licensePlate, ZonedDateTime timeOfArrival) {
         ZonedDateTime startOfTimeSlot = timeOfArrival.truncatedTo(ChronoUnit.HOURS);
         ZonedDateTime endOfTimeSlot = startOfTimeSlot.plusMinutes(configProperties.getDurationOfTimeslotOfAppointmentInMinutes());
-        int amountEnteredThisTimeSlot = unloadingWithoutAppointmentRepository.countUnloadingWithoutAppointmentByArrivalTimeInTimeSlot(startOfTimeSlot,endOfTimeSlot);
+        int amountEnteredThisTimeSlot = unloadingWithoutAppointmentRepository.countUnloadingWithoutAppointmentByArrivalTimeInTimeSlot(startOfTimeSlot, endOfTimeSlot);
 
-        if (amountEnteredThisTimeSlot >= configProperties.getTruckCapacityDuringQueue()){
+        if (amountEnteredThisTimeSlot >= configProperties.getTruckCapacityDuringQueue()) {
             return new TruckArrivalResponse(false);
         }
         UnloadingWithoutAppointment firstInQueue = unloadingWithoutAppointmentRepository.getFirstInQueue();
 
-        if (firstInQueue.getLicensePlate().equals(licensePlate)){
-            addVisitToUnloadingRequest(firstInQueue,timeOfArrival);
+        if (firstInQueue.getLicensePlate().equals(licensePlate)) {
+            addVisitToUnloadingRequest(firstInQueue, timeOfArrival);
             return new TruckArrivalResponse(true);
         }
         return new TruckArrivalResponse(false);
@@ -88,7 +88,7 @@ public class UnloadingRequestService {
     }
 
     private TruckAppointmentArrivalResponse validateTruckEntry(UnloadingAppointment unloadingAppointment,
-                                                    ZonedDateTime timeOfArrival, String licensePlate) {
+                                                               ZonedDateTime timeOfArrival, String licensePlate) {
 
         if (unloadingAppointment == null ||
                 !unloadingAppointment.isTruckArrivalEarlyOrOnTime(timeOfArrival)) {
@@ -115,8 +115,7 @@ public class UnloadingRequestService {
 
         logger.info(String.format("The truck with license plate %s and arrival time %s is allowed to enter",
                 licensePlate,
-                timeOfArrival
-                        .format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
+                timeOfArrival.format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
         );
         return new TruckAppointmentArrivalResponse(true, unloadingAppointment.getStartOfTimeSlot());
     }
@@ -129,12 +128,12 @@ public class UnloadingRequestService {
     }
 
     public List<UnloadingRequest> getUnloadingRequestsWithActiveVisit() {
-        logger.info("UnloadingRequestManager: getUnloadingRequestsWithActiveVisit has been called");
+        logger.info("getUnloadingRequestsWithActiveVisit has been called");
         return unloadingRequestRepository.readUnloadingRequestsWithActiveVisit();
     }
 
     public List<UnloadingAppointment> getAllUnloadingAppointments() {
-        logger.info("UnloadingRequestManager: getAllUnloadingAppointments has been called");
+        logger.info("getAllUnloadingAppointments has been called");
         return unloadingAppointmentRepository.findAll();
     }
 
