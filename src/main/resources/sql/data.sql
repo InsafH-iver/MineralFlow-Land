@@ -106,8 +106,8 @@ VALUES ('22222222-2222-2222-2222-222222222224',
 
 INSERT INTO unloading_request (id,start_of_timeslot,end_of_timeslot, license_plate, created_at, resource_id, vendor_id, dtype)
 VALUES ('22222222-0202-2222-2222-222222222224',
-        '2024-11-04T03:00:00+00:00',
-        '2024-11-04T04:00:00+00:00',
+        '2024-11-08T15:00:00+00:00',
+        '2024-11-08T16:00:00+00:00',
         'BARBIE',
         null,
         '22222222-2222-2222-2222-222222222223', -- resource_id

@@ -36,6 +36,8 @@ public class UnloadingRequestRestController {
                 timeOfArrival
                         .format(DateTimeFormatter.ISO_ZONED_DATE_TIME))
         );
+
+
         TruckArrivalResponse arrivalResponse = unloadingRequestService
                 .processTruckArrivalAtGate(licensePlate, timeOfArrival);
 
