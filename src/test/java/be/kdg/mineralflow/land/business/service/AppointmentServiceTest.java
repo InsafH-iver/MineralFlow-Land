@@ -4,6 +4,7 @@ import be.kdg.mineralflow.land.TestContainer;
 import be.kdg.mineralflow.land.business.domain.UnloadingAppointment;
 import be.kdg.mineralflow.land.business.service.externalApi.WarehouseCapacityClient;
 import be.kdg.mineralflow.land.business.util.ValidationResult;
+import be.kdg.mineralflow.land.business.util.provider.ZonedDateTimeProvider;
 import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.persistence.UnloadingAppointmentRepository;
 import org.junit.jupiter.api.Test;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -27,6 +29,10 @@ class AppointmentServiceTest extends TestContainer {
     private UnloadingAppointmentRepository unloadingAppointmentRepositoryMock;
     @Autowired
     private ConfigProperties configProperties;
+
+    @MockBean
+    private ZonedDateTimeProvider zonedDateTimeProviderMock;
+
     @Test
     void processAppointment_happyPath() {
         //ARRANGE
@@ -36,8 +42,11 @@ class AppointmentServiceTest extends TestContainer {
         String vendorName = "Acme Supplies";
         String licensePlate = "Q-EYX-367";
         ZonedDateTime appointmentDate = ZonedDateTime.of(2024, 11, 23, 10, 9, 32, 8, ZoneId.of("UTC"));
+        ZonedDateTime endTime = ZonedDateTime.of(2024, 10, 23, 10, 9, 32, 8, ZoneId.of("UTC"));
+
+        Mockito.when(zonedDateTimeProviderMock.now(ZoneOffset.UTC)).thenReturn(endTime);
         Mockito.when(warehouseCapacityClientMock
-                .isWarehouseCapacityReached(vendorId, resourceId))
+                        .isWarehouseCapacityReached(vendorId, resourceId))
                 .thenReturn(Boolean.FALSE);
         ArgumentCaptor<UnloadingAppointment> captor = ArgumentCaptor.forClass(UnloadingAppointment.class);
         Mockito.when(unloadingAppointmentRepositoryMock.saveAndFlush(captor.capture()))
@@ -65,6 +74,9 @@ class AppointmentServiceTest extends TestContainer {
         String vendorName = "Acme Supplies";
         String licensePlate = "Q-EYX-367";
         ZonedDateTime appointmentDate = ZonedDateTime.of(2024, 11, 23, configProperties.getStartOfPeriodWithAppointment(), 9, 32, 8, ZoneId.of("UTC"));
+        ZonedDateTime endTime = ZonedDateTime.of(2024, 10, 23, 10, 9, 32, 8, ZoneId.of("UTC"));
+
+        Mockito.when(zonedDateTimeProviderMock.now(ZoneOffset.UTC)).thenReturn(endTime);
         Mockito.when(warehouseCapacityClientMock
                         .isWarehouseCapacityReached(vendorId, resourceId))
                 .thenReturn(Boolean.FALSE);
@@ -84,6 +96,7 @@ class AppointmentServiceTest extends TestContainer {
         assertThat(unloadingAppointment.getVisit()).isNull();
         assertThat(unloadingAppointment.getResource().getName()).isEqualTo(resourceName);
     }
+
     @Test
     void validateAppointment_should_return_validationResult_with_errors_on_upper_edge_of_time_for_appointments() {
         //ARRANGE
@@ -92,6 +105,9 @@ class AppointmentServiceTest extends TestContainer {
         String resourceName = "Gips";
         String vendorName = "Acme Supplies";
         ZonedDateTime appointmentDate = ZonedDateTime.of(2024, 11, 23, configProperties.getEndOfPeriodWithAppointment(), 0, 0, 0, ZoneId.of("UTC"));
+        ZonedDateTime endTime = ZonedDateTime.of(2024, 10, 23, 10, 9, 32, 8, ZoneId.of("UTC"));
+
+        Mockito.when(zonedDateTimeProviderMock.now(ZoneOffset.UTC)).thenReturn(endTime);
         Mockito.when(warehouseCapacityClientMock
                         .isWarehouseCapacityReached(vendorId, resourceId))
                 .thenReturn(Boolean.FALSE);
@@ -101,6 +117,7 @@ class AppointmentServiceTest extends TestContainer {
         //ASSERT
         assertThat(validationResult.getErrors()).isNotEmpty();
     }
+
     @Test
     void validateAppointment_should_return_validationResult_with_errors_when_warehouse_is_full() {
         //ARRANGE
@@ -109,6 +126,9 @@ class AppointmentServiceTest extends TestContainer {
         String resourceName = "Gips";
         String vendorName = "Acme Supplies";
         ZonedDateTime appointmentDate = ZonedDateTime.of(2024, 11, 23, configProperties.getStartOfPeriodWithAppointment(), 0, 0, 0, ZoneId.of("UTC"));
+        ZonedDateTime endTime = ZonedDateTime.of(2024, 10, 23, 10, 9, 32, 8, ZoneId.of("UTC"));
+
+        Mockito.when(zonedDateTimeProviderMock.now(ZoneOffset.UTC)).thenReturn(endTime);
         Mockito.when(warehouseCapacityClientMock
                         .isWarehouseCapacityReached(vendorId, resourceId))
                 .thenReturn(Boolean.TRUE);
@@ -118,6 +138,7 @@ class AppointmentServiceTest extends TestContainer {
         //ASSERT
         assertThat(validationResult.getErrors()).isNotEmpty();
     }
+
     @Test
     void validateAppointment_should_return_validationResult_with_errors_when_timeslot_is_full() {
         //ARRANGE
@@ -126,6 +147,9 @@ class AppointmentServiceTest extends TestContainer {
         String resourceName = "Gips";
         String vendorName = "Acme Supplies";
         ZonedDateTime appointmentDate = ZonedDateTime.of(2024, 11, 23, configProperties.getStartOfPeriodWithAppointment(), 0, 0, 0, ZoneId.of("UTC"));
+        ZonedDateTime endTime = ZonedDateTime.of(2024, 10, 23, 10, 9, 32, 8, ZoneId.of("UTC"));
+
+        Mockito.when(zonedDateTimeProviderMock.now(ZoneOffset.UTC)).thenReturn(endTime);
         Mockito.when(warehouseCapacityClientMock
                         .isWarehouseCapacityReached(vendorId, resourceId))
                 .thenReturn(Boolean.FALSE);

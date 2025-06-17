@@ -5,6 +5,7 @@ import be.kdg.mineralflow.land.business.domain.warehouse.Resource;
 import be.kdg.mineralflow.land.business.domain.warehouse.Vendor;
 import be.kdg.mineralflow.land.business.service.externalApi.WarehouseCapacityClient;
 import be.kdg.mineralflow.land.business.util.ValidationResult;
+import be.kdg.mineralflow.land.business.util.provider.ZonedDateTimeProvider;
 import be.kdg.mineralflow.land.config.ConfigProperties;
 import be.kdg.mineralflow.land.exception.NoItemFoundException;
 import be.kdg.mineralflow.land.persistence.ResourceRepository;
@@ -12,6 +13,7 @@ import be.kdg.mineralflow.land.persistence.UnloadingAppointmentRepository;
 import be.kdg.mineralflow.land.persistence.VendorRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Optional;
@@ -28,13 +30,15 @@ public class AppointmentService {
     private final WarehouseCapacityClient warehouseCapacityClient;
     private final ResourceRepository resourceRepository;
     private final VendorRepository vendorRepository;
+    private final ZonedDateTimeProvider zonedDateTimeProvider;
 
-    public AppointmentService(UnloadingAppointmentRepository unloadingAppointmentRepository, ConfigProperties configProperties, WarehouseCapacityClient warehouseCapacityClient, ResourceRepository resourceRepository, VendorRepository vendorRepository) {
+    public AppointmentService(UnloadingAppointmentRepository unloadingAppointmentRepository, ConfigProperties configProperties, WarehouseCapacityClient warehouseCapacityClient, ResourceRepository resourceRepository, VendorRepository vendorRepository, ZonedDateTimeProvider zonedDateTimeProvider) {
         this.unloadingAppointmentRepository = unloadingAppointmentRepository;
         this.configProperties = configProperties;
         this.warehouseCapacityClient = warehouseCapacityClient;
         this.resourceRepository = resourceRepository;
         this.vendorRepository = vendorRepository;
+        this.zonedDateTimeProvider = zonedDateTimeProvider;
     }
 
     public UnloadingAppointment processAppointment(String vendorName, String resourceName, String licensePlate, ZonedDateTime appointmentDate) {
@@ -83,7 +87,7 @@ public class AppointmentService {
 
     private boolean validateAppointmentDate(ZonedDateTime appointmentDate) {
         if (appointmentDate == null) return false;
-        if (appointmentDate.isBefore(ZonedDateTime.now())) return false;
+        if (appointmentDate.isBefore(zonedDateTimeProvider.now(ZoneOffset.UTC))) return false;
         if (!(appointmentDate.getHour() >= configProperties.getStartOfPeriodWithAppointment()
                 && appointmentDate.getHour() < configProperties.getEndOfPeriodWithAppointment())) {
             return false;

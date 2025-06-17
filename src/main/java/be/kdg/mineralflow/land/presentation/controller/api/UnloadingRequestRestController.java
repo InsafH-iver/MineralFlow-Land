@@ -2,6 +2,7 @@ package be.kdg.mineralflow.land.presentation.controller.api;
 
 import be.kdg.mineralflow.land.business.service.TruckDepartureAtGateService;
 import be.kdg.mineralflow.land.business.service.UnloadingRequestService;
+import be.kdg.mineralflow.land.business.util.provider.ZonedDateTimeProvider;
 import be.kdg.mineralflow.land.business.util.response.TruckArrivalResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,15 +22,17 @@ public class UnloadingRequestRestController {
 
     private final UnloadingRequestService unloadingRequestService;
     private final TruckDepartureAtGateService truckDepartureAtGateService;
+    private final ZonedDateTimeProvider zonedDateTimeProvider;
 
-    public UnloadingRequestRestController(UnloadingRequestService unloadingRequestService, TruckDepartureAtGateService truckDepartureAtGateService) {
+    public UnloadingRequestRestController(UnloadingRequestService unloadingRequestService, TruckDepartureAtGateService truckDepartureAtGateService, ZonedDateTimeProvider zonedDateTimeProvider) {
         this.unloadingRequestService = unloadingRequestService;
         this.truckDepartureAtGateService = truckDepartureAtGateService;
+        this.zonedDateTimeProvider = zonedDateTimeProvider;
     }
 
     @PostMapping(value = "/visit/{licensePlate}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TruckArrivalResponse> processTruckArrivalAtGate(@PathVariable String licensePlate) {
-        ZonedDateTime timeOfArrival = ZonedDateTime.now(ZoneOffset.UTC);
+        ZonedDateTime timeOfArrival = zonedDateTimeProvider.now(ZoneOffset.UTC);
 
         logger.info(String.format("A call has been made to process the truck with license plate %s and arrival time %s",
                 licensePlate,
@@ -57,7 +60,7 @@ public class UnloadingRequestRestController {
     @PatchMapping(value = "/departure/{licensePlate}")
     @ResponseStatus(HttpStatus.OK)
     public void processTruckDepartureAtGate(@PathVariable String licensePlate) {
-        ZonedDateTime timeOfDeparture = ZonedDateTime.now(ZoneOffset.UTC);
+        ZonedDateTime timeOfDeparture = zonedDateTimeProvider.now(ZoneOffset.UTC);
 
         logger.info(String.format("A call has been made to process the departure for truck with license plate %s and departure time %s",
                 licensePlate,
