@@ -31,12 +31,24 @@ Welcome to the **Mineral Flow - Land** microservice, one of the three core compo
    - Set up RabbitMQ credentials (or use the default ones)
    - Update your application properties file with the connection details
 
+### 2. Application properties
+The properties that need to be updated in the [application properties file](./src/main/resources/application.properties) to your connection details are:
+```properties
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
+
+spring.rabbitmq.host=
+spring.rabbitmq.port=
+spring.rabbitmq.username=
+spring.rabbitmq.password=
+```
+
 ## Running the Application
 1. Ensure all containers are running. (Keycloak, database, RabbitMQ)
-2. Ensure all projects are pulled and set up correctly (Land, Warehouse, Water)
+2. Ensure all projects are pulled and set up correctly (Land, [Warehouse](https://github.com/InsafH-iver/MineralFlow-Warehouse), [Water](https://github.com/InsafH-iver/MineralFlow-Water))
 3. Start the Spring Boot application.
 4. Access the application at `http://localhost:8080` (backend API).
-
 
 ### Banner Configuration
 
@@ -47,5 +59,3 @@ To disable the banner:
 
 ```properties
 spring.main.banner-mode=off
-
-
